@@ -24,7 +24,7 @@ For these reasons, we established the Data Governance Initiative (DGI) with Aetn
 Apache Atlas proposes to provide governance capabilities in Hadoop that use both a prescriptive and forensic models enriched by business taxonomical metadata. Atlas, at its core, is designed to exchange metadata with other tools and processes within and outside of the Hadoop stack, thereby enabling platform-agnostic governance controls that effectively address compliance
 requirements.
 
-http://hortonworks.com/wp-content/uploads/2015/04/atlas_2.png
+<img scr="http://hortonworks.com/wp-content/uploads/2015/04/atlas_2.png"/>
 
 ## The core capabilities defined by the project include the following:
 
@@ -54,4 +54,14 @@ Metadata Truth in Hadoop: Atlas should provide true visibility in Hadoop. By usi
 
 Developed in the Open: Engineers from Aetna, Merck, SAS, Schlumberger, and Target are working together to help ensure Atlas is built to solve real data governance problems across a wide range of industries that use Hadoop. This approach is an example of open source community innovation that helps accelerate product maturity and time-to-value for the data-first enterprise.
 
+
+# Technical Details
+
+Apache Hadoop consists of below projects for Data Inestion 
+
+* Apache Sqoop - 
+
+Apache Sqoop is utility for ingesting data from Relation Databases into Hadoop. It has been in the Hadoop Ecosystem for a while and well proven in the industry.
+
+* Apache Flume - 
 
