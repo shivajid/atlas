@@ -61,7 +61,29 @@ Apache Hadoop consists of below projects for Data Inestion
 
 * Apache Sqoop - 
 
-Apache Sqoop is utility for ingesting data from Relation Databases into Hadoop. It has been in the Hadoop Ecosystem for a while and well proven in the industry.
+Apache Sqoop is hadoop project for ingesting data from Relation Databases into Hadoop. It has been in the Hadoop Ecosystem for a while and well proven in the industry.
 
 * Apache Flume - 
+Apache Flumen is a  good utility for ingesting data from various sources into hadoop.
+
+Feed and Data Lineage
+
+* Apache Falcon -
+Falcon is a feed processing and feed management system aimed at making it easier for end consumers to onboard their feed processing and feed management on hadoop clusters. 
+
+Falcon needs a workflow engine. It uses oozie by default.
+
+* Apache Atlas*
+
+Apache Atlas is a scalable and extensible set of core foundational governance services that enables enterprises to effectively and efficiently meet their compliance requirements within Hadoop and allows integration with the complete enterprise data ecosystem.
+
+
+
+
+
+
+
+
+
+
 
