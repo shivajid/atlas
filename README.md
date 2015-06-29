@@ -24,7 +24,7 @@ For these reasons, we established the Data Governance Initiative (DGI) with Aetn
 Apache Atlas proposes to provide governance capabilities in Hadoop that use both a prescriptive and forensic models enriched by business taxonomical metadata. Atlas, at its core, is designed to exchange metadata with other tools and processes within and outside of the Hadoop stack, thereby enabling platform-agnostic governance controls that effectively address compliance
 requirements.
 
-<img scr="http://hortonworks.com/wp-content/uploads/2015/04/atlas_2.png"/>
+![Apache Atlas](http://hortonworks.com/wp-content/uploads/2015/04/atlas_2.png)
 
 ## The core capabilities defined by the project include the following:
 
