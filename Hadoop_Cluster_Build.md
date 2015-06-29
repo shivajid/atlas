@@ -35,27 +35,27 @@ Tar can be found in
 
 Tar is structured as follows
 
-|- bin
-   |- atlas_start.py
-   |- atlas_stop.py
-   |- atlas_config.py
-   |- quick_start.py
-   |- cputil.py
-|- conf
-   |- application.properties
-   |- client.properties
-   |- atlas-env.sh
-   |- log4j.xml
-|- docs
-|- server
-   |- webapp
-      |- atlas.war
-|- README
-|- NOTICE.txt
-|- LICENSE.txt
-|- DISCLAIMER.txt
-|- CHANGES.txt
-
+          |- bin
+             |- atlas_start.py
+             |- atlas_stop.py
+             |- atlas_config.py
+             |- quick_start.py
+             |- cputil.py
+          |- conf
+             |- application.properties
+             |- client.properties
+             |- atlas-env.sh
+             |- log4j.xml
+          |- docs
+          |- server
+             |- webapp
+                |- atlas.war
+          |- README
+          |- NOTICE.txt
+          |- LICENSE.txt
+          |- DISCLAIMER.txt
+          |- CHANGES.txt
+          
 
 3. Installing & running Atlas
 --------------------------------
