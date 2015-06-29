@@ -61,18 +61,20 @@ Tar is structured as follows
 a. Installing Atlas
 ~~~~~~~~~~~~~~~~~~~~~~
 
-* tar -xzvf apache-atlas-${project.version}-bin.tar.gz
-* cd atlas-${project.version}
+          tar -xzvf apache-atlas-${project.version}-bin.tar.gz
+          cd atlas-${project.version}
 
 b. Starting Atlas Server
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* bin/atlas-start.sh
-* 
+          bin/atlas-start.sh
 
 #### Dashboard
 
-Apache Atlas comes with a dashboard. The Dashboard runs on port 21000. The login is admin/admin
+Apache Atlas comes with a dashboard
+
+* The Dashboard runs on port 21000. 
+* The login is admin/admin
 
 
 
