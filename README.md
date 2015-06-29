@@ -54,7 +54,32 @@ Metadata Truth in Hadoop: Atlas should provide true visibility in Hadoop. By usi
 
 Developed in the Open: Engineers from Aetna, Merck, SAS, Schlumberger, and Target are working together to help ensure Atlas is built to solve real data governance problems across a wide range of industries that use Hadoop. This approach is an example of open source community innovation that helps accelerate product maturity and time-to-value for the data-first enterprise.
 
+Features
+Data Classification
 
+Import or define taxonomy business-oriented annotations for data
+Define, annotate, and automate capture of relationships between data sets and underlying
+elements including source, target, and derivation processes
+Export metadata to third-party systems
+Centralized Auditing
+
+Capture security access information for every application, process, and interaction with data
+Capture the operational information for execution, steps, and activities
+Search & Lineage (Browse)
+
+Pre-defined navigation paths to explore the data classification and audit information
+Text-based search features locates relevant data and audit event across Data Lake quickly
+and accurately
+
+Browse visualization of data set lineage allowing users to drill-down into operational,
+security, and provenance related information
+Security & Policy Engine
+
+Rationalize compliance policy at runtime based on data classification schemes, attributes
+and roles.
+Advanced definition of policies for preventing data derivation based on classification
+(i.e. re-identification) – Prohibitions
+Column and Row level masking based on cell values and attibutes.
 # Technical Details
 
 Apache Hadoop consists of below projects for Data Inestion 
@@ -76,6 +101,38 @@ Falcon needs a workflow engine. It uses oozie by default.
 * Apache Atlas*
 
 Apache Atlas is a scalable and extensible set of core foundational governance services that enables enterprises to effectively and efficiently meet their compliance requirements within Hadoop and allows integration with the complete enterprise data ecosystem.
+
+## The Demo project
+
+To demonstrate a simple scenario we are going to setup system with the following.
+
+* Source System.
+
+This is a mysql database. 
+
+* Destination System
+ 
+We have HDP Cluster. For our tutorial we are going to use the HDP 2.3 Sandbox
+
+Design
+
+In the Source System we are going to have an online system that is storing Truck Drivers Information System. The Truck Driver Information System, tracks the Truck Companies, employees, status, license, route and hours logged.
+
+Following are the tables in the Source System:-
+
+Organization
+<table>
+ <tr>
+  <td>Cloumn Name</td>
+  <td>Cloumn Type</td>
+  <td>Not Null </td>
+  <td> Primary Key</td>
+ </tr>
+</table>
+
+
+
+
 
 
 
