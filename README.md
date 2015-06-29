@@ -204,6 +204,44 @@ Following are the tables in the Source System:-
 </table>
 
 
+#### DRIVERS
+
+<table>
+ <tr>
+  <td>Cloumn Name</td>
+  <td>Cloumn Type</td>
+  <td>Not Null </td>
+  <td> Primary Key</td>
+ </tr>
+ <tr>
+  <td>DRIVER_ID</td>
+  <td>Varchar(200)</td>
+  <td>Y</td>
+  <td>Y</td>
+ </tr>
+  <tr>
+  <td>DRIVER_NAME</td>
+  <td>Varchar(1000)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+  <tr>
+  <td>CERTIFIED</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+ <tr>
+  <td>WAGE_PLAN</td>
+  <td>Varchar(200)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+</table>
+
+Create Table Scripts
+
+
 
 
 
