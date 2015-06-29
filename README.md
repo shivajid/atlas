@@ -37,11 +37,11 @@ requirements.
 * Security and Policy Engine – to protect data and rationalize data access according to compliance policy.
 The Atlas community plans to deliver those requirements with the following components:
 
-** Flexible Knowledge Store,
+ - Flexible Knowledge Store,
 
-** Advanced Policy Rules Engine,
+ - Advanced Policy Rules Engine,
 
-** Agile Auditing,
+ - Agile Auditing,
 
 Support for specific data lifecycle management workflows built on the Apache Falcon framework, and
 Integration and extension of Apache Ranger to add real-time, attribute-based access control to Ranger’s already strong role-based access control capabilities.
