@@ -69,12 +69,37 @@ b. Starting Atlas Server
 
           bin/atlas-start.sh
 
-#### Dashboard
+c. Using Atlas
+~~~~~~~~~~~~~~~
 
-Apache Atlas comes with a dashboard
+* Verify if the server is up and running
 
-* The Dashboard runs on port 21000. 
-* The login is admin/admin
+          curl -v http://localhost:21000/api/atlas/admin/version
+
+* List the types in the repository
+          curl -v http://localhost:21000/api/atlas/types
+  
+
+* List the instances for a given type
+            
+            curl -v http://localhost:21000/api/atlas/entities?type=hive_table
+            curl -v http://localhost:21000/api/atlas/entities/list/hive_db
+
+* Search for entities (instances) in the repository
+  
+          curl -v http://localhost:21000/api/atlas/discovery/search/dsl?query="from hive_table"
+
+
+d. Using Atlas Dashboard
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Navigate to http(s)://$host:$port/
+Port by default is 21000
+
+e. Stopping Atlas Server
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* bin/atlas-stop.sh
 
 
 
