@@ -1,9 +1,13 @@
-# Hadoop Cluster
+# DGI Setup on Hadoop Cluster
 
+### HDP Sandbox
 For the demo purposes we will use the HDP 2.3 Sandbox.
 
 Download the Sandbox from [HDP 2.3](http://hortonworks.com/hdp/downloads/)
 Sandbox has everything needed except for latest of Apache Atlas.
+
+### Apache Atlas
+
 Apache Atlas needs to be built from source.
 
 You would have to install "git" to get a clone of the Atlas repository.
