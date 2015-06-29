@@ -142,21 +142,66 @@ Following are the tables in the Source System:-
   <td>N</td>
  </tr>
   <tr>
-  <td>INDUSTRY</td>
+  <td>Industry</td>
   <td>Varchar(100)</td>
   <td>N</td>
   <td>N</td>
  </tr>
  <tr>
-  <td>PUBLICLY_TRADED</td>
-  <td>BOOLEAN</td>
+  <td>Publicy_Traded</td>
+  <td>Boolean</td>
   <td>Y</td>
   <td>Y</td>
  </tr>
 </table>
 
+#### Employee
 
 
+<table>
+ <tr>
+  <td>Cloumn Name</td>
+  <td>Cloumn Type</td>
+  <td>Not Null </td>
+  <td> Primary Key</td>
+ </tr>
+ <tr>
+  <td>Employee_ID</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>Y</td>
+ </tr>
+  <tr>
+  <td>Emplpyee_Name</td>
+  <td>Varchar(1000)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+  <tr>
+  <td>Email</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+ <tr>
+  <td>Designation</td>
+  <td>Varchar(200)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+  <tr>
+  <td>OragnizationID</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+  <tr>
+  <td>JobType</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+</table>
 
 
 
