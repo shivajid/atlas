@@ -120,13 +120,38 @@ In the Source System we are going to have an online system that is storing Truck
 
 Following are the tables in the Source System:-
 
-Organization
+#### Organization
+
 <table>
  <tr>
   <td>Cloumn Name</td>
   <td>Cloumn Type</td>
   <td>Not Null </td>
   <td> Primary Key</td>
+ </tr>
+ <tr>
+  <td>OraganizationId</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>Y</td>
+ </tr>
+  <tr>
+  <td>OraganizationName</td>
+  <td>Varchar(1000)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+  <tr>
+  <td>INDUSTRY</td>
+  <td>Varchar(100)</td>
+  <td>N</td>
+  <td>N</td>
+ </tr>
+ <tr>
+  <td>PUBLICLY_TRADED</td>
+  <td>BOOLEAN</td>
+  <td>Y</td>
+  <td>Y</td>
  </tr>
 </table>
 
