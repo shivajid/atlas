@@ -29,7 +29,9 @@ Now you should be able to build teh atlas project
           mvn clean verify assembly:assembly -DskipTests
 
 
-Tar can be found in atlas/target/apache-atlas-${project.version}-bin.tar.gz
+Tar can be found in 
+          
+          atlas/target/apache-atlas-${project.version}-bin.tar.gz
 
 Tar is structured as follows
 
@@ -79,13 +81,12 @@ c. Using Atlas
 * List the types in the repository
           curl -v http://localhost:21000/api/atlas/types
   
-
-* List the instances for a given type
+List the instances for a given type
             
             curl -v http://localhost:21000/api/atlas/entities?type=hive_table
             curl -v http://localhost:21000/api/atlas/entities/list/hive_db
 
-* Search for entities (instances) in the repository
+Search for entities (instances) in the repository
   
           curl -v http://localhost:21000/api/atlas/discovery/search/dsl?query="from hive_table"
 
@@ -93,13 +94,13 @@ c. Using Atlas
 d. Using Atlas Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Navigate to http(s)://$host:$port/
-Port by default is 21000
+          Navigate to http(s)://$host:$port/
+          Port by default is 21000
 
 e. Stopping Atlas Server
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* bin/atlas-stop.sh
+          bin/atlas-stop.sh
 
 
 
