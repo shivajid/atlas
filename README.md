@@ -239,7 +239,7 @@ Following are the tables in the Source System:-
  </tr>
 </table>
 
-### Create Table Scripts
+## Create Source System
 
 #### Install Mysql
 
@@ -252,23 +252,26 @@ Following are the tables in the Source System:-
 * sudo chkconfig mysqld on
 * chkconfig --list mysqld
 
-Refer to the docs
-
-![](https://dev.mysql.com/doc/refman/5.6/en/linux-installation-yum-repo.html)
+[Refer to the MySQL Install docs](https://dev.mysql.com/doc/refman/5.6/en/linux-installation-yum-repo.html)
 
 Next login as 
 
-mysql -u root -h <hostname>
+    mysql -u root -h <hostname>
 
-Execute the script in the github repo MySQLSourceSystem.ddl
+#### Create Table and Load the Data
+Execute the script in the github repo 
+    MySQLSourceSystem.ddl
 
 This will create all the needed tables.
 
-Load the Drivers Data
+Load the Drivers Data. Copy the drivers.csv file over from the repo
 
-Copy the drivers.csv file over from the repo
+    LOAD DATA LOCAL INFILE '<dir>/drivers.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,CERTIFIED, WAGE_PLAN);
+    
 
-LOAD DATA LOCAL INFILE '<dir>/drivers.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,CERTIFIED, WAGE_PLAN);
+###### Now you should have the Source System Ready!
+
+
 
 
 
