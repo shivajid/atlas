@@ -239,7 +239,21 @@ Following are the tables in the Source System:-
  </tr>
 </table>
 
-Create Table Scripts
+### Create Table Scripts
+
+#### Install Mysql
+
+* Create a CentOS 6.5 Virtula Machine
+* Install mysql server
+* wget http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm/from/http://repo.mysql.com/
+* sudo yum localinstall mysql-community-release-el6-*.noarch.rpm
+* sudo yum install mysql-community-server
+* sudo service mysqld start
+* sudo chkconfig mysqld on
+* chkconfig --list mysqld
+* 
+
+
 
 
 
