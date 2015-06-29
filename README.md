@@ -251,7 +251,25 @@ Following are the tables in the Source System:-
 * sudo service mysqld start
 * sudo chkconfig mysqld on
 * chkconfig --list mysqld
-* 
+
+Refer to the docs
+
+![](https://dev.mysql.com/doc/refman/5.6/en/linux-installation-yum-repo.html)
+
+Next login as 
+
+mysql -u root -h <hostname>
+
+Execute the script in the github repo MySQLSourceSystem.ddl
+
+This will create all the needed tables.
+
+Load the Drivers Data
+
+Copy the drivers.csv file over from the repo
+
+LOAD DATA LOCAL INFILE '<dir>/drivers.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,CERTIFIED, WAGE_PLAN);
+
 
 
 
