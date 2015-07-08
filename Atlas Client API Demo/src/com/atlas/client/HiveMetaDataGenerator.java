@@ -1,4 +1,4 @@
-package com.atlas.test;
+package com.atlas.client;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one

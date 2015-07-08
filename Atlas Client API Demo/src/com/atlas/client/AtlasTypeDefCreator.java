@@ -1,4 +1,4 @@
-package com.atlas.test;
+package com.atlas.client;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -24,21 +24,34 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 /*
- * 
- * 
+ * This is a class to create Type Definitions
+ * This is a simple class
+ * @author - Shivaji Dutta
  */
+
 public class AtlasTypeDefCreator {
 
 	{
-		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
+		System.setProperty("atlas.conf", "./conf");
 	}
 
 	private String traitName = "Green";
 
 	private AtlasClient ac = null;
+	
+	private ImmutableList enumType = null;
+	private ImmutableList structType = null;
+	private ImmutableList classType = null;
+	private ImmutableList traitType = null;
+			
+		
 
+	/**
+	 * 
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 
 		if (args.length < 0)
 			throw new Exception("Please pass the atlas base url");
@@ -52,6 +65,9 @@ public class AtlasTypeDefCreator {
 
 	}
 
+	/*
+	 * 
+	 */
 	public void registerTypes() throws org.apache.atlas.AtlasServiceException {
 
 		System.out.println("Registering Types");
@@ -68,8 +84,53 @@ public class AtlasTypeDefCreator {
 				ImmutableList.<EnumTypeDefinition> of(),
 				ImmutableList.<StructTypeDefinition> of(),
 				this.createTraitType(traitName), this.createClassTypes());
+		
 		return TypesSerialization.toJson(tdef);
 
+	}
+	
+	
+	/**
+	 * This assembles the type
+	 * @return
+	 */
+	
+	public String assembleSimpleType(String traitName, String ClassTypeName){
+		TypesDef tdef = null;
+		
+		tdef = TypeUtils.getTypesDef(
+				ImmutableList.<EnumTypeDefinition> of(),
+				ImmutableList.<StructTypeDefinition> of(),
+				this.createTraitType(traitName), this.createClassType(ClassTypeName));
+		
+		return TypesSerialization.toJson(tdef);
+	}
+
+	/**
+	 * This register the Processtype
+	 * @return
+	 */
+	
+	public String assembleProcessType(String traitName, String ClassTypeName){
+		TypesDef tdef = null;
+		
+		tdef = TypeUtils.getTypesDef(
+				ImmutableList.<EnumTypeDefinition> of(),
+				ImmutableList.<StructTypeDefinition> of(),
+				this.createTraitType(traitName), ImmutableList.of(this.createProcessTypeByName(ClassTypeName)));
+		
+		return TypesSerialization.toJson(tdef);
+	}
+	
+	public String assembleDataSetType(String traitName, String ClassTypeName){
+		TypesDef tdef = null;
+		
+		tdef = TypeUtils.getTypesDef(
+				ImmutableList.<EnumTypeDefinition> of(),
+				ImmutableList.<StructTypeDefinition> of(),
+				this.createTraitType(traitName), ImmutableList.of(this.createDataSetTypeByName(ClassTypeName)));
+		
+		return TypesSerialization.toJson(tdef);
 	}
 
 	/**
@@ -108,15 +169,100 @@ public class AtlasTypeDefCreator {
 	public static String Type_Asteroids = "Asteroid_Type";
 	public static final String COLUMN_TYPE = "Column";
 
+	/**
+	 * This returns an ImmutableList of the type being created
+	 * @param typeName
+	 * @return
+	 */
+	public ImmutableList<HierarchicalTypeDefinition<ClassType>> createClassType(String typeName){
+		
+		HierarchicalTypeDefinition<ClassType> genericType = TypesUtil.createClassTypeDef(typeName, null,
+				attrDef("name", DataTypes.STRING_TYPE),
+				attrDef("description", DataTypes.STRING_TYPE));
+		this.classType =   ImmutableList.of(genericType);
+		return this.classType;
+	}
 	
 	
+	
+	 
+	 
+	/**
+	 *This lets you create Class Type 
+	 * @return
+	 */
+	public HierarchicalTypeDefinition<ClassType> createProcessTypes() {
+
+		return TypesUtil.createClassTypeDef(this.Type_New_Life,
+				ImmutableList.of("Process"),
+				attrDef("userName", DataTypes.STRING_TYPE),
+				attrDef("startTime", DataTypes.INT_TYPE),
+				attrDef("endTime", DataTypes.INT_TYPE));
+
+	}
+	
+	
+	/**
+	 * This method helps you to create types
+	 * @param typeName
+	 * @return
+	 */
+	public HierarchicalTypeDefinition<ClassType> createProcessTypeByName(String typeName) {
+
+		return TypesUtil.createClassTypeDef(typeName,
+				ImmutableList.of("Process"),
+				attrDef("userName", DataTypes.STRING_TYPE),
+				attrDef("startTime", DataTypes.INT_TYPE),
+				attrDef("endTime", DataTypes.INT_TYPE));
+
+	}
 	
 	
 	/**
 	 * 
+	 * @param typeName
 	 * @return
 	 */
-	public ImmutableList<HierarchicalTypeDefinition<ClassType>> createClassTypes() {
+	public HierarchicalTypeDefinition<ClassType> createDataSetTypeByName(String typeName) {
+
+		return  TypesUtil
+				.createClassTypeDef(
+						typeName,
+						ImmutableList.of("DataSet"),
+						attrDef("createTime", DataTypes.INT_TYPE),
+						attrDef("lastAccessTime", DataTypes.INT_TYPE),
+						//attrDef("speed", DataTypes.INT_TYPE),
+						//attrDef("distance_frm_Earth", DataTypes.STRING_TYPE),
+						new AttributeDefinition("columns", DataTypes
+								.arrayTypeName(COLUMN_TYPE),
+								Multiplicity.COLLECTION, true, null));
+
+	}
+
+	/**
+	 * This method helps for creating traits
+	 * @param trait
+	 * @return
+	 */
+	public ImmutableList<HierarchicalTypeDefinition<TraitType>> createTraitType(
+			String trait) {
+
+		if(trait != null)
+			this.traitType =  ImmutableList.of(TypesUtil.createTraitTypeDef(trait, null));
+		else 
+			this.traitType = ImmutableList.of();
+		
+		return this.traitType;
+
+	}
+	
+	
+	
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	 ImmutableList<HierarchicalTypeDefinition<ClassType>> createClassTypes() {
 
 		HierarchicalTypeDefinition<ClassType> UniversalTypes =
 
@@ -166,30 +312,5 @@ public class AtlasTypeDefCreator {
 
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public HierarchicalTypeDefinition<ClassType> createProcessTypes() {
-
-		return TypesUtil.createClassTypeDef(this.Type_New_Life,
-				ImmutableList.of("Process"),
-				attrDef("userName", DataTypes.STRING_TYPE),
-				attrDef("startTime", DataTypes.INT_TYPE),
-				attrDef("endTime", DataTypes.INT_TYPE));
-
-	}
-
-	/**
-	 * 
-	 * @param trait
-	 * @return
-	 */
-	public ImmutableList<HierarchicalTypeDefinition<TraitType>> createTraitType(
-			String trait) {
-
-		return ImmutableList.of(TypesUtil.createTraitTypeDef(trait, null));
-
-	}
 
 }

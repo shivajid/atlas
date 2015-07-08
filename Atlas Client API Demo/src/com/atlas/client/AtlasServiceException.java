@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.atlas.test;
+package com.atlas.client;
 
 import com.sun.jersey.api.client.ClientResponse;
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.atlas.test;
+package com.atlas.client;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -101,6 +101,7 @@ public class AtlasClient {
         URLConnectionClientHandler handler = SecureClientUtils.getClientConnectionHandler(config, clientConfig);
 
         Client client = new Client(handler, config);
+        System.out.println(baseUrl);
         client.resource(UriBuilder.fromUri(baseUrl).build());
 
         service = client.resource(UriBuilder.fromUri(baseUrl).build());

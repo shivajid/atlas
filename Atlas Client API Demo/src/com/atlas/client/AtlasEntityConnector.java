@@ -1,4 +1,4 @@
-package com.atlas.test;
+package com.atlas.client;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class AtlasEntityConnector {
 
 
 	{
-		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
+		System.setProperty("atlas.conf", "./conf");
 	}
 	
 	private  AtlasClient ac = null;
@@ -69,7 +69,7 @@ public class AtlasEntityConnector {
 	  * 
 	  * 
 	  */
-	Referenceable loadProcess(String name, String description, List<Id> inputTables, List<Id> outputTables,
+	public Referenceable loadProcess(String name, String description, List<Id> inputTables, List<Id> outputTables,
            String... traitNames)
    throws Exception {
        Referenceable referenceable = new Referenceable(AtlasTypeDefCreator.Type_New_Life, traitNames);

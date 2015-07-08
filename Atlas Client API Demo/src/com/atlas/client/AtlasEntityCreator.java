@@ -1,4 +1,4 @@
-package com.atlas.test;
+package com.atlas.client;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableList;
 
 
 /**
- * 
+ * This is a sample class to instantiate Entities for existing entities
  * 
  * @author sdutta
  *
@@ -31,7 +31,7 @@ import com.google.common.collect.ImmutableList;
 public class AtlasEntityCreator {
 
 	{
-		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
+		System.setProperty("atlas.conf", "./conf");
 	}
 	
 	private  AtlasClient ac = null;
@@ -94,7 +94,7 @@ public class AtlasEntityCreator {
                         rawColumn("weekDay", "int", "week Day"));
 		
 		  Id Aster1 =
-	                table("Aster1", "customer dimension table", timeDimColumns, 1000, "1 lightyear",  
+	                createDataSetType("Aster1", "customer dimension table", timeDimColumns, 1000, "1 lightyear",  
 	                        "White");
 		
 		  List<Referenceable> spaceDimColumns = ImmutableList
@@ -102,7 +102,7 @@ public class AtlasEntityCreator {
 	                        rawColumn("weekofDay", "int", "week Day"));
 			
 			  Id Aster2 =
-		                table("Aster2", "customer dimension table", timeDimColumns, 1000, "1 lightyear",  
+		                createDataSetType("Aster2", "customer dimension table", timeDimColumns, 1000, "1 lightyear",  
 		                        "White");
 			
 			 
@@ -121,7 +121,7 @@ public class AtlasEntityCreator {
 	 * @throws Exception
 	 */
 	 
-	Id table(String name, String description, List<Referenceable> columns, int speed, String dist, String... traitNames) throws Exception {
+	public Id createDataSetType(String name, String description, List<Referenceable> columns, int speed, String dist, String... traitNames) throws Exception {
 	        Referenceable referenceable = new Referenceable(AtlasTypeDefCreator.Type_Asteroids, traitNames);
 	        referenceable.set("name", name);
 	        referenceable.set("description", description);
@@ -138,13 +138,14 @@ public class AtlasEntityCreator {
 	 
 	
 	/**
+	 * This method creates a simple entities
 	 * 
 	 * @param name
 	 * @param comment
 	 * @return
 	 * @throws Exception
 	 */
-	  Referenceable createRefObject(String type, String name, String description)
+	 public Referenceable createRefObject(String type, String name, String description)
 	    	    throws Exception {
 	    	        Referenceable referenceable = new Referenceable(type);
 	    	        referenceable.set("name", name);
@@ -200,7 +201,16 @@ public class AtlasEntityCreator {
 	}
 	
 	
-	Referenceable rawColumn(String name, String dataType, String comment, String... traitNames) throws Exception {
+	/**
+	 * Creates a rowCloumn
+	 * @param name
+	 * @param dataType
+	 * @param comment
+	 * @param traitNames
+	 * @return
+	 * @throws Exception
+	 */
+	public Referenceable rawColumn(String name, String dataType, String comment, String... traitNames) throws Exception {
 	        Referenceable referenceable = new Referenceable(AtlasTypeDefCreator.COLUMN_TYPE, traitNames);
 	        referenceable.set("name", name);
 	        referenceable.set("dataType", dataType);

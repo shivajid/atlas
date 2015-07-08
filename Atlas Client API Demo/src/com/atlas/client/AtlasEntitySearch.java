@@ -1,4 +1,4 @@
-package com.atlas.test;
+package com.atlas.client;
 
 import java.util.List;
 
@@ -9,10 +9,17 @@ import org.apache.atlas.typesystem.persistence.Id;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 
+
+
+/**
+ * This code shows an example of searching for Entities by name
+ * @author sdutta
+ *
+ */
 public class AtlasEntitySearch {
 
 	{
-		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
+		System.setProperty("atlas.conf", "./conf");
 	}
 
 	private AtlasClient ac = null;
