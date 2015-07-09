@@ -1,10 +1,5 @@
 # Atlas Setup on Hadoop Cluster
 
-### HDP Sandbox
-For the demo purposes we will use the HDP 2.3 Sandbox.
-
-Download the Sandbox from [HDP 2.3](http://hortonworks.com/hdp/downloads/)
-Sandbox has everything needed except for latest of Apache Atlas.
 
 ### Apache Atlas
 
