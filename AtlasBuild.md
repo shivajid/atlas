@@ -1,4 +1,4 @@
-# DGI Setup on Hadoop Cluster
+# Atlas Setup on Hadoop Cluster
 
 ### HDP Sandbox
 For the demo purposes we will use the HDP 2.3 Sandbox.
