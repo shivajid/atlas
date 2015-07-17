@@ -1,10 +1,24 @@
+## Assumptions
+
+The demo will instantiate tables of Entity type “Table”. 
+
+If you are using atlas for the first time execute the script “${Atlas_Home}/bin/quick_start.py”. This will create the sample Table Type and Column Types in the Atlas Repository.
+ If the sandbox does not contain the quick_start.py you may have to build atlas from source.
+
+Follow the steps in the following link to complete the build
+
+                  https://github.com/shivajid/atlas/blob/master/AtlasBuild.md
+
+
+
 ##Executing the Scripts
 
-Login to the atlas-partner-demo01
+Login to the sandbox :-
 
-         ssh -i secloud.pem root@atlas-partner-demo01.cloud.hortonworks.com
+         ssh  root@sandbox.hortonworks.com
 
 Change user to hive
+
           su hive
 
 change directory to hive home
