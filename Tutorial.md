@@ -2,7 +2,8 @@
 
 ## Objective
 
-The Objective of the tutorial is to show a data ingestion lineage with Apache Sqoop between Mysql and Apache Hive, in Apache Atlas. The example will show custom lineage reporting from outside hadoop as well as native lineage reporting in hadoop via 
+The Objective of the tutorial is to show a data ingestion lineage with Apache Sqoop between Mysql and Apache Hive, in Apache Atlas. The example will show custom lineage reporting from outside hadoop as well as native lineage reporting in hadoop via HiveServer2
+
 
 
 For this demo we will use Mysql database containing the trucking tables
