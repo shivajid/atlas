@@ -25,10 +25,13 @@ Post that you can run a CTAS operation on the new hive table, using hive CLI and
 Apache Hadoop consists of below projects for Data Inestion 
 
 * Apache Sqoop - 
+http://sqoop.apache.org/
 
 Apache Sqoop is hadoop project for ingesting data from Relation Databases into Hadoop. It has been in the Hadoop Ecosystem for a while and well proven in the industry.
 
-* Apache Atlas*
+* Apache Atlas
+
+http://incubator.apache.org/projects/atlas.html
 
 Apache Atlas is a scalable and extensible set of core foundational governance services that enables enterprises to effectively and efficiently meet their compliance requirements within Hadoop and allows integration with the complete enterprise data ecosystem.
 
