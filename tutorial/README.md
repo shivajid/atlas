@@ -102,19 +102,19 @@ Following are the tables in the Source System:-
  </tr>
   <tr>
   <td>DRIVER_WEEK</td>
-  <td>Varchar(1000)</td>
+  <td>int(11)</td>
   <td>Y</td>
   <td>N</td>
  </tr>
   <tr>
   <td>HOURS_LOGGED</td>
-  <td>Varchar(100)</td>
+  <td>bigint(100)</td>
   <td>Y</td>
   <td>N</td>
  </tr>
  <tr>
   <td>TIME_LOGGED</td>
-  <td>Varchar(200)</td>
+  <td>bigint(200)</td>
   <td>Y</td>
   <td>N</td>
  </tr>
@@ -150,6 +150,7 @@ Load the Drivers Data. Copy the drivers.csv file over from the repo
 
     LOAD DATA LOCAL INFILE '<dir>/drivers.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,CERTIFIED, WAGE_PLAN);
     
+        LOAD DATA LOCAL INFILE '<dir>/timesheet.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,HOURS_LOGGED, MILES_LOGGED);
 
 ###### Now you should have the Source System Ready!
 
