@@ -1,3 +1,26 @@
+# Overview
+
+This document describes the high level steps for setting up a demo scenario in the SE Cloud and on Stand Alone VM’s for the purposes of illustrating a sample ingestion workflow
+
+## Objective
+
+The Objective of the demo is to show a data ingestion lineage with Apache Sqoop between Mysql and Apache Hive, in Apache Atlas. The example will show custom lineage reporting from outside hadoop as well as native lineage reporting in hadoop via 
+
+
+For this demo we will use Mysql database containing the trucking tables
+* DRIVERS
+* TIMESHEET
+
+Both these tables are very simple and are used as part of the trucking demo.
+
+As part of the demo a sqoop ingestion job will be executed along with 3 java helper classes that will:
+* Create Entities of type Mysql table in the Atlas
+* Create entities of type hive_table
+* Create an instance for Process type
+* Model the lineage between the Mysql tables and Hive tables
+
+Post that you can run a CTAS operation on the new hive table, using hive CLI and you will be able to see a lineage of the table in the Atlas UI Search.
+
 
 # Technical Details
 
@@ -6,16 +29,6 @@ Apache Hadoop consists of below projects for Data Inestion
 * Apache Sqoop - 
 
 Apache Sqoop is hadoop project for ingesting data from Relation Databases into Hadoop. It has been in the Hadoop Ecosystem for a while and well proven in the industry.
-
-* Apache Flume - 
-Apache Flumen is a  good utility for ingesting data from various sources into hadoop.
-
-Feed and Data Lineage
-
-* Apache Falcon -
-Falcon is a feed processing and feed management system aimed at making it easier for end consumers to onboard their feed processing and feed management on hadoop clusters. 
-
-Falcon needs a workflow engine. It uses oozie by default.
 
 * Apache Atlas*
 
