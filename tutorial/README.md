@@ -150,7 +150,11 @@ Load the Drivers Data. Copy the drivers.csv file over from the repo
 
     LOAD DATA LOCAL INFILE '<dir>/drivers.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,CERTIFIED, WAGE_PLAN);
     
-        LOAD DATA LOCAL INFILE '<dir>/timesheet.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,HOURS_LOGGED, MILES_LOGGED);
+
+Load the Timesheet Data. Copy the timesheet.csv file over from the repo
+
+
+     LOAD DATA LOCAL INFILE '<dir>/timesheet.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,HOURS_LOGGED, MILES_LOGGED);
 
 ###### Now you should have the Source System Ready!
 
