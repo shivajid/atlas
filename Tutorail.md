@@ -1,10 +1,8 @@
-# Overview
 
-This document describes the high level steps for setting up a demo scenario in the SE Cloud and on Stand Alone VM’s for the purposes of illustrating a sample ingestion workflow
 
 ## Objective
 
-The Objective of the demo is to show a data ingestion lineage with Apache Sqoop between Mysql and Apache Hive, in Apache Atlas. The example will show custom lineage reporting from outside hadoop as well as native lineage reporting in hadoop via 
+The Objective of the tutorial is to show a data ingestion lineage with Apache Sqoop between Mysql and Apache Hive, in Apache Atlas. The example will show custom lineage reporting from outside hadoop as well as native lineage reporting in hadoop via 
 
 
 For this demo we will use Mysql database containing the trucking tables
