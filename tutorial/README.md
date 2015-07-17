@@ -5,7 +5,6 @@
 The Objective of the tutorial is to show a data ingestion lineage with Apache Sqoop between Mysql and Apache Hive, in Apache Atlas. The example will show custom lineage reporting from outside hadoop as well as native lineage reporting in hadoop via HiveServer2
 
 
-
 For this demo we will use Mysql database containing the trucking tables
 * DRIVERS
 * TIMESHEET
@@ -51,90 +50,6 @@ In the Source System we are going to have an online system that is storing Truck
 
 Following are the tables in the Source System:-
 
-#### Organization
-
-<table>
- <tr>
-  <td>Cloumn Name</td>
-  <td>Cloumn Type</td>
-  <td>Not Null </td>
-  <td> Primary Key</td>
- </tr>
- <tr>
-  <td>OraganizationId</td>
-  <td>Varchar(100)</td>
-  <td>Y</td>
-  <td>Y</td>
- </tr>
-  <tr>
-  <td>OraganizationName</td>
-  <td>Varchar(1000)</td>
-  <td>Y</td>
-  <td>N</td>
- </tr>
-  <tr>
-  <td>Industry</td>
-  <td>Varchar(100)</td>
-  <td>N</td>
-  <td>N</td>
- </tr>
- <tr>
-  <td>Publicy_Traded</td>
-  <td>Boolean</td>
-  <td>Y</td>
-  <td>Y</td>
- </tr>
-</table>
-
-#### Employee
-
-
-<table>
- <tr>
-  <td>Cloumn Name</td>
-  <td>Cloumn Type</td>
-  <td>Not Null </td>
-  <td> Primary Key</td>
- </tr>
- <tr>
-  <td>Employee_ID</td>
-  <td>Varchar(100)</td>
-  <td>Y</td>
-  <td>Y</td>
- </tr>
-  <tr>
-  <td>Emplpyee_Name</td>
-  <td>Varchar(1000)</td>
-  <td>Y</td>
-  <td>N</td>
- </tr>
-  <tr>
-  <td>Email</td>
-  <td>Varchar(100)</td>
-  <td>Y</td>
-  <td>N</td>
- </tr>
- <tr>
-  <td>Designation</td>
-  <td>Varchar(200)</td>
-  <td>Y</td>
-  <td>N</td>
- </tr>
-  <tr>
-  <td>OragnizationID</td>
-  <td>Varchar(100)</td>
-  <td>Y</td>
-  <td>N</td>
- </tr>
-  <tr>
-  <td>JobType</td>
-  <td>Varchar(100)</td>
-  <td>Y</td>
-  <td>N</td>
- </tr>
-</table>
-
-
 #### DRIVERS
 
 <table>
@@ -169,6 +84,42 @@ Following are the tables in the Source System:-
   <td>N</td>
  </tr>
 </table>
+
+##### TimeSheet
+
+<table>
+ <tr>
+  <td>Cloumn Name</td>
+  <td>Cloumn Type</td>
+  <td>Not Null </td>
+  <td> Primary Key</td>
+ </tr>
+ <tr>
+  <td>DRIVER_ID</td>
+  <td>Varchar(200)</td>
+  <td>Y</td>
+  <td>Y</td>
+ </tr>
+  <tr>
+  <td>DRIVER_WEEK</td>
+  <td>Varchar(1000)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+  <tr>
+  <td>HOURS_LOGGED</td>
+  <td>Varchar(100)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+ <tr>
+  <td>TIME_LOGGED</td>
+  <td>Varchar(200)</td>
+  <td>Y</td>
+  <td>N</td>
+ </tr>
+</table>
+
 
 ## Create Source System
 
