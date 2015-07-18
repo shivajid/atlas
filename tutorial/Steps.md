@@ -23,17 +23,19 @@ Login to the mysql machine
 (You should see a test database)
 	
 `` use test;
-`` show tables; (You should see the DRIVERS and TIMESHEET tables listed)
+
+`` show tables; 
+
+(You should see the DRIVERS and TIMESHEET tables listed)
 
 
 
 Login to the sandbox :-
-
-         ssh  root@sandbox.hortonworks.com
+`` ssh  root@sandbox.hortonworks.com
 
 Change user to hive
 
-          su hive
+`` su hive
 
 change directory to hive home
          
