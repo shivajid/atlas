@@ -40,9 +40,22 @@ change directory to hive home
          
          cd /home/hive or just “cd”
 
-This job has been run multiple times in this environment. There is no way of deleting and cleaning the models. Check the hive table or
-./sqoop_job.sh <iteration number>
-e.g ./sqoop_job.sh 8
+
+Getting the scripts
+* Git clone the repo
+* mkdir “/Users/sdutta/Applications/” <sub>(The directories are hardcoded for now, and will be fixed in the next drop)</sub>
+* copy the “conf” folder underneath the “/Users/sdutta/Applications/”
+* dowload the [Atlas Demo](https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0) jar file
+
+	wget https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0
+	
+
+	./sqoop_job.sh <iteration number>
+
+
+e.g 
+	./sqoop_job.sh 8
+
 
 This will create new Entities of Table and hive_table type called 
 * MYSQL_DRIVERS8, 
@@ -51,7 +64,10 @@ This will create new Entities of Table and hive_table type called
 * default.hortontimesheet8@atlasdemo
 and 
 * create a lineage between these tables
-* 
+
+Next Validate
+
+----
 
 ## Validation 
 
