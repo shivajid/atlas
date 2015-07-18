@@ -101,11 +101,17 @@ CTAS
 Next login to hive
 
      [hive@atlas-partner-demo01 ~]$ hive
+     
 Change to use def
+     
      hive > use default;
+
 Show the table
+    
      show tables;
-Now create a table from the hive table where the data was created in hive. As per the above cloud
+
+Now create a table from the hive table where the data was created in hive. 
+     
      create table hortondrivers$num._ctas as select drivers_id from hortondrivers${num}.
 
 Replace the $num with the iteration number that you have run the scripts with
