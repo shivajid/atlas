@@ -43,12 +43,24 @@ change directory to hive home
 
 Getting the scripts
 * Git clone the repo
-* mkdir “/Users/sdutta/Applications/” <sub>(The directories are hardcoded for now, and will be fixed in the next drop)</sub>
+	git clone https://github.com/shivajid/atlas.git
+
+	mkdir “/Users/sdutta/Applications/” <sub>(The directories are hardcoded for now, and will be fixed in the next drop)</sub>
+
 * copy the “conf” folder underneath the “/Users/sdutta/Applications/”
+	cp -r conf /Users/sdutta/Applications/
+
+* Next create a working directory to execute the scripts
+
+	mkdir working
+	cd working
+	cp ../atlas/tutorial/sqoop_job.sh .
+
 * dowload the [Atlas Demo](https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0) jar file
 
 	wget https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0
 	
+Now you are se
 
 	./sqoop_job.sh <iteration number>
 
