@@ -43,20 +43,23 @@ and
 Login to Atlas
 	
      http://sandbox.hortonworks.com:21000/#!/search
-
+![Atlas Home](https://github.com/shivajid/atlas/blob/master/tutorial/images/AtlasHome.png)
 
 Search 
 “Table where name=”MYSQL_DRIVERS$num” ← replace the num to the iteration number.
-
 Search Results
+![Search](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%208.59.16%20AM.png)
 
 
-Click through and see the details. 
-
-Lineage -> Input
+Click through and see the details. The below link shows the list of attributes and the value. The details page has a BUG where it does not show numeric values on the screen.
 
 
+![Details/Attributs](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%209.15.12%20AM.png)
 
+Lineage -> Output
+
+
+![](https://github.com/shivajid/atlas/blob/master/tutorial/images/lineage.png)
 
 
 
@@ -65,28 +68,14 @@ The Schema tab show the columns for the MYSQL table
 
 
 
-
-
-
-
-
-The below link shows the list of attributes and the value. The details page has a BUG where it does not show numeric values on the screen.
-
-
-
+![](https://github.com/shivajid/atlas/blob/master/tutorial/images/schema.png)
 
 
 Now you can search for the hive tables
 
 hive_table where name=”default.hortondrivers9@atlasdemo”
 
-
-
-
-
-
-
-
+![] https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png
 
 Listing all “Types” of Type=CLASS
 
