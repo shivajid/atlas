@@ -13,13 +13,28 @@ Follow the steps in the following link to complete the build
 
 ##Executing the Scripts
 
+Querying the mysql database
+
+Login to the mysql machine
+
+    mysql -u root
+    show databases; 
+
+(You should see a test database)
+	use test;
+	show tables; 
+
+(You should see the DRIVERS and TIMESHEET tables listed)
+
+
+
 Login to the sandbox :-
 
-         ssh  root@sandbox.hortonworks.com
+	ssh  root@sandbox.hortonworks.com
 
 Change user to hive
 
-          su hive
+	su hive
 
 change directory to hive home
          
@@ -75,32 +90,38 @@ Now you can search for the hive tables
 
 hive_table where name=”default.hortondrivers9@atlasdemo”
 
-![] https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png
+![] (https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png)
 
 Listing all “Types” of Type=CLASS
 
 http://atlas-partner-demo01.cloud.hortonworks.com:21000/api/atlas/types?type=CLASS
-
+![](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-13%20at%2011.13.57%20PM.png)
 
 CTAS
 Next login to hive
 
      [hive@atlas-partner-demo01 ~]$ hive
+     
 Change to use def
+     
      hive > use default;
+
 Show the table
+    
      show tables;
-Now create a table from the hive table where the data was created in hive. As per the above cloud
+
+Now create a table from the hive table where the data was created in hive. 
+     
      create table hortondrivers$num._ctas as select drivers_id from hortondrivers${num}.
 
 Replace the $num with the iteration number that you have run the scripts with
 
-
+![](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%209.23.55%20AM.png)
 
 
 Now query the “hortondrivers9_ctas and look at the lineage
 
-
+![](https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png)
 
 
 The lineage for hortondrivers9_ctas. You can see that the new table is automatically ties up the lineage to the MYSQL_DRIVERS9 table.
@@ -108,15 +129,6 @@ The lineage for hortondrivers9_ctas. You can see that the new table is automatic
 
 
 
-
-Querying the mysql database
-
-Login to the mysql machine
-
-    mysql -u root
-show databases; (You should see a test database)
-     use test;
-     show tables; (You should see the DRIVERS and TIMESHEET tables listed)
 
 
 
