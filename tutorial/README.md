@@ -45,11 +45,11 @@ This is a mysql database.
 
 * Destination System
  
-We have HDP Cluster. For our tutorial we are going to use the HDP 2.3 Sandbox
+We need HDP 2.3 Cluster. For our tutorial we are going to use the HDP 2.3 Sandbox
 
 Design
 
-In the Source System we are going to have an online system that is storing Truck Drivers Information System. The Truck Driver Information System, tracks the Truck Companies, employees, status, license, route and hours logged.
+In the Source System we are going to have an online system that is storing Truck Drivers Information System. The Truck Driver Information System, tracks Drivers and information systems.
 
 Following are the tables in the Source System:-
 
@@ -159,7 +159,9 @@ Load the Timesheet Data. Copy the timesheet.csv file over from the repo
 
      LOAD DATA LOCAL INFILE '<dir>/timesheet.csv' into table DRIVERS FIELDS TERMINATED BY "," LINES TERMINATEd BY '\n' (DRIVER_ID, DRIVER_NAME,HOURS_LOGGED, MILES_LOGGED);
 
-###### Now you should have the Source System Ready!
+###### Now you should have the Source System Ready! 
+
+######## [Next Follow the Steps](Step1.md)
 
 
 

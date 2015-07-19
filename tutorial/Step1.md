@@ -40,9 +40,34 @@ change directory to hive home
          
          cd /home/hive or just “cd”
 
-This job has been run multiple times in this environment. There is no way of deleting and cleaning the models. Check the hive table or
-./sqoop_job.sh <iteration number>
-e.g ./sqoop_job.sh 8
+
+Getting the scripts
+* Git clone the repo
+	git clone https://github.com/shivajid/atlas.git
+
+	mkdir “/Users/sdutta/Applications/” <sub>(The directories are hardcoded for now, and will be fixed in the next drop)</sub>
+
+* copy the “conf” folder underneath the “/Users/sdutta/Applications/”
+	cp -r conf /Users/sdutta/Applications/
+
+* Next create a working directory to execute the scripts
+
+	mkdir working
+	cd working
+	cp ../atlas/tutorial/sqoop_job.sh .
+
+* dowload the [Atlas Demo](https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0) jar file
+
+	wget https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0
+	
+Now you are se
+
+	./sqoop_job.sh <iteration number>
+
+
+e.g 
+	./sqoop_job.sh 8
+
 
 This will create new Entities of Table and hive_table type called 
 * MYSQL_DRIVERS8, 
@@ -51,7 +76,10 @@ This will create new Entities of Table and hive_table type called
 * default.hortontimesheet8@atlasdemo
 and 
 * create a lineage between these tables
-* 
+
+Next Validate
+
+----
 
 ## Validation 
 
@@ -97,20 +125,21 @@ Listing all “Types” of Type=CLASS
 http://atlas-partner-demo01.cloud.hortonworks.com:21000/api/atlas/types?type=CLASS
 ![](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-13%20at%2011.13.57%20PM.png)
 
-CTAS
-Next login to hive
+##CTAS
+
+*Next login to hive
 
      [hive@atlas-partner-demo01 ~]$ hive
      
-Change to use def
+*Change to use def
      
      hive > use default;
 
-Show the table
+*Show the table
     
      show tables;
 
-Now create a table from the hive table where the data was created in hive. 
+*Now create a table from the hive table where the data was created in hive. 
      
      create table hortondrivers$num._ctas as select drivers_id from hortondrivers${num}.
 
@@ -119,15 +148,14 @@ Replace the $num with the iteration number that you have run the scripts with
 ![](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%209.23.55%20AM.png)
 
 
-Now query the “hortondrivers9_ctas and look at the lineage
+* Now query the “hortondrivers9_ctas and look at the lineage
 
 ![](https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png)
 
 
 The lineage for hortondrivers9_ctas. You can see that the new table is automatically ties up the lineage to the MYSQL_DRIVERS9 table.
 
-
-
+![](https://github.com/shivajid/atlas/blob/master/tutorial/images/linage_hivetb.png)
 
 
 
