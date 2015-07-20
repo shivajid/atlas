@@ -67,7 +67,7 @@ public class AtlasEntityCreator {
 	 * @throws Exception 
 	 * 
 	 * 
-	 */
+	
 	private void defineSimpleEntities() throws Exception {
 		
 		Referenceable createuniveralEntity = this.createRefObjectWithTraits(AtlasTypeDefCreator.Type_GOD, "Level2_Prod", "Level 2 type company", "Product");
@@ -79,7 +79,7 @@ public class AtlasEntityCreator {
 		//Id generalObjId = this.createEntity(creategeneralEntity);
 		
 		
-	}
+	} */
 	
 	
 	
@@ -150,6 +150,8 @@ public class AtlasEntityCreator {
 	    	        Referenceable referenceable = new Referenceable(type);
 	    	        referenceable.set("name", name);
 	    	        referenceable.set("description", description);
+	    	        referenceable.set("createTime", System.currentTimeMillis());
+	    	        referenceable.set("lastAccessTime", System.currentTimeMillis());
 	    	        	    	    
 	    	        return referenceable;
 	    	    }

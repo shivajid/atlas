@@ -101,7 +101,7 @@ public class AtlasClient {
         URLConnectionClientHandler handler = SecureClientUtils.getClientConnectionHandler(config, clientConfig);
 
         Client client = new Client(handler, config);
-        System.out.println(baseUrl);
+        //System.out.println(baseUrl);
         client.resource(UriBuilder.fromUri(baseUrl).build());
 
         service = client.resource(UriBuilder.fromUri(baseUrl).build());
@@ -356,7 +356,7 @@ public class AtlasClient {
     private JSONObject callAPIWithResource(API api, WebResource resource, Object requestObject)
     
     throws AtlasServiceException {
-    	System.out.println( "Exception" + resource.getURI().getRawQuery());
+    	//System.out.println( "Exception" + resource.getURI().getRawQuery());
     	ClientResponse clientResponse = resource.accept(JSON_MEDIA_TYPE).type(JSON_MEDIA_TYPE)
                 .method(api.getMethod(), ClientResponse.class, requestObject);
 

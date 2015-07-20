@@ -33,7 +33,7 @@ public class AtlasCLI {
 	String action = null;
 
 	{
-		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
+		System.setProperty("atlas.conf", "conf");
 	}
 
 	public static void main(String[] args) {
@@ -65,7 +65,7 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder
 				.withLongOpt(AtlasCLIOptions.action)
 				.withDescription(
-						"action you want to perform [search|createtype|createSimpleEntity|createDataSet|createProcess|bindProcess|createtrait]")
+						"action you want to perform [search|createSimpleType|createSimpleEntity|createDataSet|createProcess|bindProcess|createtrait|loadtraithierarchy|]")
 				.hasArg().withArgName("action").create()
 
 		);
@@ -76,9 +76,7 @@ public class AtlasCLI {
 
 		);
 
-		opt.addOption(
-
-		OptionBuilder
+		opt.addOption(OptionBuilder
 				.withLongOpt(AtlasCLIOptions.type)
 				.withDescription(
 						"String describing the type of the object. You can find by querying the list - http://host:21000/api/atlas/types?type=CLASS")
@@ -122,6 +120,12 @@ public class AtlasCLI {
 				OptionBuilder.withLongOpt(AtlasCLIOptions.traitTypename)
 				.withDescription("value for trait type")
 				.hasArg().withArgName(AtlasCLIOptions.traitTypename).create()
+				);
+		
+		opt.addOption(
+				OptionBuilder.withLongOpt(AtlasCLIOptions.supertype)
+				.withDescription("Super type")
+				.hasArg().withArgName(AtlasCLIOptions.supertype).create()
 				);
 		
 		
@@ -236,14 +240,18 @@ public class AtlasCLI {
 
 		try {
 			
+			
+			
 			AtlasTypeDefCreator ad = new AtlasTypeDefCreator(baseurl);
 			
 			
 			String classtypename = line.getOptionValue(AtlasCLIOptions.type);
-			String traitname = line.getOptionValue(AtlasCLIOptions.traitTypename);
-			String traittype = line.getOptionValue(AtlasCLIOptions.traitTypename);
+			String traitname = line.getOptionValue(AtlasCLIOptions.traitnames);
+			String parentype = line.getOptionValue(AtlasCLIOptions.supertype);
 			
-			ad.assembleSimpleType(traitname, classtypename, traittype);
+			String typeJson = ad.assembleSimpleType(traitname, classtypename, parentype);
+			
+			aClient.createType(typeJson);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,7 +284,8 @@ public class AtlasCLI {
 		try {
 			AtlasTypeDefCreator ad = new AtlasTypeDefCreator(baseurl);
 			String typename = line.getOptionValue(AtlasCLIOptions.type);
-			ad.assembleProcessType(null, typename);
+			String typeJson = ad.assembleProcessType(null, typename);
+			aClient.createType(typeJson);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -292,7 +301,9 @@ public class AtlasCLI {
 		try {
 			AtlasTypeDefCreator ad = new AtlasTypeDefCreator(baseurl);
 			String typename = line.getOptionValue(AtlasCLIOptions.type);
-			ad.assembleDataSetType(null, typename);
+			
+			String typeJson = ad.assembleDataSetType(null, typename);
+			aClient.createType(typeJson);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -405,3 +416,4 @@ public class AtlasCLI {
 	
 	
 }
+	

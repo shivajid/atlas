@@ -10,7 +10,7 @@ public class AtlasCLIOptions {
 	public static String type = "type";
 	public static String name = "name";
 	public static String description = "description";
-	
+	public static String supertype = "parenttype";
 	
 	public static String inp_type = "inptype";
 
@@ -22,6 +22,8 @@ public class AtlasCLIOptions {
 	
 	public static String traitnames = "traitnames";
 	public static String traitTypename = "traittype";
+	public static String parentTraitName = "parenttrait";
+	
 	
 	
 	public static String search = "search";

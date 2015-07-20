@@ -45,7 +45,6 @@
     	<groupId>com.hortonworks.atlas</groupId>
     	<artifactId>atlas-typesystem</artifactId>
     	<version>0.6-incubating-SNAPSHOT</version>
-    	<scope>provided</scope>
     </dependency>
     
     
@@ -123,6 +122,13 @@
                 <version>2.3.1</version>
             </dependency>
             
+            <!-- json -->
+              <dependency>
+                <groupId>org.json4s</groupId>
+                <artifactId>json4s-native_2.10</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            
                         <!-- Jersey -->
             <dependency>
                 <groupId>com.sun.jersey</groupId>
@@ -189,8 +195,10 @@
                 <groupId>org.apache.hadoop</groupId>
                 <artifactId>hadoop-hdfs</artifactId>
                 <version>${hadoop.version}</version>
-                <scope>test</scope>
+                
             </dependency>
+            
+            
 <dependency>
 	<groupId>org.apache.hive</groupId>
 	<artifactId>hive-common</artifactId>
@@ -233,7 +241,7 @@
   
   <build>
     <plugins>
-      <!-- any other plugins -->
+      <!--  any other plugins -->
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <executions>
@@ -248,9 +256,25 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>com.atlas.cli.AtlasCLI</mainClass>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
+  
+  
+  
     </plugins>
   </build>
+  
+  
+  <pluginRepositories>
+        <pluginRepository>
+            <id>onejar-maven-plugin.googlecode.com</id>
+            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+        </pluginRepository>
+    </pluginRepositories>
   
 </project>

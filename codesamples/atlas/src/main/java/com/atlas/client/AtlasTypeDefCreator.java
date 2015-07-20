@@ -35,7 +35,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class AtlasTypeDefCreator {
 
 	{
-		System.setProperty("atlas.conf", "./conf");
+		System.setProperty("atlas.conf", "conf");
 	}
 
 	private String traitName = "Green";
@@ -49,18 +49,24 @@ public class AtlasTypeDefCreator {
 
 	/**
 	 * This assembles the type
+	 * If trait name is passed it creates a simple trait with the class name
+	 * if not, just the class type is created
 	 * 
 	 * @return
 	 * @throws Exception 
 	 */
 
-	public String assembleSimpleType(String traitName, String ClassTypeName, String classtype) throws Exception {
-		TypesDef tdef = null;
+	public String assembleSimpleType(String traitName, String ClassTypeName, String parenttype) throws Exception {
+		
 
-		tdef = TypeUtils.getTypesDef(ImmutableList.<EnumTypeDefinition> of(),
+		System.out.print(traitName+  ClassTypeName + parenttype);
+		
+		TypesDef tdef = TypeUtils.getTypesDef(ImmutableList.<EnumTypeDefinition> of(),
 				ImmutableList.<StructTypeDefinition> of(),
 				this.createTraitType(traitName),
-				this.createClassType(ClassTypeName, classtype));
+				this.createClassType(ClassTypeName, parenttype));
+		
+		
 
 		return TypesSerialization.toJson(tdef);
 	}
@@ -100,9 +106,9 @@ public class AtlasTypeDefCreator {
 	 */
 	public AtlasTypeDefCreator(String baseurl) throws AtlasServiceException {
 
-		System.out.println("Creating Client Connection" + baseurl);
+		//System.out.println("Creating Client Connection" + baseurl);
 		ac = new AtlasClient(baseurl);
-		System.out.println("Client Object returned");
+		//System.out.println("Client Object returned");
 
 	}
 
@@ -122,9 +128,9 @@ public class AtlasTypeDefCreator {
 		return attrDef(name, dT, m, false, null);
 	}
 
-	public static String Type_GOD = "GOD_Type";
-	public static String Type_Planets = "Planet_Type";
-	public static String Type_Forces = "Force_Type";
+	//public static String Type_GOD = "GOD_Type";
+	//public static String Type_Planets = "Planet_Type";
+	//public static String Type_Forces = "Force_Type";
 	public static String Type_New_Life = "New_Life_Type";
 	public static String Type_Asteroids = "Asteroid_Type";
 	public static final String COLUMN_TYPE = "Column";
@@ -136,19 +142,38 @@ public class AtlasTypeDefCreator {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings({ "unused", "unchecked" })
 	public ImmutableList<HierarchicalTypeDefinition<ClassType>> createClassType(
-			String typeName, String type) throws Exception {
+			String typeName, String parenttype) throws Exception {
 
-		if(type == null || typeName == null){
+		if(typeName == null ){
 			throw new Exception ("type or typename cannot be null");
 		}
 		
-		HierarchicalTypeDefinition<ClassType> genericType = TypesUtil
-				.createClassTypeDef(typeName, ImmutableList.of(type),
+		System.out.print("class type name" + typeName);
+		HierarchicalTypeDefinition<ClassType> genericType =  null;
+		if(parenttype != null)
+		   {
+			genericType = TypesUtil
+				.createClassTypeDef(typeName, ImmutableList.of(parenttype),
 						attrDef("name", DataTypes.STRING_TYPE),
-						attrDef("description", DataTypes.STRING_TYPE));
+						attrDef("description", DataTypes.STRING_TYPE),
+						attrDef("createTime", DataTypes.INT_TYPE),
+						attrDef("lastAccessTime", DataTypes.INT_TYPE)
+						
+						);
+		
+		   } else{
+			   genericType = TypesUtil
+						.createClassTypeDef(typeName, null,
+								attrDef("name", DataTypes.STRING_TYPE),
+								attrDef("description", DataTypes.STRING_TYPE),
+								attrDef("createTime", DataTypes.INT_TYPE),
+								attrDef("lastAccessTime", DataTypes.INT_TYPE));
+				
+		   }
+		
 		this.classType = ImmutableList.of(genericType);
-
 		return this.classType;
 	}
 
@@ -213,14 +238,13 @@ public class AtlasTypeDefCreator {
 			String trait) {
 
 		if (trait != null)
-			this.traitType = ImmutableList.of(TypesUtil.createTraitTypeDef(
+			return ImmutableList.of(TypesUtil.createTraitTypeDef(
 					trait, null));
 		else
-			this.traitType = ImmutableList
+			return ImmutableList
 					.<HierarchicalTypeDefinition<TraitType>> of();
 
-		return this.traitType;
-
+		
 	}
 	
 	
