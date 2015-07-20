@@ -18,7 +18,7 @@ public class AtlasCLIOptions {
 
 	public static String out_type = "outtype";
 
-	public static String out_value = "outtype";
+	public static String out_value = "outvalue";
 	
 	public static String traitnames = "traitnames";
 	public static String traitTypename = "traittype";
@@ -34,7 +34,7 @@ public class AtlasCLIOptions {
 	public static String createDataSetEntity = "createDataSetEntity";
 	public static String createProcessEntity = "createProcessEntity";
 	public static String bindProcess = "bindprocess";
-	public static String creatrait = "createtrait";
+	public static String createrait = "createtrait";
 	
 	
 	

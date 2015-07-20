@@ -51,6 +51,11 @@ public class Taxonomy {
 	
 	
 	}
+	
+	public Taxonomy() {
+	
+	
+	}
 
 	
 	
@@ -141,12 +146,13 @@ public class Taxonomy {
 		else
 			throw new Exception("Please pass the traitname");
 		
-		ArrayList alist = null;
+		//ArrayList alist = null;
+		
 		Taxonomy tx = null;
 		if(args.length > 2 )
 		{
 			
-			alist = new ArrayList<String>();
+			//alist = new ArrayList<String>();
 					
 			String supertrait = args[2];
 			

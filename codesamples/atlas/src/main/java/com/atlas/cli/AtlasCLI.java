@@ -2,8 +2,10 @@ package com.atlas.cli;
 
 import java.util.List;
 
+import org.apache.atlas.AtlasServiceException;
 import org.apache.atlas.typesystem.Referenceable;
 import org.apache.atlas.typesystem.json.InstanceSerialization;
+import org.apache.atlas.typesystem.persistence.Id;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -12,12 +14,15 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.atlas.client.AtlasClient;
 import com.atlas.client.AtlasEntityConnector;
 import com.atlas.client.AtlasEntityCreator;
 import com.atlas.client.AtlasEntitySearch;
 import com.atlas.client.AtlasTypeDefCreator;
+import com.atlas.client.Taxonomy;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -65,7 +70,7 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder
 				.withLongOpt(AtlasCLIOptions.action)
 				.withDescription(
-						"action you want to perform [search|createSimpleType|createDataSetType|createProcessType|createSimpleEntity|createDataSet|createProcess|bindProcess|createtrait|loadtraithierarchy|]")
+						"action you want to perform [search|createSimpleType|createDataSetType|createProcessType|createSimpleEntity|createDataSetEntity|createtrait|loadtraithierarchy|]")
 				.hasArg().withArgName("action").create()
 
 		);
@@ -120,6 +125,18 @@ public class AtlasCLI {
 				OptionBuilder.withLongOpt(AtlasCLIOptions.traitTypename)
 				.withDescription("value for trait type")
 				.hasArg().withArgName(AtlasCLIOptions.traitTypename).create()
+				);
+		
+		opt.addOption(
+				OptionBuilder.withLongOpt(AtlasCLIOptions.traitnames)
+				.withDescription("name of the trait")
+				.hasArg().withArgName(AtlasCLIOptions.traitnames).create()
+				);
+		
+		opt.addOption(
+				OptionBuilder.withLongOpt(AtlasCLIOptions.parentTraitName)
+				.withDescription("value of parent trait ")
+				.hasArg().withArgName(AtlasCLIOptions.parentTraitName).create()
 				);
 		
 		opt.addOption(
@@ -198,7 +215,14 @@ public class AtlasCLI {
 
 				this.createProcessEntity(line);
 
-			} else {
+			}else if (AtlasCLIOptions.createrait
+					.equalsIgnoreCase(this.action)) {
+
+				
+
+			} 
+			
+			else {
 				formatter.printHelp("Usage:", opt);
 			}
 
@@ -251,7 +275,9 @@ public class AtlasCLI {
 			
 			String typeJson = ad.assembleSimpleType(traitname, classtypename, parentype);
 			
-			aClient.createType(typeJson);
+			JSONObject createType = this.aClient.createType(typeJson);
+			
+			System.out.println(createType.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -263,18 +289,28 @@ public class AtlasCLI {
 	 * 
 	 * @param typename
 	 */
-	/*private void createTraitType(CommandLine line) {
+	private void createTraitType(CommandLine line) {
 
 		try {
-			AtlasTypeDefCreator ad = new AtlasTypeDefCreator(baseurl);
-			String typename = line.getOptionValue(AtlasCLIOptions.type);
-			ad.assembleSimpleType(typename, null);
+			
+			String traitname = line.getOptionValue(AtlasCLIOptions.traitTypename);
+			String parenttrait = line.getOptionValue(AtlasCLIOptions.parentTraitName);
+			
+			Taxonomy tx = new Taxonomy();
+			
+			String traitJson = tx.createTraitTypes(traitname, parenttrait);
+			
+			JSONObject createType = this.aClient.createType(traitJson);
+			System.out.println(createType.toString());
+			
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 
 	/**
 	 * 
@@ -359,6 +395,7 @@ public class AtlasCLI {
 			if(description == null || "".equals(description)){
 				description = "This is is entity of type :" + type + " with name:" + name;
 			}
+			
 			String traitnames = line.getOptionValue(AtlasCLIOptions.traitnames);
 
 			// TODO
@@ -369,7 +406,11 @@ public class AtlasCLI {
 					aec.rawColumn("dayOfYear", "int", "day Of Year"),
 					aec.rawColumn("weekDay", "int", "week Day"));
 
-			Referenceable referenceable = new Referenceable(type, traitnames);
+			Referenceable referenceable;
+			if(traitnames !=  null)
+				referenceable = new Referenceable(type, traitnames);
+			else
+				referenceable = new Referenceable(type);
 			referenceable.set("name", name);
 			referenceable.set("description", description);
 			referenceable.set("createTime", System.currentTimeMillis());
@@ -422,13 +463,44 @@ public class AtlasCLI {
 					ImmutableList.of(inpref.getId()),
 					ImmutableList.of(outref.getId()), traitname);
 
-			aec.createEntity(proc);
-			System.out.println(" Lineage formed in Atlas with name " + name + " of type +");
+			createEntity(proc);
+			System.out.println(" Lineage formed in Atlas with name " + name + " of type " + type);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+	
+	
+
+	/**
+	 * 
+	 * This is a generic method of creating entities of any class
+	 * @throws JSONException 
+	 * @throws AtlasServiceException 
+	 * @throws com.atlas.client.AtlasServiceException 
+	 * 
+	 */
+	public Id createEntity(Referenceable ref ) throws JSONException, AtlasServiceException, com.atlas.client.AtlasServiceException{
+		
+		String typename = ref.getTypeName(); 
+		
+		String entityJSON = InstanceSerialization.toJson(ref, true);
+		
+		System.out.println("Submitting new entity= " + entityJSON);
+        
+        JSONObject jsonObject = aClient.createEntity(entityJSON);
+       
+        String guid = jsonObject.getString(AtlasClient.GUID);
+        
+        System.out.println("created instance for type " + typename + ", guid: " + guid);
+
+        // return the Id for created instance with guid
+       
+        return new Id(guid, ref.getId().getVersion(), ref.getTypeName());
+		
+		
 	}
 
 	

@@ -145,9 +145,9 @@ public class AtlasEntityCreator {
 	 * @return
 	 * @throws Exception
 	 */
-	 public Referenceable createRefObject(String type, String name, String description)
+	 public Referenceable createRefObject(String type, String name, String description, String... traits)
 	    	    throws Exception {
-	    	        Referenceable referenceable = new Referenceable(type);
+	    	        Referenceable referenceable = new Referenceable(type, traits);
 	    	        referenceable.set("name", name);
 	    	        referenceable.set("description", description);
 	    	        referenceable.set("createTime", System.currentTimeMillis());

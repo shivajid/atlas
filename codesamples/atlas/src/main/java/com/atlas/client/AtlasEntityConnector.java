@@ -82,8 +82,6 @@ public class AtlasEntityConnector {
        referenceable.set("startTime", System.currentTimeMillis());
        referenceable.set("endTime", System.currentTimeMillis());	
        
-       
-       
        return referenceable;
 
 	}
@@ -112,9 +110,9 @@ public class AtlasEntityConnector {
 
         // return the Id for created instance with guid
        
-        return 
-        		new Id(guid, ref.getId().getVersion(), ref.getTypeName());
+        return new Id(guid, ref.getId().getVersion(), ref.getTypeName());
 		
 		
 	}
+
 }
