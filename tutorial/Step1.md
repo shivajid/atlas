@@ -60,7 +60,7 @@ Getting the scripts
 
 	wget https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0
 	
-Now you are se
+You should be ready to run the job.
 
 	./sqoop_job.sh <iteration number>
 
