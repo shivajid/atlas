@@ -51,7 +51,7 @@ public class AtlasEntityConnector {
 			
 			Referenceable outref = aES.getReferenceByName(out_type_name, out_value);
 		
-			Referenceable proc = aec.loadProcess("AsteroidConnector", "This  connects 2 Asteroids", ImmutableList.of(inpref.getId()), ImmutableList.of(outref.getId()), "Red");
+			Referenceable proc = aec.loadProcess(AtlasTypeDefCreator.Type_New_Life, "AsteroidConnector", "This  connects 2 Asteroids", ImmutableList.of(inpref.getId()), ImmutableList.of(outref.getId()), "Red");
 			
 			aec.createEntity(proc);
 			
@@ -69,10 +69,10 @@ public class AtlasEntityConnector {
 	  * 
 	  * 
 	  */
-	public Referenceable loadProcess(String name, String description, List<Id> inputTables, List<Id> outputTables,
+	public Referenceable loadProcess(String type, String name, String description, List<Id> inputTables, List<Id> outputTables,
            String... traitNames)
    throws Exception {
-       Referenceable referenceable = new Referenceable(AtlasTypeDefCreator.Type_New_Life, traitNames);
+       Referenceable referenceable = new Referenceable(type, traitNames);
        // super type attributes
        referenceable.set("name", name);
        referenceable.set("description", description);

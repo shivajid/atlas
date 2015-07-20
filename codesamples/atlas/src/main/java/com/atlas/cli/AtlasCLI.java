@@ -65,7 +65,7 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder
 				.withLongOpt(AtlasCLIOptions.action)
 				.withDescription(
-						"action you want to perform [search|createSimpleType|createSimpleEntity|createDataSet|createProcess|bindProcess|createtrait|loadtraithierarchy|]")
+						"action you want to perform [search|createSimpleType|createDataSetType|createProcessType|createSimpleEntity|createDataSet|createProcess|bindProcess|createtrait|loadtraithierarchy|]")
 				.hasArg().withArgName("action").create()
 
 		);
@@ -303,6 +303,8 @@ public class AtlasCLI {
 			String typename = line.getOptionValue(AtlasCLIOptions.type);
 			
 			String typeJson = ad.assembleDataSetType(null, typename);
+			
+			System.out.println(typeJson);
 			aClient.createType(typeJson);
 
 		} catch (Exception e) {
@@ -323,6 +325,12 @@ public class AtlasCLI {
 		String typename = line.getOptionValue(AtlasCLIOptions.type);
 		String name = line.getOptionValue(AtlasCLIOptions.name);
 		String description = line.getOptionValue(AtlasCLIOptions.description);
+		
+		
+		if(description == null || "".equals(description)){
+			description = "This is is entity of type :" + typename + " with name:" + name;
+		}
+		
 		try {
 			Referenceable createuniveralEntity = aec.createRefObject(typename,
 					name, description);
@@ -347,6 +355,10 @@ public class AtlasCLI {
 			String name = line.getOptionValue(AtlasCLIOptions.name);
 			String description = line
 					.getOptionValue(AtlasCLIOptions.description);
+			
+			if(description == null || "".equals(description)){
+				description = "This is is entity of type :" + type + " with name:" + name;
+			}
 			String traitnames = line.getOptionValue(AtlasCLIOptions.traitnames);
 
 			// TODO
@@ -380,8 +392,15 @@ public class AtlasCLI {
 	private void createProcessEntity(CommandLine line) {
 
 		String type = line.getOptionValue(AtlasCLIOptions.type);
-		String type_description = line
+		String description = line
 				.getOptionValue(AtlasCLIOptions.description);
+		String name = line
+				.getOptionValue(AtlasCLIOptions.name);
+		
+		
+		if(description == null || "".equals(description)){
+			description = "This is is entity of type :" + type ;
+		}
 
 		String inp_type_name = line.getOptionValue(AtlasCLIOptions.inp_type);
 		String inp_value = line.getOptionValue(AtlasCLIOptions.inp_value);
@@ -399,12 +418,12 @@ public class AtlasCLI {
 			Referenceable outref = aES.getReferenceByName(out_type_name,
 					out_value);
 
-			Referenceable proc = aec.loadProcess(type, type_description,
+			Referenceable proc = aec.loadProcess(type, name, description,
 					ImmutableList.of(inpref.getId()),
 					ImmutableList.of(outref.getId()), traitname);
 
 			aec.createEntity(proc);
-			System.out.println(" Lineage formed in Atlas");
+			System.out.println(" Lineage formed in Atlas with name " + name + " of type +");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
