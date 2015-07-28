@@ -1,0 +1,25 @@
+<Hierarchy>
+	<Level name="Organization">
+		
+		<entities>
+			<entity></entity>
+		</entities>
+		
+		
+			<Level name="Vehicles">
+				<entities>
+					<entity></entity>
+				</entities>
+		
+				<Level name="Trucks">
+					<entity>F150</entity>
+					<entity>F250</entity>
+				 <Level>
+		
+			</Level>			
+	
+		</Level>
+	
+	<Level>
+
+</Hierarchy>

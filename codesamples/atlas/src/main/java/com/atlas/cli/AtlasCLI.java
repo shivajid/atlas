@@ -36,7 +36,6 @@ public class AtlasCLI {
 	Options opt = null;
 	AtlasClient aClient = null;
 	String action = null;
-
 	{
 		System.setProperty("atlas.conf", "conf");
 	}
@@ -218,7 +217,7 @@ public class AtlasCLI {
 			}else if (AtlasCLIOptions.createrait
 					.equalsIgnoreCase(this.action)) {
 
-				
+				this.createTraitType(line);
 
 			} 
 			

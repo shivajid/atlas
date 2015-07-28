@@ -35,8 +35,8 @@ public class AtlasServiceException extends Exception {
         this.status = response.getClientResponseStatus();
     }
 
-    public AtlasServiceException(Exception e) {
-        super(e);
+    public AtlasServiceException(String string) {
+        super(string);
     }
 
     public ClientResponse.Status getStatus() {
