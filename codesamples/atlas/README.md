@@ -2,7 +2,7 @@
 
 API Help
 
-./atlasclient  --help
+    ./atlasclient  --help
 
 1) Create a New DataSet Type
 
