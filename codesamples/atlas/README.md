@@ -1,6 +1,12 @@
-a) Create a New DataSet Type
+### Demo Script
 
-    ./atlasclient  --help
+API Help
+
+./atlasclient  --help
+
+1) Create a New DataSet Type
+
+    
 
     ./atlasclient  --c=createDataSetType --type=Tims_Fict_Table
 
@@ -25,5 +31,7 @@ a) Create a New DataSet Type
     ./atlasclient --c=createProcessEntity --inptype=Tims_Fict_Table --outtype=Table --inpvalue=Andrew_Demo --outvalue=MYSQL_DRIVERS99 --traitnames=SuperPM --type=Jamies_Lineage --name=Lineage12
 
 
-Full Text Search API
+##### Full Text Search API
+
+
     http://atlas-partner-demo01.cloud.hortonworks.com:21000/api/atlas/discovery/search/fulltext?query=Hive
