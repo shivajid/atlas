@@ -2,7 +2,7 @@ package com.hortonworks.atlas;
 
 public interface Hierarchy<T> {
 	
-	public void parse();
+	public void parse() throws Exception;
 	
 
 }

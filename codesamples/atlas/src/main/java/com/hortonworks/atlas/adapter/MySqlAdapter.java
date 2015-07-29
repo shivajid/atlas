@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class mysqladapter {
+public class MySqlAdapter {
 
 
 	public String host = "";
@@ -26,7 +26,7 @@ public class mysqladapter {
 	 * @throws SQLException 
 	 * 
 	 */
-	public mysqladapter(String hst, String DBnm, String user, String password) throws ClassNotFoundException, SQLException{
+	public MySqlAdapter(String hst, String DBnm, String user, String password) throws ClassNotFoundException, SQLException{
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		

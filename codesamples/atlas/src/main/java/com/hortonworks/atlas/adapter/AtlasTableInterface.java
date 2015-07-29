@@ -14,8 +14,8 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.atlas.client.AtlasClient;
-import com.atlas.client.AtlasServiceException;
+import org.apache.atlas.AtlasClient;
+import org.apache.atlas.AtlasServiceException;
 import com.google.common.collect.ImmutableList;
 
 
@@ -39,7 +39,7 @@ public class AtlasTableInterface {
                  "ETL", "Metric", "PII", "Fact", "Dimension"};
 
 	AtlasClient metadataServiceClient = null;
-	mysqladapter mysqa =  null;
+	MySqlAdapter mysqa =  null;
 	
 	
 	/**
@@ -60,13 +60,13 @@ public class AtlasTableInterface {
 		
 		for(String type : TYPES){
 			if(!types.contains(type)){
-				throw new AtlasServiceException("Please execute the default scripts: quick_start.py. Missing Atlas Type: " + types);
+				throw new Exception("Please execute the default scripts: quick_start.py. Missing Atlas Type: " + types);
 			}
 		
 		}
 		
 		
-		mysqa = new mysqladapter(mysqlhost, db, username, password);
+		mysqa = new MySqlAdapter(mysqlhost, db, username, password);
 		createMysqlEntities();
 		
 	}

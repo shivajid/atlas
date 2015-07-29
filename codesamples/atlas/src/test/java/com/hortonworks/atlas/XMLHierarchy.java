@@ -14,7 +14,7 @@ public class XMLHierarchy<T> implements Hierarchy<T> {
 //	public void 
 	
 	
-	public void parse() {
+	public void parse() throws Exception{
 		// TODO Auto-generated method stub
 		
 	}

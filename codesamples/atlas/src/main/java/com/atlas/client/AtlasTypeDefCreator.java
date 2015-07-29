@@ -25,13 +25,15 @@ import com.google.common.collect.ImmutableList;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.apache.atlas.AtlasClient;
+import org.apache.atlas.AtlasServiceException;
 
 /*
  * This is a class to create Type Definitions
  * This is a simple class
  * @author - Shivaji Dutta
  */
-
+ 
 public class AtlasTypeDefCreator {
 
 	{

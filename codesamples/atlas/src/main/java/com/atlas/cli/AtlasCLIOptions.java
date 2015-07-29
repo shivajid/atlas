@@ -11,6 +11,7 @@ public class AtlasCLIOptions {
 	public static String name = "name";
 	public static String description = "description";
 	public static String supertype = "parenttype";
+	public static String listtype = "listtype";
 	
 	public static String inp_type = "inptype";
 

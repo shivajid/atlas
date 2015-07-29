@@ -1,0 +1,20 @@
+{"Organization": {
+  
+  "Products": {
+    "Vehicles": [
+      {"type": "hive_table", "name": "hortontimesheet"},
+     {"type": "hive_table", "name": "hortondrivers"}
+    ]
+  },
+  "Parts": "done",
+  "TruckParts": {
+  	"Entities": [
+  	{"city": "Calcutta"},
+  	{"city": "Mumbai", "population": [{"million": "100", "gender_M": "dummy"}]}
+  	]
+
+  }
+}
+
+
+}

@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.hortonworks.atlas.adapter.mysqladapter;
+import com.hortonworks.atlas.adapter.MySqlAdapter;
 
 public class mysqlConnector {
 
@@ -13,7 +13,7 @@ public class mysqlConnector {
 
 		System.out.println("-------- MySQL JDBC Connection Testing ------------");
 		
-		mysqladapter ms = new mysqladapter(args[0], args[1], args[2], args[3]);
+		MySqlAdapter ms = new MySqlAdapter(args[0], args[1], args[2], args[3]);
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

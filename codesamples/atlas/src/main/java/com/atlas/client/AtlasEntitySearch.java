@@ -24,7 +24,7 @@ public class AtlasEntitySearch {
 
 	private AtlasClient ac = null;
 
-
+ 
 	/**
 	 * 
 	 * @param args

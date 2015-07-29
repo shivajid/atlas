@@ -1,6 +1,7 @@
 package com.atlas.cli;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.atlas.AtlasServiceException;
 import org.apache.atlas.typesystem.Referenceable;
@@ -17,7 +18,7 @@ import org.apache.commons.cli.PosixParser;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.atlas.client.AtlasClient;
+import org.apache.atlas.AtlasClient;
 import com.atlas.client.AtlasEntityConnector;
 import com.atlas.client.AtlasEntityCreator;
 import com.atlas.client.AtlasEntitySearch;
@@ -69,7 +70,7 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder
 				.withLongOpt(AtlasCLIOptions.action)
 				.withDescription(
-						"action you want to perform [search|createSimpleType|createDataSetType|createProcessType|createSimpleEntity|createDataSetEntity|createtrait|loadtraithierarchy|]")
+						"action you want to perform [search|createSimpleType|createDataSetType|createProcessType|createSimpleEntity|createDataSetEntity|createProcessEntity|createtrait|loadtraithierarchy|]")
 				.hasArg().withArgName("action").create()
 
 		);
@@ -144,6 +145,8 @@ public class AtlasCLI {
 				.hasArg().withArgName(AtlasCLIOptions.supertype).create()
 				);
 		
+		opt.addOption(AtlasCLIOptions.listtype, false, "display all types");
+		
 		
 		opt.addOption("help",false, "requesting help");
 		
@@ -176,6 +179,13 @@ public class AtlasCLI {
 			System.err.println("url is a mandatory field");
 			formatter.printHelp("atlasclient", opt);
 			System.exit(1);
+		}
+		
+		//This will list you list all types
+		if (line.hasOption(AtlasCLIOptions.listtype)) {
+
+			this.listTypes();
+
 		}
 
 		if (line.hasOption(AtlasCLIOptions.action)) {
@@ -215,6 +225,11 @@ public class AtlasCLI {
 				this.createProcessEntity(line);
 
 			}else if (AtlasCLIOptions.createrait
+					.equalsIgnoreCase(this.action)) {
+
+				this.createTraitType(line);
+
+			} else if (AtlasCLIOptions.createrait
 					.equalsIgnoreCase(this.action)) {
 
 				this.createTraitType(line);
@@ -472,6 +487,32 @@ public class AtlasCLI {
 	}
 	
 	
+	/**
+	 * This method lists all types in the Atlas
+	 */
+	public void listTypes(){
+		
+		List<String> lt;
+		try {
+			lt = aClient.listTypes();
+		
+		
+		ListIterator<String> lstItr = lt.listIterator();
+		
+		System.out.println("Listing all Types in atlas: ");
+		
+		while(lstItr.hasNext()){
+			
+			System.out.println(lstItr.next());
+			
+		}
+		} catch (AtlasServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	/**
 	 * 
@@ -481,7 +522,7 @@ public class AtlasCLI {
 	 * @throws com.atlas.client.AtlasServiceException 
 	 * 
 	 */
-	public Id createEntity(Referenceable ref ) throws JSONException, AtlasServiceException, com.atlas.client.AtlasServiceException{
+	public Id createEntity(Referenceable ref ) throws JSONException, AtlasServiceException, AtlasServiceException{
 		
 		String typename = ref.getTypeName(); 
 		
