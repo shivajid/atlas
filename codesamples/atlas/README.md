@@ -13,7 +13,7 @@ API Help
 2) Create new Traits
 	Create a subtrait
 	
-    ./atlasclient  -c=createtrait --traitnames=SuperPM
+    ./atlasclient  -c=createtrait --traittype=SuperPM
 	
     ./atlasclient  -c=createtrait --traittype=PM --parenttrait=SuperPM
 	
