@@ -74,8 +74,8 @@ public class AtlasTableInterface {
 	
 	
 	/**
-	 * @throws Exception 
 	 * 
+	 * @throws Exception  
 	 */
 	
 	private void createMysqlEntities() throws Exception{

@@ -1,20 +1,27 @@
 {"Organization": {
   
   "Products": {
-    "Vehicles": [
+    "Vehicles": {
+    	"Entities1":[
       {"type": "hive_table", "name": "hortontimesheet"},
      {"type": "hive_table", "name": "hortondrivers"}
     ]
   },
   "Parts": "done",
   "TruckParts": {
-  	"Entities": [
-  	{"city": "Calcutta"},
-  	{"city": "Mumbai", "population": [{"million": "100", "gender_M": "dummy"}]}
+  	"Entities2": [
+  	 {"type": "hive_table", "name": "hortondrivers25"},
+  	 {"type": "hive_table", "name": "hortondrivers26"}
   	]
 
+  },
+  "AutoParts": {
+"Entities3": [
+  	 {"type": "hive_table", "name": "hortondrivers23"},
+  	 {"type": "hive_table", "name": "hortondrivers24"}
+  	]
   }
 }
 
-
+}
 }
