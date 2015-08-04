@@ -1,10 +1,13 @@
 package com.atlas.cli;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.atlas.AtlasServiceException;
 import org.apache.atlas.typesystem.Referenceable;
+import org.apache.atlas.typesystem.Struct;
 import org.apache.atlas.typesystem.json.InstanceSerialization;
 import org.apache.atlas.typesystem.persistence.Id;
 import org.apache.commons.cli.CommandLine;
@@ -15,16 +18,22 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-
 import org.apache.atlas.AtlasClient;
+
 import com.atlas.client.AtlasEntityConnector;
 import com.atlas.client.AtlasEntityCreator;
 import com.atlas.client.AtlasEntitySearch;
 import com.atlas.client.AtlasTypeDefCreator;
+import com.atlas.client.JsonHierarchy;
+import com.atlas.client.NewAtlasClient;
 import com.atlas.client.Taxonomy;
 import com.google.common.collect.ImmutableList;
+import com.hortonworks.atlas.adapter.AtlasTableInterface;
+import com.hortonworks.atlas.adapter.EntityModel;
+import com.hortonworks.atlas.adapter.TupleModel;
 
 /**
  * 
@@ -37,10 +46,15 @@ public class AtlasCLI {
 	Options opt = null;
 	AtlasClient aClient = null;
 	String action = null;
+
 	{
 		System.setProperty("atlas.conf", "conf");
 	}
 
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		try {
@@ -59,7 +73,6 @@ public class AtlasCLI {
 	 * @throws Exception
 	 */
 
-	
 	@SuppressWarnings("static-access")
 	AtlasCLI(String args[]) throws ParseException {
 
@@ -70,7 +83,9 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder
 				.withLongOpt(AtlasCLIOptions.action)
 				.withDescription(
-						"action you want to perform [search|createSimpleType|createDataSetType|createProcessType|createSimpleEntity|createDataSetEntity|createProcessEntity|createtrait|loadtraithierarchy|]")
+						"action you want to perform [search|createSimpleType|createDataSetType|"
+								+ "createProcessType|createSimpleEntity|createDataSetEntity|createProcessEntity"
+								+ "|createtrait|loadtraithierarchy|importmysql]")
 				.hasArg().withArgName("action").create()
 
 		);
@@ -90,8 +105,7 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.name)
 				.withDescription("name of type or entity").hasArg()
 				.withArgName("name").create());
-		
-	
+
 		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.description)
 				.withDescription("description of type or entity").hasArg()
 				.withArgName("name").create());
@@ -101,87 +115,81 @@ public class AtlasCLI {
 				.hasArg().withArgName("inp_type").create()
 
 		);
-		
+
 		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.inp_value)
-				.withDescription("value for input to a lineage")
-				.hasArg().withArgName("inp_value").create()
-				);
-		
-		
-		opt.addOption(
-				OptionBuilder.withLongOpt(AtlasCLIOptions.out_type)
-				.withDescription("name of output to a lineage")
-				.hasArg().withArgName("out_type").create()
-				);
-		
-		
-		opt.addOption(
-				OptionBuilder.withLongOpt(AtlasCLIOptions.out_value)
-				.withDescription("value for output to a lineage")
-				.hasArg().withArgName("out_value").create()
-				);
-		
-		opt.addOption(
-				OptionBuilder.withLongOpt(AtlasCLIOptions.traitTypename)
-				.withDescription("value for trait type")
-				.hasArg().withArgName(AtlasCLIOptions.traitTypename).create()
-				);
-		
-		opt.addOption(
-				OptionBuilder.withLongOpt(AtlasCLIOptions.traitnames)
-				.withDescription("name of the trait")
-				.hasArg().withArgName(AtlasCLIOptions.traitnames).create()
-				);
-		
-		opt.addOption(
-				OptionBuilder.withLongOpt(AtlasCLIOptions.parentTraitName)
-				.withDescription("value of parent trait ")
-				.hasArg().withArgName(AtlasCLIOptions.parentTraitName).create()
-				);
-		
-		opt.addOption(
-				OptionBuilder.withLongOpt(AtlasCLIOptions.supertype)
-				.withDescription("Super type")
-				.hasArg().withArgName(AtlasCLIOptions.supertype).create()
-				);
-		
+				.withDescription("value for input to a lineage").hasArg()
+				.withArgName("inp_value").create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.out_type)
+				.withDescription("name of output to a lineage").hasArg()
+				.withArgName("out_type").create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.out_value)
+				.withDescription("value for output to a lineage").hasArg()
+				.withArgName("out_value").create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.traitTypename)
+				.withDescription("value for trait type").hasArg()
+				.withArgName(AtlasCLIOptions.traitTypename).create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.traitnames)
+				.withDescription("name of the trait").hasArg()
+				.withArgName(AtlasCLIOptions.traitnames).create());
+
+		opt.addOption(OptionBuilder
+				.withLongOpt(AtlasCLIOptions.parentTraitName)
+				.withDescription("value of parent trait ").hasArg()
+				.withArgName(AtlasCLIOptions.parentTraitName).create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.supertype)
+				.withDescription("Super type").hasArg()
+				.withArgName(AtlasCLIOptions.supertype).create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.username)
+				.withDescription("mysql username").hasArg()
+				.withArgName(AtlasCLIOptions.username).create());
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.password)
+				.withDescription("mysql password").hasArg()
+				.withArgName(AtlasCLIOptions.password).create());
+
+		opt.addOption(OptionBuilder
+				.withLongOpt(AtlasCLIOptions.mysqlhost)
+				.withDescription(
+						"mysql host. It assumes mysql is running on port 3306")
+				.hasArg().withArgName(AtlasCLIOptions.mysqlhost).create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.dbname)
+				.withDescription("mysql db").hasArg()
+				.withArgName(AtlasCLIOptions.dbname).create());
+
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.filepath)
+				.withDescription("json filename. The complete filepath ")
+				.hasArg().withArgName(AtlasCLIOptions.filepath).create());
+
 		opt.addOption(AtlasCLIOptions.listtype, false, "display all types");
-		
-		
-		opt.addOption("help",false, "requesting help");
-		
-		
+
+		opt.addOption("help", false, "requesting help");
 
 		HelpFormatter formatter = new HelpFormatter();
-		
-		//formatter.printHelp("action", opt);
-
-		//String[] args1 = new String[] { "-c=search" };
-
-		/*for (int i = 0; i < args.length; i++)
-			System.out.println(args[i]);*/
 
 		CommandLine line = parser.parse(opt, args);
-		
-	
-		
-		if(line.hasOption("help") || args.length < 1){
+
+		if (line.hasOption("help") || args.length < 1) {
 			formatter.printHelp("atlasclient", opt);
 		}
 
-		
 		if (line.hasOption(AtlasCLIOptions.url)) {
 			baseurl = line.getOptionValue(AtlasCLIOptions.url);
-	
+
 			this.aClient = new AtlasClient(baseurl);
 
-		}else{
+		} else {
 			System.err.println("url is a mandatory field");
 			formatter.printHelp("atlasclient", opt);
 			System.exit(1);
 		}
-		
-		//This will list you list all types
+
+		// This will list you list all types
 		if (line.hasOption(AtlasCLIOptions.listtype)) {
 
 			this.listTypes();
@@ -197,15 +205,18 @@ public class AtlasCLI {
 			if (AtlasCLIOptions.search.equalsIgnoreCase(this.action)) {
 				searchEntities(line);
 
-			} else if (AtlasCLIOptions.createSimpleType.equalsIgnoreCase(this.action)) {
+			} else if (AtlasCLIOptions.createSimpleType
+					.equalsIgnoreCase(this.action)) {
 
 				this.createSimpleType(line);
 
-			} else if (AtlasCLIOptions.createDataSetType.equalsIgnoreCase(this.action)) {
+			} else if (AtlasCLIOptions.createDataSetType
+					.equalsIgnoreCase(this.action)) {
 
 				this.createDataSetType(line);
 
-			} else if (AtlasCLIOptions.createProcessType.equalsIgnoreCase(this.action)) {
+			} else if (AtlasCLIOptions.createProcessType
+					.equalsIgnoreCase(this.action)) {
 
 				this.createProcessType(line);
 
@@ -214,7 +225,7 @@ public class AtlasCLI {
 
 				this.createSimpleEntity(line);
 
-			}else if (AtlasCLIOptions.createDataSetEntity
+			} else if (AtlasCLIOptions.createDataSetEntity
 					.equalsIgnoreCase(this.action)) {
 
 				this.createDataSetEntity(line);
@@ -224,18 +235,26 @@ public class AtlasCLI {
 
 				this.createProcessEntity(line);
 
-			}else if (AtlasCLIOptions.createrait
-					.equalsIgnoreCase(this.action)) {
+			} else if (AtlasCLIOptions.createrait.equalsIgnoreCase(this.action)) {
 
 				this.createTraitType(line);
 
-			} else if (AtlasCLIOptions.createrait
+			} else if (AtlasCLIOptions.importMySqlTables
 					.equalsIgnoreCase(this.action)) {
 
-				this.createTraitType(line);
+				try {
+					this.importMysqlTables(line);
+				} catch (Exception e) {
 
-			} 
-			
+					e.printStackTrace();
+				}
+
+			} else if (AtlasCLIOptions.loadtraithierarchy
+					.equalsIgnoreCase(this.action)) {
+				this.loadHierarchy(line);
+
+			}
+
 			else {
 				formatter.printHelp("Usage:", opt);
 			}
@@ -277,20 +296,18 @@ public class AtlasCLI {
 	private void createSimpleType(CommandLine line) {
 
 		try {
-			
-			
-			
+
 			AtlasTypeDefCreator ad = new AtlasTypeDefCreator(baseurl);
-			
-			
+
 			String classtypename = line.getOptionValue(AtlasCLIOptions.type);
 			String traitname = line.getOptionValue(AtlasCLIOptions.traitnames);
 			String parentype = line.getOptionValue(AtlasCLIOptions.supertype);
-			
-			String typeJson = ad.assembleSimpleType(traitname, classtypename, parentype);
-			
+
+			String typeJson = ad.assembleSimpleType(traitname, classtypename,
+					parentype);
+
 			JSONObject createType = this.aClient.createType(typeJson);
-			
+
 			System.out.println(createType.toString());
 
 		} catch (Exception e) {
@@ -306,19 +323,19 @@ public class AtlasCLI {
 	private void createTraitType(CommandLine line) {
 
 		try {
-			
-			String traitname = line.getOptionValue(AtlasCLIOptions.traitTypename);
-			String parenttrait = line.getOptionValue(AtlasCLIOptions.parentTraitName);
-			
+
+			String traittype = line
+					.getOptionValue(AtlasCLIOptions.traitTypename);
+			String parenttrait = line
+					.getOptionValue(AtlasCLIOptions.parentTraitName);
+
 			Taxonomy tx = new Taxonomy();
-			
-			String traitJson = tx.createTraitTypes(traitname, parenttrait);
-			
-			JSONObject createType = this.aClient.createType(traitJson);
-			System.out.println(createType.toString());
-			
-			
-			
+
+			String traitJson = tx.createTraitTypes(traittype, parenttrait);
+
+			this.aClient.createType(traitJson);
+
+			System.out.println("Trait Created with name :" + traittype);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -327,6 +344,7 @@ public class AtlasCLI {
 	}
 
 	/**
+	 * This create a Process Type
 	 * 
 	 * @param processName
 	 */
@@ -351,9 +369,9 @@ public class AtlasCLI {
 		try {
 			AtlasTypeDefCreator ad = new AtlasTypeDefCreator(baseurl);
 			String typename = line.getOptionValue(AtlasCLIOptions.type);
-			
+
 			String typeJson = ad.assembleDataSetType(null, typename);
-			
+
 			System.out.println(typeJson);
 			aClient.createType(typeJson);
 
@@ -375,12 +393,12 @@ public class AtlasCLI {
 		String typename = line.getOptionValue(AtlasCLIOptions.type);
 		String name = line.getOptionValue(AtlasCLIOptions.name);
 		String description = line.getOptionValue(AtlasCLIOptions.description);
-		
-		
-		if(description == null || "".equals(description)){
-			description = "This is is entity of type :" + typename + " with name:" + name;
+
+		if (description == null || "".equals(description)) {
+			description = "This is is entity of type :" + typename
+					+ " with name:" + name;
 		}
-		
+
 		try {
 			Referenceable createuniveralEntity = aec.createRefObject(typename,
 					name, description);
@@ -405,11 +423,12 @@ public class AtlasCLI {
 			String name = line.getOptionValue(AtlasCLIOptions.name);
 			String description = line
 					.getOptionValue(AtlasCLIOptions.description);
-			
-			if(description == null || "".equals(description)){
-				description = "This is is entity of type :" + type + " with name:" + name;
+
+			if (description == null || "".equals(description)) {
+				description = "This is is entity of type :" + type
+						+ " with name:" + name;
 			}
-			
+
 			String traitnames = line.getOptionValue(AtlasCLIOptions.traitnames);
 
 			// TODO
@@ -421,7 +440,7 @@ public class AtlasCLI {
 					aec.rawColumn("weekDay", "int", "week Day"));
 
 			Referenceable referenceable;
-			if(traitnames !=  null)
+			if (traitnames != null)
 				referenceable = new Referenceable(type, traitnames);
 			else
 				referenceable = new Referenceable(type);
@@ -447,14 +466,11 @@ public class AtlasCLI {
 	private void createProcessEntity(CommandLine line) {
 
 		String type = line.getOptionValue(AtlasCLIOptions.type);
-		String description = line
-				.getOptionValue(AtlasCLIOptions.description);
-		String name = line
-				.getOptionValue(AtlasCLIOptions.name);
-		
-		
-		if(description == null || "".equals(description)){
-			description = "This is is entity of type :" + type ;
+		String description = line.getOptionValue(AtlasCLIOptions.description);
+		String name = line.getOptionValue(AtlasCLIOptions.name);
+
+		if (description == null || "".equals(description)) {
+			description = "This is is entity of type :" + type;
 		}
 
 		String inp_type_name = line.getOptionValue(AtlasCLIOptions.inp_type);
@@ -478,73 +494,208 @@ public class AtlasCLI {
 					ImmutableList.of(outref.getId()), traitname);
 
 			createEntity(proc);
-			System.out.println(" Lineage formed in Atlas with name " + name + " of type " + type);
+			System.out.println(" Lineage formed in Atlas with name " + name
+					+ " of type " + type);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	
-	
+
 	/**
 	 * This method lists all types in the Atlas
 	 */
-	public void listTypes(){
-		
+	public void listTypes() {
+
 		List<String> lt;
 		try {
 			lt = aClient.listTypes();
-		
-		
-		ListIterator<String> lstItr = lt.listIterator();
-		
-		System.out.println("Listing all Types in atlas: ");
-		
-		while(lstItr.hasNext()){
-			
-			System.out.println(lstItr.next());
-			
-		}
+
+			ListIterator<String> lstItr = lt.listIterator();
+
+			System.out.println("Listing all Types in atlas: ");
+
+			while (lstItr.hasNext()) {
+
+				System.out.println(lstItr.next());
+
+			}
 		} catch (AtlasServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
+	/**
+	 * This method imports all the table metadata from mysqltable and loads it
+	 * to Atlas
+	 * 
+	 * @param line
+	 * @throws Exception
+	 */
+	public void importMysqlTables(CommandLine line) throws Exception {
+
+		String host = line.getOptionValue(AtlasCLIOptions.mysqlhost);
+		String db = line.getOptionValue(AtlasCLIOptions.dbname);
+		String user = line.getOptionValue(AtlasCLIOptions.username);
+		String password = line.getOptionValue(AtlasCLIOptions.password);
+		String url = line.getOptionValue(AtlasCLIOptions.url);
+
+		AtlasTableInterface atlasTabIn = new AtlasTableInterface(url, host, db,
+				user, password);
+	}
+
+	/**
+	 * 
+	 * @param line
+	 */
+	public void loadHierarchy(CommandLine line) {
+
+		String path = line.getOptionValue(AtlasCLIOptions.filepath);
+		JsonHierarchy jsn;
+
+		try {
+
+			jsn = new JsonHierarchy();
+			jsn.parseJSON(path);
+
+			ArrayList<EntityModel> emList = jsn.getEmList();
+			ArrayList<TupleModel> tmModel = jsn.getTmapList();
+
+			/**
+			 * Create the Traits
+			 */
+
+			ListIterator<TupleModel> arMdl = tmModel.listIterator();
+			TupleModel tpM = null;
+			String trait = null;
+			String supertrait = null;
+			Taxonomy tx1 = new Taxonomy();
+
+			while (arMdl.hasNext()) {
+
+				tpM = arMdl.next();
+				trait = tpM.getCurrnode();
+				supertrait = tpM.getParentnode();
+
+				String traitJson = tx1.createTraitTypes(trait, supertrait);
+				System.out.println(trait + " created..");
+
+				try {
+
+					this.aClient.createType(traitJson);
+
+				} catch (AtlasServiceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+			/**
+			 * Create Entities
+			 */
+
+			ListIterator<EntityModel> lsiEM = emList.listIterator();
+			EntityModel em = null;
+			String type = null;
+			String name = null;
+			trait = null;
+			Referenceable ref;
+			String Id;
+			Struct stc;
+			AtlasEntitySearch aES;
+			String type_name;
+			String value;
+
+			while (lsiEM.hasNext()) {
+
+				em = lsiEM.next();
+				name = em.getName();
+				trait = em.getParent();
+				this.searchEntities(line);
+
+				aES = new AtlasEntitySearch(baseurl);
+				type_name = line.getOptionValue(AtlasCLIOptions.type);
+				value = line.getOptionValue(AtlasCLIOptions.name);
+
+				try {
+					ref = aES.getReferenceByName(type_name, value);
+					if (ref != null) {
+						Id = ref.getId()._getId();
+						stc = new Struct(trait);
+						this.addTrait(Id, stc);
+						
+						System.out.println(String.format("Trait %s update to entity %s", trait, value));
+					}else {
+					
+						System.out.println(String.format("Entity %s, not found in Atlas. Trait not added", trait, value));
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 
 	 * This is a generic method of creating entities of any class
-	 * @throws JSONException 
-	 * @throws AtlasServiceException 
-	 * @throws com.atlas.client.AtlasServiceException 
+	 * 
+	 * @throws JSONException
+	 * @throws AtlasServiceException
+	 * @throws com.atlas.client.AtlasServiceException
 	 * 
 	 */
-	public Id createEntity(Referenceable ref ) throws JSONException, AtlasServiceException, AtlasServiceException{
-		
-		String typename = ref.getTypeName(); 
-		
-		String entityJSON = InstanceSerialization.toJson(ref, true);
-		
-		System.out.println("Submitting new entity= " + entityJSON);
-        
-        JSONObject jsonObject = aClient.createEntity(entityJSON);
-       
-        String guid = jsonObject.getString(AtlasClient.GUID);
-        
-        System.out.println("created instance for type " + typename + ", guid: " + guid);
+	public Id createEntity(Referenceable ref) throws JSONException,
+			AtlasServiceException, AtlasServiceException {
 
-        // return the Id for created instance with guid
-       
-        return new Id(guid, ref.getId().getVersion(), ref.getTypeName());
-		
-		
+		String typename = ref.getTypeName();
+
+		String entityJSON = InstanceSerialization.toJson(ref, true);
+
+		System.out.println("Submitting new entity= " + entityJSON);
+
+		JSONObject jsonObject = aClient.createEntity(entityJSON);
+
+		String guid = jsonObject.getString(AtlasClient.GUID);
+
+		System.out.println("created instance for type " + typename + ", guid: "
+				+ guid);
+
+		// return the Id for created instance with guid
+
+		return new Id(guid, ref.getId().getVersion(), ref.getTypeName());
+
 	}
 
-	
-	
-	
+	/**
+	 * 
+	 * @param guid
+	 * @param trait
+	 * @throws Exception
+	 */
+	private void addTrait(String guid, Struct trait) throws Exception {
+		NewAtlasClient newatlasClient = new NewAtlasClient(this.baseurl);
+		// String guid = referenceable.getId()._getId();
+		List<String> existTraits = newatlasClient.getTraitNames(guid);
+
+		if (existTraits == null || !existTraits.contains(trait.typeName)) {
+			String traitJson = InstanceSerialization.toJson(trait, true);
+			newatlasClient.addTrait(guid, traitJson);
+		}
+	}
+
 }
-	

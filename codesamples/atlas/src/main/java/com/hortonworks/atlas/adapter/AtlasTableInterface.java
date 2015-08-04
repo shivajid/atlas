@@ -1,5 +1,6 @@
 package com.hortonworks.atlas.adapter;
 
+import java.io.Console;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +14,9 @@ import org.apache.atlas.typesystem.persistence.Id;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasServiceException;
+
 import com.google.common.collect.ImmutableList;
 
 
@@ -92,10 +93,20 @@ public class AtlasTableInterface {
 		while(itr.hasNext()){
 			
 			table_name = itr.next();
+			
+			Console console = System.console();
+			String input = console.readLine("Do you want to import table " + table_name + " (y/n):");
+			
+			if( "n".equalsIgnoreCase(input)){
+				System.out.println("Table " + table_name + " will not be imported");
+				continue;
+			}
+			
 			Table t = hshmap.get(table_name);
 			clist = t.getColumnArrayList();
 			itrc = clist.iterator();
 			ImmutableList<Referenceable> lst = ImmutableList.of();
+			
 			
 			while (itrc.hasNext()){
 				
@@ -115,13 +126,32 @@ public class AtlasTableInterface {
 	}
 
 	
-	private Id createInstance(Referenceable referenceable) throws Exception {
+	
+	/**
+	 * This method creates and Instance
+	 * @param referenceable
+	 * @return
+	 */
+	private Id createInstance(Referenceable referenceable)  {
 		String typeName = referenceable.getTypeName();
 
 		String entityJSON = InstanceSerialization.toJson(referenceable, true);
 		System.out.println("Submitting new entity= " + entityJSON);
-		JSONObject jsonObject = metadataServiceClient.createEntity(entityJSON);
-		String guid = jsonObject.getString(AtlasClient.GUID);
+		JSONObject jsonObject;
+		String guid = null;
+		try {
+			jsonObject = metadataServiceClient.createEntity(entityJSON);
+		
+			guid = jsonObject.getString(AtlasClient.GUID);
+		} catch (AtlasServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		System.out.println("created instance for type " + typeName + ", guid: "
 				+ guid);
 
@@ -130,6 +160,17 @@ public class AtlasTableInterface {
 				referenceable.getTypeName());
 	}
 
+	
+	/**
+	 * This file creates the database object
+	 * @param name
+	 * @param description
+	 * @param owner
+	 * @param locationUri
+	 * @param traitNames
+	 * @return
+	 * @throws Exception
+	 */
 	Id database(String name, String description, String owner,
 			String locationUri, String... traitNames) throws Exception {
 		Referenceable referenceable = new Referenceable(DATABASE_TYPE,
@@ -143,6 +184,16 @@ public class AtlasTableInterface {
 		return createInstance(referenceable);
 	}
 
+	
+	/**
+	 * This file creates a rqwStorageDescriptor
+	 * @param location
+	 * @param inputFormat
+	 * @param outputFormat
+	 * @param compressed
+	 * @return
+	 * @throws Exception
+	 */
 	Referenceable rawStorageDescriptor(String location, String inputFormat,
 			String outputFormat, boolean compressed) throws Exception {
 		Referenceable referenceable = new Referenceable(STORAGE_DESC_TYPE);

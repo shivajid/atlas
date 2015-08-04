@@ -67,7 +67,7 @@ public class Taxonomy {
 	public String createTraitTypes(String traitname, String supertrait){
 		
 		
-		System.out.println("Supertrait: " + supertrait);
+		//System.out.println("Supertrait: " + supertrait);
 				
 				if (supertrait == null ){
 					return  TypesSerialization.toJson(TypeUtils.getTypesDef(
@@ -84,6 +84,8 @@ public class Taxonomy {
 					ImmutableList.<HierarchicalTypeDefinition<ClassType>>of()));
 					
 				}
+		
+		
 	}
 	
 

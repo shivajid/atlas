@@ -1,7 +1,9 @@
 package com.hortonworks.atlas.adapter;
 
 
-
+/*
+ * This is to help model the entity and relationship to a trait
+ */
 public class EntityModel {
 
 	public String getParent() {

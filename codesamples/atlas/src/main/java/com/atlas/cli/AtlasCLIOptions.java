@@ -24,6 +24,7 @@ public class AtlasCLIOptions {
 	public static String traitnames = "traitnames";
 	public static String traitTypename = "traittype";
 	public static String parentTraitName = "parenttrait";
+	public static String filepath = "";
 	
 	
 	
@@ -36,7 +37,13 @@ public class AtlasCLIOptions {
 	public static String createProcessEntity = "createProcessEntity";
 	public static String bindProcess = "bindprocess";
 	public static String createrait = "createtrait";
+	public static String loadtraithierarchy = "loadtraithierarchy";
 	
+	public static String importMySqlTables = "importmysql";
+	public static String dbname = "db";
+	public static String username = "username";
+	public static String password = "password";
+	public static String mysqlhost = "mysqlhost";
 	
 	
 }

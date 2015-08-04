@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-java -jar target/atlas-1.0-SNAPSHOT-jar-with-dependencies.jar --url=http://atlas-partner-demo01.cloud.hortonworks.com:21000 $*
+java -jar target/atlas-1.0-SNAPSHOT-jar-with-dependencies.jar --url=http://sandbox.hortonworks.com:21000 $*
