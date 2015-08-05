@@ -21,14 +21,15 @@ API Help
 3) Create the entity with the Subtrait
 
     ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=Andrew_Demo --traitnames=PM
+    ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=MYSQL_DRIVERS55 --traitnames=PM
 
 4) Create a Data Set Search
 
-    ./atlasclient --c=search --type=Table --name=MYSQL_DRIVERS55
+    ./atlasclient --c=search --type=Tims_Fict_Table --name=MYSQL_DRIVERS55
 
 5) Cretae a lineage
 
-    ./atlasclient --c=createProcessEntity --inptype=Tims_Fict_Table --outtype=Table --inpvalue=Andrew_Demo --outvalue=MYSQL_DRIVERS99 --traitnames=SuperPM --type=Jamies_Lineage --name=Lineage12
+    ./atlasclient --c=createProcessEntity --inptype=Tims_Fict_Table --outtype=Tims_Fict_Table --inpvalue=Andrew_Demo --outvalue=MYSQL_DRIVERS55 --traitnames=SuperPM --type=Jamies_Lineage --name=Lineage12
 
 
 ##### Full Text Search API
