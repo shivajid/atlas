@@ -12,7 +12,7 @@ API Help
     
 1a) Create a New Lineage Type
 
-   ./atlasclient --c=createProcessType --type=Jamies_Lineage
+    ./atlasclient --c=createProcessType --type=Jamies_Lineage
 
 2) Create new Traits
 	Create a subtrait
