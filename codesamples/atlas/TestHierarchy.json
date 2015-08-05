@@ -3,23 +3,14 @@
   "Products": {
     "Vehicles": {
     	"Entities1":[
-      {"type": "hive_table", "name": "hortontimesheet"},
-     {"type": "hive_table", "name": "hortondrivers"}
+      {"type": "Table", "name": "DRIVERS"},
+     {"type": "Table", "name": "TIMESHEET"},
+     {"type": "hive_table", "name": "test.drivers@atlasdemo"}
     ]
   },
   "Parts": "done",
-  "TruckParts": {
-  	"Entities2": [
-  	 {"type": "hive_table", "name": "hortondrivers25"},
-  	 {"type": "hive_table", "name": "hortondrivers26"}
-  	]
-
-  },
-  "AutoParts": {
-"Entities3": [
-  	 {"type": "hive_table", "name": "hortondrivers23"},
-  	 {"type": "hive_table", "name": "hortondrivers24"}
-  	]
+  "TruckParts": "NONE",
+  "AutoParts": "NONE"
   }
 }
 

@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.trash;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.sun.jersey.api.client.Client;

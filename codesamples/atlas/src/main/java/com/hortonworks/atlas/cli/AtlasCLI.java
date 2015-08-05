@@ -1,4 +1,4 @@
-package com.atlas.cli;
+package com.hortonworks.atlas.cli;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import org.apache.atlas.typesystem.Referenceable;
 import org.apache.atlas.typesystem.Struct;
 import org.apache.atlas.typesystem.json.InstanceSerialization;
 import org.apache.atlas.typesystem.persistence.Id;
+import org.apache.atlas.typesystem.types.DataTypes;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -23,17 +24,18 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.apache.atlas.AtlasClient;
 
-import com.atlas.client.AtlasEntityConnector;
-import com.atlas.client.AtlasEntityCreator;
-import com.atlas.client.AtlasEntitySearch;
-import com.atlas.client.AtlasTypeDefCreator;
-import com.atlas.client.JsonHierarchy;
-import com.atlas.client.NewAtlasClient;
-import com.atlas.client.Taxonomy;
 import com.google.common.collect.ImmutableList;
 import com.hortonworks.atlas.adapter.AtlasTableInterface;
 import com.hortonworks.atlas.adapter.EntityModel;
 import com.hortonworks.atlas.adapter.TupleModel;
+import com.hortonworks.atlas.client.AtlasEntityConnector;
+import com.hortonworks.atlas.client.AtlasEntityCreator;
+import com.hortonworks.atlas.client.AtlasEntitySearch;
+import com.hortonworks.atlas.client.AtlasTypeDefCreator;
+import com.hortonworks.atlas.client.HiveMetaDataGenerator;
+import com.hortonworks.atlas.client.JsonHierarchy;
+import com.hortonworks.atlas.client.NewAtlasClient;
+import com.hortonworks.atlas.client.Taxonomy;
 
 /**
  * 
@@ -165,8 +167,24 @@ public class AtlasCLI {
 		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.filepath)
 				.withDescription("json filename. The complete filepath ")
 				.hasArg().withArgName(AtlasCLIOptions.filepath).create());
+		
+		opt.addOption(OptionBuilder.withLongOpt(AtlasCLIOptions.ambariCluster)
+				.withDescription("Ambari Cluster Name")
+				.hasArg().withArgName(AtlasCLIOptions.ambariCluster).create());
 
 		opt.addOption(AtlasCLIOptions.listtype, false, "display all types");
+		
+		opt.addOption(
+				AtlasCLIOptions.createHive,
+				false,
+				"used with importmysql option. Indicating if hive_table types should also be created");
+		
+
+		opt.addOption(
+				AtlasCLIOptions.genLineage,
+				false,
+				"used with importmysql option. Indicating if hive_table and the the mysql tables should show as lineage");
+
 
 		opt.addOption("help", false, "requesting help");
 
@@ -527,6 +545,9 @@ public class AtlasCLI {
 		}
 
 	}
+	
+	
+	
 
 	/**
 	 * This method imports all the table metadata from mysqltable and loads it
@@ -543,10 +564,27 @@ public class AtlasCLI {
 		String password = line.getOptionValue(AtlasCLIOptions.password);
 		String url = line.getOptionValue(AtlasCLIOptions.url);
 
+		boolean hiveexecflag = line.hasOption(AtlasCLIOptions.createHive) ? true
+				: false;
+		
+		//System.out.println(hiveexecflag);
+				
+		boolean genlineage = line.hasOption(AtlasCLIOptions.genLineage) ? true
+				: false;
+		String cluster = line.hasOption(AtlasCLIOptions.ambariCluster) ? line
+				.getOptionValue(AtlasCLIOptions.ambariCluster) : null;
+
+		System.out.println(cluster);
+						
 		AtlasTableInterface atlasTabIn = new AtlasTableInterface(url, host, db,
-				user, password);
+				user, password, hiveexecflag, cluster, genlineage);
+
 	}
 
+	
+	
+	
+	
 	/**
 	 * 
 	 * @param line
@@ -574,19 +612,34 @@ public class AtlasCLI {
 			String supertrait = null;
 			Taxonomy tx1 = new Taxonomy();
 
+			System.out.print("Getting new Client");
+			// NewAtlasClient nac = new NewAtlasClient(this.baseurl);
+
+			List<String> tl = null;
+			try {
+				tl = this.aClient.listTypes();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 			while (arMdl.hasNext()) {
-
-				tpM = arMdl.next();
-				trait = tpM.getCurrnode();
-				supertrait = tpM.getParentnode();
-
-				String traitJson = tx1.createTraitTypes(trait, supertrait);
-				System.out.println(trait + " created..");
-
 				try {
+					tpM = arMdl.next();
+					trait = tpM.getCurrnode();
+					supertrait = tpM.getParentnode();
 
-					this.aClient.createType(traitJson);
+					if (!tl.contains(trait)) {
+						String traitJson = tx1.createTraitTypes(trait,
+								supertrait);
+						System.out.println(trait + " created..");
 
+						this.aClient.createType(traitJson);
+
+					} else {
+						System.out.println(trait + " exists. Skipping");
+						continue;
+					}
 				} catch (AtlasServiceException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -615,11 +668,10 @@ public class AtlasCLI {
 				em = lsiEM.next();
 				name = em.getName();
 				trait = em.getParent();
-				this.searchEntities(line);
 
 				aES = new AtlasEntitySearch(baseurl);
-				type_name = line.getOptionValue(AtlasCLIOptions.type);
-				value = line.getOptionValue(AtlasCLIOptions.name);
+				type_name = em.getType();
+				value = em.getName();
 
 				try {
 					ref = aES.getReferenceByName(type_name, value);
@@ -627,11 +679,15 @@ public class AtlasCLI {
 						Id = ref.getId()._getId();
 						stc = new Struct(trait);
 						this.addTrait(Id, stc);
-						
-						System.out.println(String.format("Trait %s update to entity %s", trait, value));
-					}else {
-					
-						System.out.println(String.format("Entity %s, not found in Atlas. Trait not added", trait, value));
+
+						System.out.println(String.format(
+								"Trait %s update to entity %s", trait, value));
+					} else {
+
+						System.out
+								.println(String
+										.format("Entity %s, not found in Atlas. Trait not added",
+												trait, value));
 					}
 
 				} catch (Exception e) {
@@ -650,13 +706,15 @@ public class AtlasCLI {
 		}
 	}
 
+	
+	
 	/**
 	 * 
 	 * This is a generic method of creating entities of any class
 	 * 
 	 * @throws JSONException
 	 * @throws AtlasServiceException
-	 * @throws com.atlas.client.AtlasServiceException
+	 * @throws com.hortonworks.atlas.client.AtlasServiceException
 	 * 
 	 */
 	public Id createEntity(Referenceable ref) throws JSONException,
@@ -680,6 +738,8 @@ public class AtlasCLI {
 		return new Id(guid, ref.getId().getVersion(), ref.getTypeName());
 
 	}
+	
+	
 
 	/**
 	 * 

@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.trash;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -58,7 +58,7 @@ import java.util.Set;
  * A Bridge Utility that imports metadata from the Hive Meta Store
  * and registers then in Atlas.
  */
-public class HiveMetaDataGenerator {
+public class TruckHiveMetaDataGenerator {
 	
 	{
 		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
@@ -72,7 +72,7 @@ public class HiveMetaDataGenerator {
 
     public static final String DGI_URL_PROPERTY = "hive.hook.dgi.url";
 
-    private static final Logger LOG = LoggerFactory.getLogger(HiveMetaDataGenerator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TruckHiveMetaDataGenerator.class);
 
     private final Hive hiveClient = null;
     private  AtlasClient atlasClient;
@@ -88,7 +88,7 @@ public class HiveMetaDataGenerator {
     	
     	
     	
-    	HiveMetaDataGenerator hmg = new HiveMetaDataGenerator(baseurl);
+    	TruckHiveMetaDataGenerator hmg = new TruckHiveMetaDataGenerator(baseurl);
     	
     	Referenceable db = hmg.registerDatabase(databasename, clusterName);
     	hmg.registerTable(db, databasename, tablename);
@@ -99,7 +99,7 @@ public class HiveMetaDataGenerator {
      * 
      * @param baseurl
      */
-    public HiveMetaDataGenerator(String baseurl) {
+    public TruckHiveMetaDataGenerator(String baseurl) {
     	
     	atlasClient = new AtlasClient(baseurl);
     
@@ -297,7 +297,7 @@ public class HiveMetaDataGenerator {
 
             //Table hiveTable = hiveClient.getTable(dbName, tableName);
 
-            tableRef = new Referenceable(HiveDataTypes.HIVE_TABLE.getName());
+            tableRef = new Referenceable(HiveDataTypes.HIVE_TABLE.getName(),"Trucks");
             tableRef.set(HiveDataModelGenerator.NAME,
                     getTableName(clusterName, dbName, tableName));
             
@@ -313,12 +313,16 @@ public class HiveMetaDataGenerator {
             // add reference to the database
             tableRef.set(HiveDataModelGenerator.DB, dbReference);
             
-            List<Referenceable> timeDimColumns = ImmutableList
-                    .of(rawColumn("driver_id", "String", "Driver Id"), rawColumn("driver_name", "String", "Driver Name"),
-                            rawColumn("certified", "String", "certified_Y/N","PII"), rawColumn("wageplan", "String", "hours of weekly"));
+            List<Referenceable> truckcols = ImmutableList
+                    .of(rawColumn("model_id", "String", "model_id"), rawColumn("model_name", "String", "model name"),
+                            rawColumn("max_speed", "String", "maximum speed", "Red"),
+                            rawColumn("torque", "String", "torque"),
+                            rawColumn("engine_type", "String", "engine diesel/gas"),
+                            rawColumn("tow_capacity", "String", "towing capacity"),
+                            rawColumn("model_year", "String", "model_year"));
             
             
-            tableRef.set("columns", timeDimColumns);
+            tableRef.set("columns", truckcols);
             
             // add reference to the StorageDescriptor
             //StorageDescriptor storageDesc = hiveTable.getSd();

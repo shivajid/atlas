@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 public class HierarchyFactory {
 

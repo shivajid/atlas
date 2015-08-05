@@ -18,6 +18,10 @@ import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasServiceException;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.hortonworks.atlas.cli.AtlasCLIOptions;
+import com.hortonworks.atlas.client.AtlasEntityConnector;
+import com.hortonworks.atlas.client.HiveMetaDataGenerator;
 
 
 /**
@@ -34,6 +38,9 @@ public class AtlasTableInterface {
 	private static final String VIEW_TYPE = "View";
 	private static final String LOAD_PROCESS_TYPE = "LoadProcess";
 	private static final String STORAGE_DESC_TYPE = "StorageDesc";
+	private String clustername = null;
+	private boolean hiveExecflag = false;
+	private boolean genlineage =  false;
 	
 	 public static final String[] TYPES =
          {DATABASE_TYPE, TABLE_TYPE, STORAGE_DESC_TYPE, COLUMN_TYPE, LOAD_PROCESS_TYPE, VIEW_TYPE, "JdbcAccess",
@@ -52,12 +59,14 @@ public class AtlasTableInterface {
 	 * @param password
 	 * @throws Exception 
 	 */
-	public AtlasTableInterface(String baseUrl, String mysqlhost, String db, String username, String password) throws Exception {
+	public AtlasTableInterface(String baseUrl, String mysqlhost, String db, String username, String password, 
+			boolean hiveflag, String ambariclustername, boolean generateLineage) throws Exception {
 
 		metadataServiceClient = new AtlasClient(baseUrl);
 		
 		ArrayList<String> types = (ArrayList<String>) metadataServiceClient.listTypes();
 		ListIterator<String> typeList = types.listIterator();
+		this.genlineage = generateLineage;
 		
 		for(String type : TYPES){
 			if(!types.contains(type)){
@@ -65,7 +74,9 @@ public class AtlasTableInterface {
 			}
 		
 		}
-		
+		this.clustername = ambariclustername;
+		this.hiveExecflag = hiveflag;
+		this.genlineage = generateLineage;
 		
 		mysqa = new MySqlAdapter(mysqlhost, db, username, password);
 		createMysqlEntities();
@@ -88,7 +99,8 @@ public class AtlasTableInterface {
 		String table_name = null;
 		java.util.ArrayList<Column> clist  = null;
 		Iterator<Column> itrc = null;
-		Referenceable colref, tabref;
+		Referenceable colref, hivetabref = null;
+		AtlasEntityConnector aec = new AtlasEntityConnector();
 		
 		while(itr.hasNext()){
 			
@@ -103,22 +115,62 @@ public class AtlasTableInterface {
 			}
 			
 			Table t = hshmap.get(table_name);
+			
+
+			System.out.println(t.getTable_name());
+
+			System.out.println(t.getDb().getName());
+			
 			clist = t.getColumnArrayList();
 			itrc = clist.iterator();
 			ImmutableList<Referenceable> lst = ImmutableList.of();
+			
+			Builder bld = ImmutableList.<Referenceable>builder();
 			
 			
 			while (itrc.hasNext()){
 				
 				Column c = itrc.next();
 			    colref = this.rawColumn(c.getColumn_name(), c.getColumn_type(), c.getColumn_remarks());
+			    bld.add(colref);
+			   
 			    
-			    lst.add(colref);
 			    
 			    
 			}
 			
-			this.table(t.getTable_name(), t.getRemarks(), database(t.getDb().getName(), "MYSQL DB",  t.getRemarks(), "tbd"), rawStorageDescriptor(t.getDb().getName() + "." + t.getTable_name(),"Table","Binary", true ), t.getDb().getName(), t.getTable_type(),lst, t.getDb().getName());
+			lst = bld.build();
+			
+			Id tabid = this.table(t.getTable_name(), t.getRemarks(), database(t.getDb().getName(), "MYSQL DB",  t.getRemarks(), "tbd"), rawStorageDescriptor(t.getDb().getName() + "." + t.getTable_name(),"Table","Binary", true ), t.getDb().getName(), t.getTable_type(),lst);
+		
+			
+			if(this.hiveExecflag){
+				System.out.println("Create hive tables ..");
+				HiveMetaDataGenerator hmg = new HiveMetaDataGenerator(this.metadataServiceClient);
+		    	
+		    	Referenceable dbref = hmg.registerDatabase(t.getDb().getName(), this.clustername);
+		    	hivetabref = hmg.registerExtTable(dbref, t.getDb().getName(), table_name, clist);
+			}
+		
+			
+			if(this.genlineage && this.hiveExecflag){
+				
+				/*loadProcess(String name, String description, String user,
+						List<Id> inputTables, List<Id> outputTables, String queryText,
+						String queryPlan, String queryId, String queryGraph,
+						String... traitNames) */
+				
+				loadProcess("mysqlLoader", "Lineage creating during ingestion of mysqltables", "hive",
+						ImmutableList.of(tabid),
+						ImmutableList.of(hivetabref.getId()), "IMPORT",
+						"DATA", "DATA", "DATA"
+						);
+				
+				//Referenceable proc = aec.loadProcess(LOAD_PROCESS_TYPE, );
+
+				//createInstance(proc);
+				
+			}
 		
 		}
 		
@@ -233,6 +285,22 @@ public class AtlasTableInterface {
 		return createInstance(referenceable);
 	}
 
+	
+	/**
+	 * 
+	 * @param name
+	 * @param description
+	 * @param user
+	 * @param inputTables
+	 * @param outputTables
+	 * @param queryText
+	 * @param queryPlan
+	 * @param queryId
+	 * @param queryGraph
+	 * @param traitNames
+	 * @return
+	 * @throws Exception
+	 */
 	Id loadProcess(String name, String description, String user,
 			List<Id> inputTables, List<Id> outputTables, String queryText,
 			String queryPlan, String queryId, String queryGraph,
@@ -257,6 +325,15 @@ public class AtlasTableInterface {
 		return createInstance(referenceable);
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @param dbId
+	 * @param inputTables
+	 * @param traitNames
+	 * @return
+	 * @throws Exception
+	 */
 	Id view(String name, Id dbId, List<Id> inputTables, String... traitNames)
 			throws Exception {
 		Referenceable referenceable = new Referenceable(VIEW_TYPE, traitNames);
@@ -268,6 +345,10 @@ public class AtlasTableInterface {
 		return createInstance(referenceable);
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	private void verifyTypesCreated() throws Exception {
 		List<String> types = metadataServiceClient.listTypes();
 		for (String type : TYPES) {
@@ -275,6 +356,11 @@ public class AtlasTableInterface {
 		}
 	}
 
+	
+	/**
+	 * 
+	 * @return
+	 */
 	private String[] getDSLQueries() {
 		return new String[] {
 				"from DB",

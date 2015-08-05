@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,22 +9,57 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.atlas.AtlasClient;
+import org.apache.atlas.AtlasException;
 import org.apache.atlas.AtlasServiceException;
+import org.apache.atlas.security.SecureClientUtils;
+import org.apache.atlas.typesystem.types.DataTypes;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.hadoop.conf.Configuration;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.client.urlconnection.URLConnectionClientHandler;
 
+import static org.apache.atlas.security.SecurityProperties.TLS_ENABLED;
 public class NewAtlasClient extends AtlasClient {
-
+	{
+		System.setProperty("atlas.conf", "conf");
+	}
 	 private WebResource service;
 	
 	public NewAtlasClient(String baseurl) {
 		super(baseurl);
+		DefaultClientConfig config = new DefaultClientConfig();
+        PropertiesConfiguration clientConfig = null;
+        try {
+            clientConfig = getClientProperties();
+            if (clientConfig.getBoolean(TLS_ENABLED, false)) {
+                // create an SSL properties configuration if one doesn't exist.  SSLFactory expects a file, so forced
+                // to create a
+                // configuration object, persist it, then subsequently pass in an empty configuration to SSLFactory
+                SecureClientUtils.persistSSLClientConfiguration(clientConfig);
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+
+        URLConnectionClientHandler handler = SecureClientUtils.getClientConnectionHandler(config, clientConfig);
+
+        Client client = new Client(handler, config);
+       // System.out.println(baseurl);
+        client.resource(UriBuilder.fromUri(baseurl).build());
+
+        service = client.resource(UriBuilder.fromUri(baseurl).build());
 
 	}
+	
+	
+
 	
 	/**
      * Return all trait names for the given entity id
@@ -39,7 +74,11 @@ public class NewAtlasClient extends AtlasClient {
     }
 
     private WebResource getResource(API api, String... pathParams) {
+    	
+    	//System.out.println(api.getPath());
         WebResource resource = service.path(api.getPath());
+        //System.out.println( resource.getURI().toString());
+       
         if (pathParams != null) {
             for (String pathParam : pathParams) {
                 resource = resource.path(pathParam);
@@ -67,7 +106,7 @@ public class NewAtlasClient extends AtlasClient {
         CREATE_TYPE(BASE_URI + TYPES, HttpMethod.POST),
         GET_TYPE(BASE_URI + TYPES, HttpMethod.GET),
         LIST_TYPES(BASE_URI + TYPES, HttpMethod.GET),
-        LIST_TRAIT_TYPES(BASE_URI + TYPES + "?type=trait", HttpMethod.GET),
+        LIST_TRAIT_TYPES(BASE_URI + TYPES + "?type=TRAIT", HttpMethod.GET),
 
         //Entity operations
         CREATE_ENTITY(BASE_URI + URI_ENTITIES, HttpMethod.POST),
@@ -114,13 +153,16 @@ public class NewAtlasClient extends AtlasClient {
 
     private JSONObject callAPIWithResource(API api, WebResource resource, Object requestObject)
     throws Exception {
+    	
         ClientResponse clientResponse = resource.accept(JSON_MEDIA_TYPE).type(JSON_MEDIA_TYPE)
                 .method(api.getMethod(), ClientResponse.class, requestObject);
 
         Response.Status expectedStatus =
                 HttpMethod.POST.equals(api.getMethod()) ? Response.Status.CREATED : Response.Status.OK;
+        
         if (clientResponse.getStatus() == expectedStatus.getStatusCode()) {
             String responseAsString = clientResponse.getEntity(String.class);
+            
             try {
                 return new JSONObject(responseAsString);
             } catch (JSONException e) {
@@ -146,6 +188,12 @@ public class NewAtlasClient extends AtlasClient {
         return callAPIWithResource(api, resource, requestObject);
     }
     
+    
+
+    public List<String> listTypes(DataTypes.TypeCategory category) throws Exception {
+        final JSONObject jsonObject = callAPI(API.LIST_TRAIT_TYPES, null);
+        return extractResults(jsonObject);
+    }
    
 
  

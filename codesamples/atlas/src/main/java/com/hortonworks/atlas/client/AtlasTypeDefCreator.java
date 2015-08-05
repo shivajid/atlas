@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 import java.util.List;
 import java.util.ListIterator;

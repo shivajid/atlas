@@ -1,4 +1,4 @@
-package com.atlas.cli;
+package com.hortonworks.atlas.cli;
 
 public class AtlasCLIOptions {
 
@@ -24,7 +24,7 @@ public class AtlasCLIOptions {
 	public static String traitnames = "traitnames";
 	public static String traitTypename = "traittype";
 	public static String parentTraitName = "parenttrait";
-	public static String filepath = "";
+	public static String filepath = "jsonfilepath";
 	
 	
 	
@@ -44,6 +44,9 @@ public class AtlasCLIOptions {
 	public static String username = "username";
 	public static String password = "password";
 	public static String mysqlhost = "mysqlhost";
+	public static String createHive = "createHiveTables";
+	public static String ambariCluster = "ambariClusterName";
+	public static String genLineage = "genLineage";
 	
 	
 }

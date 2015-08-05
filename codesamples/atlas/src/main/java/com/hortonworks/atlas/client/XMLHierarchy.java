@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 /**
  * @author sdutta

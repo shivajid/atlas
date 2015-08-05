@@ -2,7 +2,7 @@
  *This is a generic JSON Parser
  * 
  */
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,33 +72,72 @@ public class JsonHierarchy {
 
 		ListIterator<TupleModel> tmI = tmapList.listIterator();
 		TupleModel tm = null;
+		String header = "Trait Name" + "   --   " + "Parent Trait"
+				+ "    --   " + "Level";
+		
+		for(int i = 0; i < header.length(); i++){
+			System.out.print("#");
+		}
+		System.out.println();
+		
+		System.out.println(header);
 
+		for(int i = 0; i < header.length(); i++){
+			System.out.print("#");
+		}
+		System.out.println();
+		
 		while (tmI.hasNext()) {
 
 			tm = tmI.next();
-			System.out.println(tm.getCurrnode() + "--" + tm.getParentnode()
-					+ " -- " + tm.getLevel());
+			System.out.println(tm.getCurrnode() + "   --   " + tm.getParentnode()
+					+ "   --   " + tm.getLevel());
 		}
 
 		System.out.println("Printing entities");
 		ListIterator<EntityModel> emItr = this.emList.listIterator();
 		EntityModel em1 = null;
 
+		String header2 = "Entity Type" + "   --   " + "Entity Name"
+				+ "    --   " + " Trait Name";
+		
+		
+		for(int i = 0; i < header2.length(); i++){
+			System.out.print("#");
+		}
+		System.out.println();
+		
+		System.out.println(header2);
+
+		for(int i = 0; i < header2.length(); i++){
+			System.out.print("#");
+		}
+		System.out.println();
+		
+		
+		
 		while (emItr.hasNext()) {
 
 			em1 = emItr.next();
 
-			System.out.println(em1.getType() + "--" + em1.getName() + " -- "
+			System.out.println(em1.getType() + "   --   " + em1.getName() + "   --   "
 					+ em1.getParent());
 		}
 
 	}
 
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<EntityModel> getEmList() {
 		return emList;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<TupleModel> getTmapList() {
 		return tmapList;
 	}

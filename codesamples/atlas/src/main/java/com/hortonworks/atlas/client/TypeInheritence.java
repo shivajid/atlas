@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasServiceException;

@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 import java.util.List;
 
@@ -25,6 +25,10 @@ public class AtlasEntitySearch {
 	private AtlasClient ac = null;
 
  
+	public void setAc(AtlasClient ac) {
+		this.ac = ac;
+	}
+
 	/**
 	 * 
 	 * @param args
@@ -73,6 +77,17 @@ public class AtlasEntitySearch {
 		ac = new AtlasClient(baseurl);
 		System.out.println("Client Object returned");
 
+	}
+	
+	/**
+	 * 
+	 * @param aclient
+	 */
+	public AtlasEntitySearch(AtlasClient aclient) {
+
+		
+		this.ac = aclient;
+		
 	}
 
 	/**

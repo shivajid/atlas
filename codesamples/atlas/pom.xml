@@ -263,7 +263,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.atlas.cli.AtlasCLI</mainClass>
+              <mainClass>com.hortonworks.atlas.cli.AtlasCLI</mainClass>
             </manifest>
           </archive>
         </configuration>

@@ -1,4 +1,4 @@
-package com.atlas.client;
+package com.hortonworks.atlas.client;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -49,8 +49,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.hortonworks.atlas.adapter.Column;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +61,7 @@ import java.util.Set;
  * A Bridge Utility that imports metadata from the Hive Meta Store
  * and registers then in Atlas.
  */
-public class TruckHiveMetaDataGenerator {
+public class HiveMetaDataGenerator {
 	
 	{
 		System.setProperty("atlas.conf", "/Users/sdutta/Applications/conf");
@@ -72,7 +75,7 @@ public class TruckHiveMetaDataGenerator {
 
     public static final String DGI_URL_PROPERTY = "hive.hook.dgi.url";
 
-    private static final Logger LOG = LoggerFactory.getLogger(TruckHiveMetaDataGenerator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HiveMetaDataGenerator.class);
 
     private final Hive hiveClient = null;
     private  AtlasClient atlasClient;
@@ -88,7 +91,7 @@ public class TruckHiveMetaDataGenerator {
     	
     	
     	
-    	TruckHiveMetaDataGenerator hmg = new TruckHiveMetaDataGenerator(baseurl);
+    	HiveMetaDataGenerator hmg = new HiveMetaDataGenerator(baseurl);
     	
     	Referenceable db = hmg.registerDatabase(databasename, clusterName);
     	hmg.registerTable(db, databasename, tablename);
@@ -99,17 +102,32 @@ public class TruckHiveMetaDataGenerator {
      * 
      * @param baseurl
      */
-    public TruckHiveMetaDataGenerator(String baseurl) {
+    public HiveMetaDataGenerator(String baseurl) {
     	
     	atlasClient = new AtlasClient(baseurl);
     
     }
     
-    
+    public HiveMetaDataGenerator(AtlasClient ac) {
+		// TODO Auto-generated constructor stub
+    	this.atlasClient = ac;
+	}
+
+	/**
+     * 
+     * @return
+     */
     public AtlasClient getAtlasClient() {
         return atlasClient;
     }
 
+    /**
+     * 
+     * @param aC
+     */
+    public void setAtlasClient(AtlasClient aC) {
+        this.atlasClient =  aC;
+    }
 
       
 
@@ -125,7 +143,7 @@ public class TruckHiveMetaDataGenerator {
             dbRef.set(HiveDataModelGenerator.CLUSTER_NAME, clusterName);
             dbRef.set("description", "this is a default database");
             dbRef.set("locationUri", "/hive/default");
-            dbRef.set("parameters", "key1=name1,key2=name2");
+            //dbRef.set("parameters", "key1=name1,key2=name2");
             dbRef.set("ownerName", "Hortonworks");
             dbRef = createInstance(dbRef);
             
@@ -137,6 +155,12 @@ public class TruckHiveMetaDataGenerator {
         return dbRef;
     }
 
+    /**
+     * 
+     * @param referenceable
+     * @return
+     * @throws Exception
+     */
     public Referenceable createInstance(Referenceable referenceable) throws Exception {
         String typeName = referenceable.getTypeName();
         LOG.debug("creating instance of type " + typeName);
@@ -297,7 +321,7 @@ public class TruckHiveMetaDataGenerator {
 
             //Table hiveTable = hiveClient.getTable(dbName, tableName);
 
-            tableRef = new Referenceable(HiveDataTypes.HIVE_TABLE.getName(),"Trucks");
+            tableRef = new Referenceable(HiveDataTypes.HIVE_TABLE.getName());
             tableRef.set(HiveDataModelGenerator.NAME,
                     getTableName(clusterName, dbName, tableName));
             
@@ -313,16 +337,12 @@ public class TruckHiveMetaDataGenerator {
             // add reference to the database
             tableRef.set(HiveDataModelGenerator.DB, dbReference);
             
-            List<Referenceable> truckcols = ImmutableList
-                    .of(rawColumn("model_id", "String", "model_id"), rawColumn("model_name", "String", "model name"),
-                            rawColumn("max_speed", "String", "maximum speed", "Red"),
-                            rawColumn("torque", "String", "torque"),
-                            rawColumn("engine_type", "String", "engine diesel/gas"),
-                            rawColumn("tow_capacity", "String", "towing capacity"),
-                            rawColumn("model_year", "String", "model_year"));
+            List<Referenceable> timeDimColumns = ImmutableList
+                    .of(rawColumn("driver_id", "String", "Driver Id"), rawColumn("driver_name", "String", "Driver Name"),
+                            rawColumn("certified", "String", "certified_Y/N","PII"), rawColumn("wageplan", "String", "hours of weekly"));
             
             
-            tableRef.set("columns", truckcols);
+            tableRef.set("columns", timeDimColumns);
             
             // add reference to the StorageDescriptor
             //StorageDescriptor storageDesc = hiveTable.getSd();
@@ -355,6 +375,78 @@ public class TruckHiveMetaDataGenerator {
         return tableRef;
     }
 
+    
+    /**
+     * This is a generic method for mysql tables
+     * @param dbReference
+     * @param dbName
+     * @param tableName
+     * @return
+     * @throws Exception
+     */
+    public Referenceable registerExtTable(Referenceable dbReference, String dbName, String tableName, ArrayList<Column> clist) throws Exception {
+        LOG.info("Attempting to register table [" + tableName + "]");
+        Referenceable tableRef = getTableReference(dbName, tableName);
+        
+        if (tableRef == null) {
+        	
+            LOG.info("Importing objects from " + dbName + "." + tableName);
+
+            //Table hiveTable = hiveClient.getTable(dbName, tableName);
+
+            tableRef = new Referenceable(HiveDataTypes.HIVE_TABLE.getName());
+            tableRef.set(HiveDataModelGenerator.NAME,
+                    getTableName(clusterName, dbName, tableName));
+            
+            tableRef.set(HiveDataModelGenerator.TABLE_NAME,tableName.toLowerCase());
+            tableRef.set("owner", "Hortonworks");
+
+            tableRef.set("createTime", System.currentTimeMillis());
+            tableRef.set("lastAccessTime",System.currentTimeMillis());
+            tableRef.set("retention", System.currentTimeMillis());
+
+            tableRef.set(HiveDataModelGenerator.COMMENT, "This is loaded from mysql tables");
+
+            // add reference to the database
+            tableRef.set(HiveDataModelGenerator.DB, dbReference);
+            
+            Builder bld = ImmutableList.<Referenceable>builder();
+            Iterator<Column> itrc = clist.iterator();
+			ImmutableList<Referenceable> lst = ImmutableList.of();
+			Referenceable colref;
+			
+			
+			while (itrc.hasNext()){
+				
+				Column c = itrc.next();
+			    colref = this.rawColumn(c.getColumn_name(), c.getColumn_type(), c.getColumn_remarks());
+			    bld.add(colref);
+			    
+			}
+			
+			lst = bld.build();
+            
+            tableRef.set("columns", lst);
+            
+            
+            tableRef.set("viewOriginalText", "Original text");
+           
+
+            
+           tableRef.set("viewExpandedText", "Expanded Text");
+            
+
+            tableRef.set("tableType", "Mysql Imported table");
+            tableRef.set("temporary", "false");
+
+
+            tableRef = createInstance(tableRef);
+            
+        } else {
+            LOG.info("Table {}.{} is already registered with id {}", dbName, tableName, tableRef.getId().id);
+        }
+        return tableRef;
+    }
     
     /**
      * 
@@ -548,6 +640,7 @@ public class TruckHiveMetaDataGenerator {
 
 	Referenceable rawColumn(String name, String dataType, String comment, String... traitNames) throws Exception {
 	        Referenceable referenceable = new Referenceable(HiveDataTypes.HIVE_COLUMN.getName(), traitNames);
+	        System.out.println(name + " hive_column type " + dataType);
 	        referenceable.set("name", name);
 	        referenceable.set("type", dataType);
 	        referenceable.set("comment", comment);
