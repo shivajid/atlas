@@ -177,10 +177,10 @@ So for
 
 <table>
 <tr>
-<td><em> Action</em><td>
-<td><em>Options</em><td>
-<td><em>mandatory</em></td>
-<td><em>description</em></td>
+<td><strong> Action</strong><td>
+<td><strong>Options</strong><td>
+<td><strong>mandatory</strong></td>
+<td><strong>description</strong></td>
  </tr>
 <tr>
 <td>createSimpleType<td>
