@@ -22,9 +22,36 @@ The broad features includes
 
 
 ## Table of Content
- Installation
- Usage
- Sample Scripts 
+  ** Installation
+  **Usage
+  **Sample Scripts 
+
+### Installation
+
+* Pre-requisites
+Java version - This code is built on JDK 8. Please use JDK 8
+maven version - This code is built with maven version 3.2
+
+This code was built with an early release of apache incubator version 6. The jars needs to be installed locally. There are 4 jars that are needed.
+    * atlas-webapp-0.6-incubating-SNAPSHOT-classes.jar
+    * atlas-repository-0.6-incubating-SNAPSHOT.jar
+    * atlas-typesystem-0.6-incubating-SNAPSHOT.jar
+    * atlas-client-0.6-incubating-SNAPSHOT.jar 
+    * hive-bridge-0.6-incubating-SNAPSHOT.jar
+
+    mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-webapp-0.6-incubating-SNAPSHOT-classes.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-webapp -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+
+    mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-typesystem-0.6-incubating-SNAPSHOT.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-typesystem -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+
+
+    mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-repository-0.6-incubating-SNAPSHOT.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-repository -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+
+    mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-client-0.6-incubating-SNAPSHOT.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-client -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+
+
+    mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/hook/hive/hive-bridge-0.6-incubating-SNAPSHOT.jar
+  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-hive -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+
 
 
 ### Demo Script
