@@ -23,9 +23,9 @@ The broad features includes
 
 ## Table of Content
 
-**Installation
-**Usage
-**Sample Scripts 
+* Installation
+* Usage
+* Sample Scripts 
 
 ### Installation
 
@@ -94,6 +94,9 @@ The build comes with a shell file call atlasclient. It is in the root of the fol
 
 ### Usage
 
+1) The script comes with help. You can always run "./atlasclient --help" to get details on the script usage.
+
+
 ###### Help
 
     hw11825:atlas sdutta$ ./atlasclient --help
@@ -145,6 +148,23 @@ The build comes with a shell file call atlasclient. It is in the root of the fol
     --url <URL>                               Url for the atlas host
                                               http://host:21000
     --username <username>                     mysql username
+
+
+The general design of the script is defined by 
+
+    ./atlasclient <action> <options>
+
+The action command is passed by "-c" (I will rename it better in the next release). Each action has a dependent set of options.
+
+e.g. to search for a type
+
+    ./atlasclient --c=search --type=Table --name=sales_fact_monthly_mv
+
+You should see a json response for the entity back. This shows a json with guid for the sales_fact_monthly_mv table.
+
+Next we will step through some usage scenarios. If you want to understand more check the documentation about the TypeSystem or the Atlas Overview Deck.
+
+
 
 ### Demo Script
 
