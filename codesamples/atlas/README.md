@@ -173,10 +173,11 @@ As you may know types are the basic building blocks of Apache Atlas. Here we are
 In the above command we have create a  type with name "simpletype" and description simple_type.
 * Note - There is shortcoming in the description option where you can only pass words without spaces. You "_" to concatnate. This will be enhanced later.
 
-So for 
+So for
+
 <table>
 <tr>
-<td>Action<td>
+<td><font color='red'>bar</font> Action<td>
 <td>Options<td>
 <td>mandatory</td>
 <td>description</td>
