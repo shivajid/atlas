@@ -292,7 +292,18 @@ Traits have an hierarchy. You can have traits inherit from other traits. This wi
 
 In the example below I will create trait called Super PM and create a child of that called PM, which will inherit from PM.
 
-Note that Traits can have attributes too. But the CLI does not have that option currently
+Note that Traits can have attributes too. But the CLI does not have that option currently.
+
+     ./atlasclient  -c=createtrait --traittype=SuperPM
+	
+    ./atlasclient  -c=createtrait --traittype=PM --parenttrait=SuperPM
+
+This will create a trait hierarchy of
+
+<pre>
+/SuperPM
+       |----/PM
+</pre>
 
 
 
