@@ -28,6 +28,8 @@ The broad features includes
 
 ### Installation
 
+The script is designed to work from your local laptop.
+
 #### Pre-requisites
 Java version - This code is built on JDK 8. Please use JDK 8
 maven version - This code is built with maven version 3.2
@@ -53,11 +55,22 @@ Blow is a sample script to install the jars to your local maven repository. This
 
     mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-client-0.6-incubating-SNAPSHOT.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-client -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 
-     mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/hook/hive/hive-bridge-0.6-incubating-SNAPSHOT.jar
-  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-hive -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+     mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/hook/hive/hive-bridge-0.6-incubating-SNAPSHOT.jar -DgroupId=com.hortonworks.atlas -DartifactId=atlas-hive -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 
 
+#### Now that your repo is ready you can build this up
 
+Build this out
+
+    mvn clean package
+
+This should generate a jar. If you have issues with the build. Email to - sdutta@hortonworks.com (Shivaji)
+
+Now that you have built the jars out you are ready to test this out.
+
+The build comes with a shell file call atlasclient. It is in the root of the folder.
+
+#### Edit the atlasclient script
 
 
 
