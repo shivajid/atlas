@@ -162,7 +162,7 @@ e.g. to search for a type
 
 You should see a json response for the entity back. This shows a json with guid for the sales_fact_monthly_mv table.
 
-Next we will step through some usage scenarios. If you want to understand more check the documentation about the TypeSystem or the Atlas Overview Deck.
+Next we will step through some usage scenarios. If you want to understand more check the documentation about the [TypeSystem](https://github.com/shivajid/atlas/blob/master/TypeSystem.md) or the [Atlas Overview Deck](https://github.com/shivajid/atlas/blob/master/Atlas.v6.1.BrightTalk.7.2.2015%5B3%5D.pptx?raw=true).
 
 
 
