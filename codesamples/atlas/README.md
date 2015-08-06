@@ -209,6 +209,10 @@ You may want to query all the types available in the system. You can use the bro
     ./atlasclient --listtype
 
 
+
+
+
+
 ###### Create DataSet Type
 
 DataSet Type is used to create Tables. This is a special type. The Atlas detailed ui is designed to show this information, especially with the 
@@ -247,6 +251,9 @@ Command Options:-
 
 
 
+
+
+
 ###### Create Process Type
 
 Lineages in Atlas are created by Process Types. Process types are speacial types in Atlas. This is used to create lineage between any 2 Entities of DataSet Type. Atlas's quick start comes with "LOAD_PROCESS" built in type. You can create your own type by the following command
@@ -254,13 +261,50 @@ Lineages in Atlas are created by Process Types. Process types are speacial types
      ./atlasclient --c=createProcessType --type=Jamies_Lineage
      
 
+<table>
+<tr>
+<td><strong> Action</strong><td>
+<td><strong>Options</strong><td>
+<td><strong>mandatory</strong></td>
+<td><strong>description</strong></td>
+ </tr>
+<tr>
+<td>createProcessType<td>
+<td><td>
+<td></td>
+<td></td>
+ </tr>
+<tr>
+<td><td>
+<td>type<td>
+<td>YES</td>
+<td>Name of the type you want to create</td>
+ </tr>
+</table>
+
+###### Create Traits
+
+Traits - a distinguishing characteristic or quality or an Entity.
+
+Traits and tags are used inter operably in Atlas. Traits are used to tag an entity. E.g. You can create a Trait of type "PII", "Security","Geolocation" etc.
+
+Traits have an hierarchy. You can have traits inherit from other traits. This will allow you to create a hierarchy of traits and then search by trait.
+
+In the example below I will create trait called Super PM and create a child of that called PM, which will inherit from PM.
+
+Note that Traits can have attributes too. But the CLI does not have that option currently
+
+
+
+
 ###### Create Entity
 
 Now that you have created Types, you can create your own Entities. Entities are instances of Types. They represent the actual values that are modeled. You can think of Types as "cast or mold or a die". The actual entities are the models of that die/cast/mold.
 
 Lets create a Simple Entity of a simple type we created above
 
-
+     ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=Andrew_Demo --traitnames=PM
+     ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=MYSQL_DRIVERS55 --traitnames=PM
 
 ### Demo Script
 
