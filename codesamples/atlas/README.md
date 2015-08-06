@@ -22,13 +22,20 @@ The broad features includes
 
 
 ## Table of Content
-  **Installation
-  **Usage
-  **Sample Scripts 
+
+**Installation
+**Usage
+**Sample Scripts 
 
 ### Installation
 
 The script is designed to work from your local laptop.
+
+There are 2 options
+* You can build the maven repo. 
+* You can download the binary zip
+
+Below are the steps for building from scratch.
 
 #### Pre-requisites
 Java version - This code is built on JDK 8. Please use JDK 8
@@ -72,7 +79,72 @@ The build comes with a shell file call atlasclient. It is in the root of the fol
 
 #### Edit the atlasclient script
 
+    #!/bin/bash
 
+
+    java -jar target/atlas-1.0-SNAPSHOT-jar-with-dependencies.jar --url=http://sandbox.hortonworks.com:21000 $*
+
+
+* Change the java location to point to Java 8 in your system.
+* * On Mac you can set it by executing
+
+    export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+
+* Update the url host to point to the atlas host
+
+### Usage
+
+###### Help
+
+    hw11825:atlas sdutta$ ./atlasclient --help
+
+    usage: atlasclient
+    --ambariClusterName <ambariClusterName>   Ambari Cluster Name
+    --c <action>                              action you want to perform
+                                              [search|createSimpleType|cre
+                                              ateDataSetType|createProcess
+                                              Type|createSimpleEntity|crea
+                                              teDataSetEntity|createProces
+                                              sEntity|createtrait|loadtrai
+                                              thierarchy|importmysql]
+     -createHiveTables                            used with importmysql
+                                              option. Indicating if
+                                              hive_table types should also
+                                              be created
+      --db <db>                                 mysql db
+      --description <name>                      description of type or
+                                              entity
+     -genLineage                                  used with importmysql
+                                              option. Indicating if
+                                              hive_table and the the mysql
+                                              tables should show as
+                                              lineage
+     -help                                        requesting help
+    --inptype <inp_type>                      name of type for input to a
+                                              lineage
+    --inpvalue <inp_value>                    value for input to a lineage
+    --jsonfilepath <jsonfilepath>             json filename. The complete
+                                              filepath
+     -listtype                                    display all types
+    --mysqlhost <mysqlhost>                   mysql host. It assumes mysql
+                                              is running on port 3306
+    --name <name>                             name of type or entity
+    --outtype <out_type>                      name of output to a lineage
+    --outvalue <out_value>                    value for output to a
+                                              lineage
+    --parenttrait <parenttrait>               value of parent trait
+    --parenttype <parenttype>                 Super type
+    --password <password>                     mysql password
+    --traitnames <traitnames>                 name of the trait
+    --traittype <traittype>                   value for trait type
+    --type <type>                             String describing the type
+                                              of the object. You can find
+                                              by querying the list -
+                                              http://host:21000/api/atlas/
+                                              types?type=CLASS
+    --url <URL>                               Url for the atlas host
+                                              http://host:21000
+    --username <username>                     mysql username
 
 ### Demo Script
 
