@@ -1,3 +1,32 @@
+# Objective
+
+Apache Atlas is open source data governance tool, built by the community and spearheaded by Hortonworks. It is part of the Data Governance Initiative.
+
+Apache Atlas has made the version 0.5 GA. It has bunch of rest API's to interact with.
+
+The code samples folder is a CLI tool written with Apache Commons to make interaction with Apache Atlas easier and simpler.
+
+The broad features includes
+
+* Creating a Simple Type
+* Creating a Data Set Type
+* Creating Process Type
+* Creating a Simple Entity
+* Create a Sample Table
+* Creating a Trait
+* Creating a Super Trait
+* Importing a Business Taxonomy
+* Importing Tables from a mysql server
+* Apply a Taxonomy to an entity
+* Searching for Entity by Type and Name
+
+
+## Table of Content
+ Installation
+ Usage
+ Sample Scripts 
+
+
 ### Demo Script
 
 API Help
