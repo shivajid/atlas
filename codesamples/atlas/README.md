@@ -396,4 +396,25 @@ Once you have create an Entity, you can search for them using a DSL from the Atl
  </tr>
 </table>
 
+### Importing Business Taxonmony
+
+In Atlas to Model a Business Taxonomy you would use a trait. To simplify a hierarchy of traits and import of the traits, you can give Atlas a generic Json file that it will iterate over and create a taxonomy of traits.
+
+E.g.
+
+<pre>
+/Organization
+	|
+	----Products
+	|	|
+	|	----Vehicles
+	|		\Entites [Light Truck, Heavy Truck]
+	----Parts
+	|	|
+	|	----TruckParts
+	|	|
+	|	----AutoParts	
+
+</pre>
+
 
