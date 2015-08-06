@@ -164,6 +164,35 @@ You should see a json response for the entity back. This shows a json with guid 
 
 Next we will step through some usage scenarios. If you want to understand more check the documentation about the [TypeSystem](https://github.com/shivajid/atlas/blob/master/TypeSystem.md) or the [Atlas Overview Deck](https://github.com/shivajid/atlas/blob/master/Atlas.v6.1.BrightTalk.7.2.2015%5B3%5D.pptx?raw=true).
 
+###### Create a Simple Type
+
+As you may know types are the basic building blocks of Apache Atlas. Here we are going to help you create simple type. This is an in built type that takes a name and description.
+
+    ./atlasclient --c=createSimpleType --type=simpletype --description=simple_type
+
+In the above command we have create a  type with name "simpletype" and description simple_type.
+* Note - There is shortcoming in the description option where you can only pass words without spaces. You "_" to concatnate. This will be enhanced later.
+
+So for 
+<table>
+<tr>
+<td>Action<td>
+<td>Options<td>
+<td>mandatory</td>
+<td>description</td>
+ <tr>
+<tr>
+<td>createSimpleType<td>
+<td><td>
+<td></td>
+<td></td>
+ <tr>
+<tr>
+<td><td>
+<td>type<td>
+<td>YES</td>
+<td>Name of the type you want to create</td>
+ <tr>
 
 
 ### Demo Script
