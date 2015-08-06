@@ -417,4 +417,47 @@ E.g.
 
 </pre>
 
+This will be modeled in the following json format. 
+
+
+<pre>
+{"Organization": {
+  
+  "Products": {
+    "Vehicles": {
+    	"Entities1":[
+      {"type": "Table", "name": "DRIVERS"},
+     {"type": "Table", "name": "TIMESHEET"},
+     {"type": "hive_table", "name": "test.drivers@atlasdemo"}
+    ]
+  },
+  "Parts": {
+  "TruckParts": "NONE",
+  "AutoParts": "NONE"
+     }
+ }
+ }
+ }
+</pre>
+
+##### Rules for Parsing
+
+A trait hierarchy will be created with the <strong>names</strong> of the elements in the json file.
+It will use the values in the JSON Array to assign the Entities identified by the type and name to the branch of the Trait hierarchy. The element/name holding the Array is ignored
+
+In the above hierarchy table Drivers, Timesheet and test.drivers@atlasdemo; if they exist will be assigned to the Entities.
+
+<strong> Note </strong> : There is no way to delete an Entity today. 
+
+##### How to import the Json File
+
+<pre>
+
+./atlasclient --c=loadtraithierarchy --jsonfilepath=/Users/sdutta/TestHierarchy.json
+</pre>
+
+<strong>Validation</strong>
+
+In the Atlas UI on the left hand side you should see the new traits being created. Now you should be able to click the trait and see the narrowed down entities attached to those traits.
+
 
