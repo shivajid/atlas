@@ -180,19 +180,19 @@ So for
 <td>Options<td>
 <td>mandatory</td>
 <td>description</td>
- <tr>
+ </tr>
 <tr>
 <td>createSimpleType<td>
 <td><td>
 <td></td>
 <td></td>
- <tr>
+ </tr>
 <tr>
 <td><td>
 <td>type<td>
 <td>YES</td>
 <td>Name of the type you want to create</td>
- <tr>
+ </tr>
 </table>
 
 ### Demo Script
