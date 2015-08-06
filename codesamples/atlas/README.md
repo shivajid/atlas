@@ -42,7 +42,7 @@ This code was built with an early release of apache incubator version 6. The jar
 
 Blow is a sample script to install the jars to your local maven repository. This is a one time activity. I have placed the jars in my drop box account.
 
-[Atlas jars](https://www.dropbox.com/sh/62vj5ewcnxv7plh/AADgTUkuIQoGKQqmj-obMhOla?dl=0)
+[Download Atlas jars](https://www.dropbox.com/sh/62vj5ewcnxv7plh/AADgTUkuIQoGKQqmj-obMhOla?dl=0)
 
     mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-webapp-0.6-incubating-SNAPSHOT-classes.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-webapp -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 
