@@ -193,7 +193,7 @@ So for
 <td>YES</td>
 <td>Name of the type you want to create</td>
  <tr>
-
+</table>
 
 ### Demo Script
 
