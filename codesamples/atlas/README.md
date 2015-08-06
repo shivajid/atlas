@@ -53,8 +53,7 @@ Blow is a sample script to install the jars to your local maven repository. This
 
     mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/bridge/hive/atlas-client-0.6-incubating-SNAPSHOT.jar  -DgroupId=com.hortonworks.atlas -DartifactId=atlas-client -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 
-
-    mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/hook/hive/hive-bridge-0.6-incubating-SNAPSHOT.jar
+     mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=/Users/sdutta/atlas-server/apache-atlas-0.6-incubating-SNAPSHOT/hook/hive/hive-bridge-0.6-incubating-SNAPSHOT.jar
   -DgroupId=com.hortonworks.atlas -DartifactId=atlas-hive -Dversion=0.6-incubating-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 
 
