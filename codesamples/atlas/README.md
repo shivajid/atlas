@@ -313,16 +313,89 @@ Lets create a Simple Entity of a simple type we created above
       /atlasclient --c=createSimpleEntity --name=demo --type=simpletype  --description=demo_instance_pretty_simple
       
 
-| Action | Type | Mandatory| Description|
------------------------------------------
-|createSimpleEntity | |||
-||type|Yes|This is the Simple type that you will use to create the entity|
-||name|Yes| This is the name of the entity|
-||description|No| This is the description. By default it will adds a description if not added|
 
+<table>
+<tr>
+<td><strong> Action</strong><td>
+<td><strong>Options</strong><td>
+<td><strong>mandatory</strong></td>
+<td><strong>description</strong></td>
+ </tr>
+<tr>
+<td>createSimpleEntity<td>
+<td><td>
+<td></td>
+<td></td>
+ </tr>
+<tr>
+<td><td>
+<td>type<td>
+<td>YES</td>
+<td>This is the Simple type that you will use to create the entity</td>
+ </tr>
+ <tr>
+<td><td>
+<td>name<td>
+<td>YES</td>
+<td>This is the name of the entity</td>
+ </tr>
+  <tr>
+<td><td>
+<td>description<td>
+<td>YES</td>
+<td>This is the description. By default it will adds a description if not added</td>
+ </tr>
+</table>
+
+
+Lets create a DataSet(Table) Entity of a DataSet type we created above. <strong>Note</strong> that the "--traitnames" tag that we are attaching to the option. This allows traits to be attached to Entities created. It will allow you to search the entity using traits in the Atlas UI.
 
      ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=Andrew_Demo --traitnames=PM
      ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=MYSQL_DRIVERS55 --traitnames=PM
+     
+We Create 2 Entities. We will use it for Creating a Lineage between these 2.
+
+Once you have create an Entity, you can search for them using a DSL from the Atlas Application UI or using the search option in the atlasclient.
+
+<table>
+<tr>
+<td><strong> Action</strong><td>
+<td><strong>Options</strong><td>
+<td><strong>mandatory</strong></td>
+<td><strong>description</strong></td>
+ </tr>
+<tr>
+<td>createDataSetEntity<td>
+<td><td>
+<td></td>
+<td></td>
+ </tr>
+<tr>
+<td><td>
+<td>type<td>
+<td>YES</td>
+<td>This is the Simple type that you will use to create the entity</td>
+ </tr>
+ <tr>
+<td><td>
+<td>name<td>
+<td>YES</td>
+<td>This is the name of the entity</td>
+ </tr>
+  <tr>
+<td><td>
+<td>description<td>
+<td>NO</td>
+<td>This is the description. By default it will adds a description if not added</td>
+ </tr>
+   <tr>
+<td><td>
+<td>traitnames<td>
+<td>NO</td>
+<td>This will add Traits/tags to Atlas</td>
+ </tr>
+</table>
+
 
 ### Demo Script
 
