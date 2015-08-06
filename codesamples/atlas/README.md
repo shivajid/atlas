@@ -552,3 +552,11 @@ The command has 2 more options
  </tr>
 </table>
 
+### Full Text Search
+
+Today the UI does not allow full text search. You can do that using a Rest API. You can replace the query parameter with the appropriate text.
+
+
+<pre>
+ http://$AtlasHost:21000/api/atlas/discovery/search/fulltext?query=Hive
+ </pre>
