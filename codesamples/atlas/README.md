@@ -461,3 +461,94 @@ In the above hierarchy table Drivers, Timesheet and test.drivers@atlasdemo; if t
 In the Atlas UI on the left hand side you should see the new traits being created. Now you should be able to click the trait and see the narrowed down entities attached to those traits.
 
 
+### Importing mysql table schemas
+
+AtlasClient provides a mechanism for importing mysql database table metadata.
+
+<pre>
+./atlasclient --c=importmysql --mysqlhost=172.16.106.243 --password=trucker --username=trucker -db=test
+</pre>
+
+When you execute the command, it will list each table and ask for confirmation to import.
+
+<pre>
+
+  test, DRIVERS, TABLE,
+   DRIVERS, DRIVER_ID, VARCHAR, 200, 0,
+   DRIVERS, DRIVER_NAME, VARCHAR, 1000, 0,
+   DRIVERS, CERTIFIED, VARCHAR, 10, 0,
+   DRIVERS, WAGE_PLAN, VARCHAR, 10, 0,
+   test, TIMESHEET, TABLE,
+   TIMESHEET, DRIVER_ID, VARCHAR, 200, 0,
+   TIMESHEET, DRIVER_WEEK, INT, 10, 1,
+   TIMESHEET, HOURS_LOGGED, BIGINT, 19, 1,
+   TIMESHEET, MILES_LOGGED, BIGINT, 19, 1,
+Do you want to import table TIMESHEET (y/n):y
+
+</pre>
+
+The command has 2 more options
+
+* <strong>-createHiveTables</strong> -- This will create entities of hive_table type
+* <strong>--genLineage</strong> -- This is used along with "-createHiveTables" option. It will create a lineage between the mysql table and the hive table
+
+
+<table>
+<tr>
+<td><strong> Action</strong><td>
+<td><strong>Options</strong><td>
+<td><strong>mandatory</strong></td>
+<td><strong>description</strong></td>
+ </tr>
+<tr>
+<td>importmysql<td>
+<td><td>
+<td></td>
+<td></td>
+ </tr>
+<tr>
+<td><td>
+<td>type<td>
+<td>YES</td>
+<td>This is the Simple type that you will use to create the entity</td>
+ </tr>
+ <tr>
+<td><td>
+<td>--mysqlhost<td>
+<td>YES</td>
+<td>Host IP or name where mysql is running</td>
+ </tr>
+  <tr>
+<td><td>
+<td>username<td>
+<td>YES</td>
+<td>Username of the MYSQL db</td>
+ </tr>
+   <tr>
+<td><td>
+<td>password<td>
+<td>YES</td>
+<td>Password for the mysql dv</td>
+ </tr>
+   <tr>
+<td><td>
+<td>db<td>
+<td>YES</td>
+<td>Database from where table metadata will be imported</td>
+ </tr>
+ 
+  <tr>
+<td><td>
+<td>createHiveTables<td>
+<td>NO</td>
+<td>Creates Hive Metadata of type Hive</td>
+ </tr>
+ 
+  <tr>
+<td><td>
+<td>genLineage<td>
+<td>NO</td>
+<td>This will generate Lineage for the Mysql and the Hive Tables</td>
+ </tr>
+</table>
+
