@@ -194,7 +194,73 @@ So for
 <td>YES</td>
 <td>Name of the type you want to create</td>
  </tr>
+ <tr>
+<td><td>
+<td>description<td>
+<td>YES</td>
+<td>Description of the type you want to create</td>
+ </tr>
 </table>
+
+###### List all Types
+
+You may want to query all the types available in the system. You can use the browser REST API or just use the belo command. It will list all the types. You would need to know the types to see all the options available.
+
+    ./atlasclient --listtype
+
+
+###### Create DataSet Type
+
+DataSet Type is used to create Tables. This is a special type. The Atlas detailed ui is designed to show this information, especially with the 
+
+Atlas comes with built in Type called <strong>Table</strong> that is loaded using the quick_start.py file. This is packaged with atlas. You can find it in <atlas_home>/bin/quick_start.py
+
+If you want to create your own Dataset type you can use.
+
+    ./atlasclient  --c=createDataSetType --type=Tims_Fict_Table
+    
+It creates the datasettype with name "Tims_Fict_Table". 
+
+Command Options:-
+
+<table>
+<tr>
+<td><strong> Action</strong><td>
+<td><strong>Options</strong><td>
+<td><strong>mandatory</strong></td>
+<td><strong>description</strong></td>
+ </tr>
+<tr>
+<td>createDataSetType<td>
+<td><td>
+<td></td>
+<td></td>
+ </tr>
+<tr>
+<td><td>
+<td>type<td>
+<td>YES</td>
+<td>Name of the type you want to create</td>
+ </tr>
+</table>
+
+
+
+
+###### Create Process Type
+
+Lineages in Atlas are created by Process Types. Process types are speacial types in Atlas. This is used to create lineage between any 2 Entities of DataSet Type. Atlas's quick start comes with "LOAD_PROCESS" built in type. You can create your own type by the following command
+
+     ./atlasclient --c=createProcessType --type=Jamies_Lineage
+     
+
+###### Create Entity
+
+Now that you have created Types, you can create your own Entities. Entities are instances of Types. They represent the actual values that are modeled. You can think of Types as "cast or mold or a die". The actual entities are the models of that die/cast/mold.
+
+Lets create a Simple Entity of a simple type we created above
+
+
 
 ### Demo Script
 
@@ -203,8 +269,6 @@ API Help
     ./atlasclient  --help
 
 1) Create a New DataSet Type
-
-    
 
     ./atlasclient  --c=createDataSetType --type=Tims_Fict_Table
     
