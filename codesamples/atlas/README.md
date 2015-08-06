@@ -97,7 +97,7 @@ The build comes with a shell file call atlasclient. It is in the root of the fol
 1) The script comes with help. You can always run "./atlasclient --help" to get details on the script usage.
 
 
-###### Help
+### Help
 
     hw11825:atlas sdutta$ ./atlasclient --help
 
@@ -164,7 +164,7 @@ You should see a json response for the entity back. This shows a json with guid 
 
 Next we will step through some usage scenarios. If you want to understand more check the documentation about the [TypeSystem](https://github.com/shivajid/atlas/blob/master/TypeSystem.md) or the [Atlas Overview Deck](https://github.com/shivajid/atlas/blob/master/Atlas.v6.1.BrightTalk.7.2.2015%5B3%5D.pptx?raw=true).
 
-###### Create a Simple Type
+### Create a Simple Type
 
 As you may know types are the basic building blocks of Apache Atlas. Here we are going to help you create simple type. This is an in built type that takes a name and description.
 
@@ -202,18 +202,14 @@ So for
  </tr>
 </table>
 
-###### List all Types
+### List all Types
 
 You may want to query all the types available in the system. You can use the browser REST API or just use the belo command. It will list all the types. You would need to know the types to see all the options available.
 
     ./atlasclient --listtype
 
 
-
-
-
-
-###### Create DataSet Type
+### Create DataSet Type
 
 DataSet Type is used to create Tables. This is a special type. The Atlas detailed ui is designed to show this information, especially with the 
 
@@ -254,7 +250,7 @@ Command Options:-
 
 
 
-###### Create Process Type
+### Create Process Type
 
 Lineages in Atlas are created by Process Types. Process types are speacial types in Atlas. This is used to create lineage between any 2 Entities of DataSet Type. Atlas's quick start comes with "LOAD_PROCESS" built in type. You can create your own type by the following command
 
@@ -282,7 +278,7 @@ Lineages in Atlas are created by Process Types. Process types are speacial types
  </tr>
 </table>
 
-###### Create Traits
+### Create Traits
 
 Traits - a distinguishing characteristic or quality or an Entity.
 
@@ -308,11 +304,22 @@ This will create a trait hierarchy of
 
 
 
-###### Create Entity
+### Create Entity
 
 Now that you have created Types, you can create your own Entities. Entities are instances of Types. They represent the actual values that are modeled. You can think of Types as "cast or mold or a die". The actual entities are the models of that die/cast/mold.
 
 Lets create a Simple Entity of a simple type we created above
+
+      /atlasclient --c=createSimpleEntity --name=demo --type=simpletype  --description=demo_instance_pretty_simple
+      
+
+| Action | Type | Mandatory| Description|
+-----------------------------------------
+|createSimpleEntity | |||
+||type|Yes|This is the Simple type that you will use to create the entity|
+||name|Yes| This is the name of the entity|
+||description|No| This is the description. By default it will adds a description if not added|
+
 
      ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=Andrew_Demo --traitnames=PM
      ./atlasclient --c=createDataSetEntity --type=Tims_Fict_Table --name=MYSQL_DRIVERS55 --traitnames=PM
