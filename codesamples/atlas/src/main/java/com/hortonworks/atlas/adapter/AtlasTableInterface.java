@@ -159,11 +159,11 @@ public class AtlasTableInterface {
 			if (this.hiveExecflag) {
 				System.out.println("Create hive tables ..");
 				HiveMetaDataGenerator hmg = new HiveMetaDataGenerator(
-						this.metadataServiceClient);
+						this.metadataServiceClient, this.dbname, this.clustername);
 				System.out.println("Create hive DB .." + this.dbname);
-				Referenceable dbref = hmg.registerDatabase(this.dbname,
+				Referenceable dbref = hmg.registerDatabase("default",
 						this.clustername);
-				hivetabref = hmg.registerExtTable(dbref, this.dbname,
+				hivetabref = hmg.registerExtTable(dbref, "default",
 						table_name, clist);
 			}
 

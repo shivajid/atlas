@@ -71,7 +71,7 @@ public class HiveMetaDataGenerator {
     private static final String DEFAULT_DGI_URL = "http://localhost:21000/";
     
     public static final String DEFAULT_CLUSTER_NAME = "primary";
-    private static String clusterName = "atlasdemo";
+    private String clusterName = "Sandbox";
 
     public static final String DGI_URL_PROPERTY = "hive.hook.dgi.url";
 
@@ -82,9 +82,9 @@ public class HiveMetaDataGenerator {
     private static String databasename = null;
     private static String tablename = null;
     
-    public static void main(String[] args) throws Exception {
+  /*  public static void main(String[] args) throws Exception {
     	
-    	clusterName = args[1];
+    	this.clusterName = args[1];
     	String baseurl = args[0];
     	databasename = args[2];
     	tablename = args[3];
@@ -96,7 +96,7 @@ public class HiveMetaDataGenerator {
     	Referenceable db = hmg.registerDatabase(databasename, clusterName);
     	hmg.registerTable(db, databasename, tablename);
     	
-    }
+    }*/
 
     /**
      * 
@@ -108,9 +108,12 @@ public class HiveMetaDataGenerator {
     
     }
     
-    public HiveMetaDataGenerator(AtlasClient ac) {
+    public HiveMetaDataGenerator(AtlasClient ac, String dbname, String cls) {
 		// TODO Auto-generated constructor stub
     	this.atlasClient = ac;
+    	this.databasename = dbname;
+    	this.clusterName =  cls;
+    	
 	}
 
 	/**
