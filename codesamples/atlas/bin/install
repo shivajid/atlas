@@ -1,0 +1,6 @@
+wget https://www.dropbox.com/s/89tk1zffg5mfznz/atlasclient.tar.gz?dl=0 -O atlasClient.tar.gz
+mkdir atlasClient
+cd atlasClient
+mv ../atlasClient.tar.gz .
+gzip -d atlasClient.tar.gz
+tar -xvf atlasClient.tar
