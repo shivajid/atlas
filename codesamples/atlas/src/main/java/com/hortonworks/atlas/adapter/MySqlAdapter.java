@@ -81,7 +81,9 @@ public class MySqlAdapter {
 					 t.setTable_name(res.getString("TABLE_NAME"));
 					 t.setTable_type(res.getString("TABLE_TYPE"));
 					 t.setRemarks(res.getString("REMARKS"));
-					 t.setDb(new DB(this.DBname));
+					 DB dbins = new DB();
+					 dbins.setName(this.DBname);
+					 t.setDb(dbins);
 					 
 					 java.sql.ResultSet res1 = md.getColumns(null, null, res.getString("TABLE_NAME"), null);
 					 

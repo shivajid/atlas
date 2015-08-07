@@ -42,6 +42,7 @@ public class AtlasTableInterface {
 	private boolean hiveExecflag = false;
 	private boolean genlineage = false;
 	private boolean suppressprompt = false;
+	private String dbname = null;
 
 	public static final String[] TYPES = { DATABASE_TYPE, TABLE_TYPE,
 			STORAGE_DESC_TYPE, COLUMN_TYPE, LOAD_PROCESS_TYPE, VIEW_TYPE,
@@ -65,7 +66,7 @@ public class AtlasTableInterface {
 			throws Exception {
 
 		metadataServiceClient = new AtlasClient(baseUrl);
-
+		this.dbname =  db;
 		ArrayList<String> types = (ArrayList<String>) metadataServiceClient
 				.listTypes();
 		ListIterator<String> typeList = types.listIterator();
@@ -159,10 +160,10 @@ public class AtlasTableInterface {
 				System.out.println("Create hive tables ..");
 				HiveMetaDataGenerator hmg = new HiveMetaDataGenerator(
 						this.metadataServiceClient);
-
-				Referenceable dbref = hmg.registerDatabase(t.getDb().getName(),
+				System.out.println("Create hive DB .." + this.dbname);
+				Referenceable dbref = hmg.registerDatabase(this.dbname,
 						this.clustername);
-				hivetabref = hmg.registerExtTable(dbref, t.getDb().getName(),
+				hivetabref = hmg.registerExtTable(dbref, this.dbname,
 						table_name, clist);
 			}
 

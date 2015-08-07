@@ -133,6 +133,8 @@ public class HiveMetaDataGenerator {
 
     public Referenceable registerDatabase(String databaseName, String clusterName) throws Exception {
         Referenceable dbRef = getDatabaseReference(databaseName, clusterName);
+        System.out.println("registerDatabase: " + databaseName);
+        System.out.println("registerDatabase:" + clusterName);
         
         if (dbRef == null) {
             LOG.info("Importing objects from databaseName : " + databaseName);

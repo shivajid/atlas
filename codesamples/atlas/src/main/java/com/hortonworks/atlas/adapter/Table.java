@@ -89,7 +89,7 @@ public class Table {
 	 * @return the db
 	 */
 	public DB getDb() {
-		return db;
+		return this.db;
 	}
 	/**
 	 * @param db the db to set

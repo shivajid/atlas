@@ -569,6 +569,8 @@ public class AtlasCLI {
 		String password = line.getOptionValue(AtlasCLIOptions.password);
 		String url = line.getOptionValue(AtlasCLIOptions.url);
 
+		System.out.println("db " + db);
+		
 		boolean hiveexecflag = line.hasOption(AtlasCLIOptions.createHive) ? true
 				: false;
 		

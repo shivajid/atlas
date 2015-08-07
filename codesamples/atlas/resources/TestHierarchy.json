@@ -8,11 +8,11 @@
      {"type": "hive_table", "name": "test.drivers@atlasdemo"}
     ]
   },
-  "Parts": "done",
+  "Parts": {
   "TruckParts": "NONE",
   "AutoParts": "NONE"
   }
 }
-
 }
+
 }
