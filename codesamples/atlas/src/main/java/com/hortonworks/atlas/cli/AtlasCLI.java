@@ -179,6 +179,11 @@ public class AtlasCLI {
 				false,
 				"used with importmysql option. Indicating if hive_table types should also be created");
 		
+		opt.addOption(
+				AtlasCLIOptions.supressPrompt,
+				false,
+				"used with importmysql option. This will suppress the prompt for importing mysql");
+		
 
 		opt.addOption(
 				AtlasCLIOptions.genLineage,
@@ -567,17 +572,21 @@ public class AtlasCLI {
 		boolean hiveexecflag = line.hasOption(AtlasCLIOptions.createHive) ? true
 				: false;
 		
+		boolean suppressprompt = line.hasOption(AtlasCLIOptions.supressPrompt) ? true
+				: false;
+		
 		//System.out.println(hiveexecflag);
 				
 		boolean genlineage = line.hasOption(AtlasCLIOptions.genLineage) ? true
 				: false;
+		
 		String cluster = line.hasOption(AtlasCLIOptions.ambariCluster) ? line
 				.getOptionValue(AtlasCLIOptions.ambariCluster) : null;
 
 		System.out.println(cluster);
 						
 		AtlasTableInterface atlasTabIn = new AtlasTableInterface(url, host, db,
-				user, password, hiveexecflag, cluster, genlineage);
+				user, password, hiveexecflag, cluster, genlineage,suppressprompt);
 
 	}
 
