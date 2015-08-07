@@ -47,6 +47,6 @@ public class AtlasCLIOptions {
 	public static String createHive = "createHiveTables";
 	public static String ambariCluster = "ambariClusterName";
 	public static String genLineage = "genLineage";
-	
+	public static String supressPrompt = "suppress";
 	
 }
