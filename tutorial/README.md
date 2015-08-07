@@ -126,6 +126,10 @@ Following are the tables in the Source System:-
 
 ## Create Source System
 
+Pre-built ova file is present in [mysql vmware fusion ova](https://www.dropbox.com/s/mmtgkwjy4h3f31d/mysql.ova?dl=0)
+
+Alternatively you can build one using the following steps :-
+
 #### Install Mysql
 
 * Create a CentOS 6.5 Virtula Machine
