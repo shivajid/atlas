@@ -13,71 +13,80 @@ Follow the steps in the following link to complete the build
 
 ##Executing the Scripts
 
-Querying the mysql database
+#### Step 1
 
 Login to the mysql machine
-
+<pre>
     mysql -u root
     show databases; 
-
+</pre>
 (You should see a test database)
+<pre>
 	use test;
 	show tables; 
-
+</pre>
 (You should see the DRIVERS and TIMESHEET tables listed)
 
+See the data in the Drivers table
+
+<pre>
+Select * from DRIVERS;
+Select * from TIMESHEET LIMIT 20;
+</pre>
 
 
 Login to the sandbox :-
 
 	ssh  root@sandbox.hortonworks.com
 
-Change user to hive
-
-	su hive
-
-change directory to hive home
-         
-         cd /home/hive or just “cd”
+### Getting the scripts
 
 
-Getting the scripts
-* Git clone the repo
-	git clone https://github.com/shivajid/atlas.git
-
-	mkdir “/Users/sdutta/Applications/” <sub>(The directories are hardcoded for now, and will be fixed in the next drop)</sub>
-
-* copy the “conf” folder underneath the “/Users/sdutta/Applications/”
-	cp -r conf /Users/sdutta/Applications/
-
-* Next create a working directory to execute the scripts
-
-	mkdir working
-	cd working
-	cp ../atlas/tutorial/sqoop_job.sh .
-
-* dowload the [Atlas Demo](https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0) jar file
-
-	wget https://www.dropbox.com/s/85b6tiaxijm2nk9/AtlasDemo1.jar?dl=0
-	
-You should be ready to run the job.
-
-	./sqoop_job.sh <iteration number>
+* Dowload the [Atlas Client install Scripts tar file](https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0).
 
 
-e.g 
-	./sqoop_job.sh 8
+Run the followin steps to install the atlasClient code
+
+<pre>
+	wget https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0 -O atlasInstallScripts.tar.gz
+	gzip -d atlasInstallScripts.tar.gz
+	tar -xvf atlasInstallScripts.tar.gz
+	cd atlas_install_scripts
+	./install
+	cd atlasClient
+</pre>	
+<strong>Note<strong>: There is <code>reset_atlas.sh</code> in the scripts folder. This helps in reseting and restarting atlas.
+
+Now you are ready to run the <em>atlasClient</em> cli.  The complete manual is under the [codesamples](https://github.com/shivajid/atlas/tree/master/codesamples/atlas) folder.
+
+For this demo we are going to run the following steps.
+
+### Step 2
+
+Next we are going to import the mysql tables and create the corresponding tables in hive and metadata in hive. This is done by sqoop_job.sh. Before you run the script please edit the scrip to point to the correct mysql host.
+
+Once done, execute the script.
+
+<pre>
+	./sqoop_job.sh 
+</pre>
 
 
-This will create new Entities of Table and hive_table type called 
-* MYSQL_DRIVERS8, 
-* MYSQL_TIMESHEET8; 
-* default.hortondrivers8@atlasdemo and 
-* default.hortontimesheet8@atlasdemo
-and 
-* create a lineage between these tables
+This will create new Entities of [type](https://github.com/shivajid/atlas/blob/master/docs/TypeSystem.md) Table and hive_table type called 
+
+* DRIVERS, 
+* TIMESHEET 
+* default.drivers@Sandbox and 
+* default.hortontimesheet@Sandbox
+* create a lineage between the mysql tables and the hive tables
 
 Next Validate
+
+a) Login Ambari Hive View
+	e.g. on HDP Sandbox
+	- http://sandbox.hortonworks.com:8080/#/main/views/HIVE/1.0.0/Hive
+	- Run the following queries
+	- <pre>show tables;</pre> 
 
 ----
 
