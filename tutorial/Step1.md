@@ -6,9 +6,9 @@ If you are using atlas for the first time execute the script <strong>“${Atlas_
  If the sandbox does not contain the quick_start.py you may have to build atlas from source.
 
 Follow the steps in the following link to complete the build
-
-                  https://github.com/shivajid/atlas/blob/master/AtlasBuild.md
-
+<pre>
+https://github.com/shivajid/atlas/blob/master/AtlasBuild.md
+</pre>
 
 
 ##Executing the Scripts
@@ -153,10 +153,11 @@ bin/atlasclient  --listtype
      create table bad_drivers AS select d.driver_name  , count(d.driver_name)  from DRIVERS d, TIMESHEET t where d.driver_id = t.driver_id and  t.hours_logged > 60 group by d.driver_name;
 
       select * from bad_drivers;
-<pre>
+</pre>
+
 ### Viewing the New Table in Atlas
 
-Login back to atlas. Search for 
+Login back to atlas UI. Search for 
 
 <pre>
 hive_table where name = "default.bad_drivers@Sandbox"
