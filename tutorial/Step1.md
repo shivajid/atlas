@@ -146,14 +146,14 @@ Listing all “Types”. Using the atlasClient we will see how to run the steps.
 bin/atlasclient  --listtype
 </pre>
 
-### Creating a bad drivers table
+### ETL - Creating a bad drivers table
 
 * Next login to the hive view and execute
-
+<pre>
      create table bad_drivers AS select d.driver_name  , count(d.driver_name)  from DRIVERS d, TIMESHEET t where d.driver_id = t.driver_id and  t.hours_logged > 60 group by d.driver_name;
 
       select * from bad_drivers;
-
+<pre>
 ### Viewing the New Table in Atlas
 
 Login back to atlas. Search for 
