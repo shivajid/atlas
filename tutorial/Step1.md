@@ -2,7 +2,7 @@
 
 The demo will instantiate tables of Entity type “Table”. 
 
-If you are using atlas for the first time execute the script “${Atlas_Home}/bin/quick_start.py”. This will create the sample Table Type and Column Types in the Atlas Repository.
+If you are using atlas for the first time execute the script <strong>“${Atlas_Home}/bin/quick_start.py”</strong>. This will create the sample Table Type and Column Types in the Atlas Repository.
  If the sandbox does not contain the quick_start.py you may have to build atlas from source.
 
 Follow the steps in the following link to complete the build
