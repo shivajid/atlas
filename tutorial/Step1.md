@@ -85,12 +85,19 @@ Next Validate
 a) Login Ambari Hive View
 	e.g. on HDP Sandbox
 	- http://sandbox.hortonworks.com:8080/#/main/views/HIVE/1.0.0/Hive
-	- Run the following queries
-	- <pre>show tables;</pre> 
+	- Run the following queries. You should see the tables and the data imported into hive.
+	
+<pre>
+show tables;
+select * from drivers;
+select * from timesheet;
+</pre> 
 
-----
+Once you have validated the tables in hive. You can check the for the table metadata in Atlas.
 
-## Validation 
+
+
+## Validation in Atlas
 
 Login to Atlas
 	
@@ -98,12 +105,15 @@ Login to Atlas
 ![Atlas Home](https://github.com/shivajid/atlas/blob/master/tutorial/images/AtlasHome.png)
 
 Search 
-“Table where name=”MYSQL_DRIVERS$num” ← replace the num to the iteration number.
+“Table where name=”DRIVERS” 
+
 Search Results
 ![Search](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%208.59.16%20AM.png)
 
 
-Click through and see the details. The below link shows the list of attributes and the value. The details page has a BUG where it does not show numeric values on the screen.
+Click through and see the details. The below link shows the list of attributes and the value. 
+
+Note - The details page has a BUG where it does not show numeric values on the screen.
 
 
 ![Details/Attributs](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%209.15.12%20AM.png)
@@ -125,47 +135,55 @@ The Schema tab show the columns for the MYSQL table
 
 Now you can search for the hive tables
 
-hive_table where name=”default.hortondrivers9@atlasdemo”
+hive_table where name=”default.hortondrivers@Sandbox”
 
 ![] (https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png)
 
-Listing all “Types” of Type=CLASS
-
-http://atlas-partner-demo01.cloud.hortonworks.com:21000/api/atlas/types?type=CLASS
-![](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-13%20at%2011.13.57%20PM.png)
-
-##CTAS
-
-*Next login to hive
-
-     [hive@atlas-partner-demo01 ~]$ hive
-     
-*Change to use def
-     
-     hive > use default;
-
-*Show the table
-    
-     show tables;
-
-*Now create a table from the hive table where the data was created in hive. 
-     
-     create table hortondrivers$num._ctas as select drivers_id from hortondrivers${num}.
-
-Replace the $num with the iteration number that you have run the scripts with
-
-![](https://github.com/shivajid/atlas/blob/master/tutorial/images/Screen%20Shot%202015-07-09%20at%209.23.55%20AM.png)
+Listing all “Types”. Using the atlasClient we will see how to run the steps.
 
 
-* Now query the “hortondrivers9_ctas and look at the lineage
+<pre>
+bin/atlasclient  --listtype
+</pre>
 
-![](https://github.com/shivajid/atlas/blob/master/tutorial/images/hive_table.png)
+### Creating a bad drivers table
 
-
-The lineage for hortondrivers9_ctas. You can see that the new table is automatically ties up the lineage to the MYSQL_DRIVERS9 table.
+* Next login to the hive view and execute
 
-![](https://github.com/shivajid/atlas/blob/master/tutorial/images/linage_hivetb.png)
+     create table bad_drivers AS select d.driver_name  , count(d.driver_name)  from DRIVERS d, TIMESHEET t where d.driver_id = t.driver_id and  t.hours_logged > 60 group by d.driver_name;
 
+      select * from bad_drivers;
 
+### Viewing the New Table in Atlas
 
+Login back to atlas. Search for 
 
+<pre>
+hive_table where name = "default.bad_drivers@Sandbox"
+</pre>
+
+You should see the bad_drivers schema, details and the lineage. You should see that the bad drivers was created from the 2 tables and the complete lineage all the way to the Mysql table.
+
+### Loading the business classification
+
+A business classification is created to create a hierarchy of 
+<pre>
+Sensitive
+	|-- EMP_PII
+	|	|-- [DRIVERS, default.drivers@Sandbox]
+	|--- Financials
+	|	|-- [timesheet, default.timesheet@Sandbox, default.bad_drivers@Sandbox]
+	|--- Violation
+		|-- [default.bad_drivers@Sandbox]
+</pre>	
+
+We are going to load the business classification and apply them to the Entities.
+<pre>
+bin/atlasclient --c=loadtraithierarchy --jsonfilepath=resources/SensitivityHierarchy.json
+</pre>
+
+#### Validation
+
+Login to the Atlas UI. You should now see additional tags in the UI on the left. 
+
+Click on the EMP_PII, Financials and Violations you should see the corresponding table show up
