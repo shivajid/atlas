@@ -548,7 +548,7 @@ The command has 2 more options
 <td><td>
 <td>ambariClusterName<td>
 <td>NO</td>
-<td>Name of the anmabri Cluster</td>
+<td>Name of the Ambari Cluster where hive is installed</td>
  </tr>
  
  
