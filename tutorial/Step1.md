@@ -55,7 +55,7 @@ Run the followin steps to install the atlasClient code
 	./install
 	cd atlasClient
 </pre>	
-<strong>Note<strong>: There is <code>reset_atlas.sh</code> in the scripts folder. This helps in reseting and restarting atlas.
+<strong>Note</strong>: There is <code>reset_atlas.sh</code> in the scripts folder. This helps in reseting and restarting atlas.
 
 Now you are ready to run the <em>atlasClient</em> cli.  The complete manual is under the [codesamples](https://github.com/shivajid/atlas/tree/master/codesamples/atlas) folder.
 
