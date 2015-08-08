@@ -1,11 +1,12 @@
+# Sample Script for using the CLI
+
 1) Create a New DataSet Type
 
 ./atlasclient  --help
 
 ./atlasclient  --c=createDataSetType --type=Tims_Fict_Table
 
-2) Create new Traits
-	Create a subtrait
+2) Create new Traits and a  Subtrait
 	
 ./atlasclient  -c=createtrait --traitnames=SuperPM
 	
@@ -24,6 +25,7 @@
 
 ./atlasclient --c=createProcessEntity --inptype=Tims_Fict_Table --outtype=Table --inpvalue=Andrew_Demo --outvalue=MYSQL_DRIVERS99 --traitnames=SuperPM --type=Jamies_Lineage --name=Lineage12
 
+Full text search is available here using the following rest API
 
 http://atlas-partner-demo01.cloud.hortonworks.com:21000/api/atlas/discovery/search/fulltext?query=Hive
 
