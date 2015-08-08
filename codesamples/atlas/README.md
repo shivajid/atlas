@@ -546,6 +546,14 @@ The command has 2 more options
  
   <tr>
 <td><td>
+<td>ambariClusterName<td>
+<td>NO</td>
+<td>Name of the anmabri Cluster</td>
+ </tr>
+ 
+ 
+  <tr>
+<td><td>
 <td>genLineage<td>
 <td>NO</td>
 <td>This will generate Lineage for the Mysql and the Hive Tables</td>
