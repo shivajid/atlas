@@ -1,76 +1,71 @@
-## Assumptions
+# This demo will instantiate tables of Entity type "Table".
 
-The demo will instantiate tables of Entity type “Table”. 
+### Assumptions
 
-If you are using atlas for the first time execute the script <strong>“${Atlas_Home}/bin/quick_start.py”</strong>. This will create the sample Table Type and Column Types in the Atlas Repository.
- If the sandbox does not contain the quick_start.py you may have to build atlas from source.
+1. A Hadoop Cluster or HDP Sandbox with
+  - Apache Hive, Apache Sqoop
+  - Apache Atlas
+    - installed by  Ambari, package
+    - or [from source](../AtlasBuild.md)
 
-Follow the steps in the following link to complete the build
-<pre>
-https://github.com/shivajid/atlas/blob/master/AtlasBuild.md
-</pre>
+## Demo setup
 
-
-##Executing the Scripts
-
-#### Step 1
+### Confirm the MySQL tables are present
 
 Login to the mysql machine
-<pre>
-    mysql -u root
-    show databases; 
-</pre>
-(You should see a test database)
-<pre>
-	use test;
-	show tables; 
-</pre>
-(You should see the DRIVERS and TIMESHEET tables listed)
+  ```
+mysql -u root
+  ```
+
+  ```
+use test;
+show tables; 
+  ```
+  
+*(You should see the DRIVERS and TIMESHEET tables listed)*
 
 See the data in the Drivers table
 
-<pre>
-Select * from DRIVERS;
-Select * from TIMESHEET LIMIT 20;
-</pre>
+  ```
+select * from DRIVERS;
+select * from TIMESHEET LIMIT 20;
+  ```
 
+### Prepare your HDP Cluster
 
-Login to the sandbox :-
+- Login to your HDP cluster or sandbox: `ssh root@sandbox.hortonworks.com`
+- If using Atlas for the first time execute the following script which will create the sample Table Type and Column Types in the Atlas Repository.
+  ```
+/usr/hdp/current/atlas-server/bin/quick_start.py
+  ```
 
-	ssh  root@sandbox.hortonworks.com
-
-### Getting the scripts
-
-
-* Dowload the [Atlas Client install Scripts tar file](https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0).
-
+### Install the Atlas CLI
 
 Run the followin steps to install the atlasClient code
 
-<pre>
-	wget https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0 -O atlasInstallScripts.tar.gz
-	gzip -d atlasInstallScripts.tar.gz
-	tar -xvf atlasInstallScripts.tar.gz
-	cd atlas_install_scripts
-	./install
-	cd atlasClient
-</pre>	
-<strong>Note</strong>: There is <code>reset_atlas.sh</code> in the scripts folder. This helps in reseting and restarting atlas.
+  ```
+cd
+curl -L -o atlasInstallScripts.tar.gz https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0
+tar -xvf atlasInstallScripts.tar.gz
+sudo ./install
+cd atlasClient
+  ```
 
-Now you are ready to run the <em>atlasClient</em> cli.  The complete manual is under the [codesamples](https://github.com/shivajid/atlas/tree/master/codesamples/atlas) folder.
+**Note**: `reset_atlas.sh` in the scripts folder can be used for resetting & Atlas
 
-For this demo we are going to run the following steps.
+Now you are ready to use the *atlas* CLI.
+
+Find the complete manual in [codesamples](../codesamples/atlas).
+
+## The Demo
 
 ### Step 2
 
-Next we are going to import the mysql tables and create the corresponding tables in hive and metadata in hive. This is done by sqoop_job.sh. Before you run the script please edit the scrip to point to the correct mysql host.
+Next we are going to configure Sqoop to import the MySQL Tables & Metadata to Hive.
 
-Once done, execute the script.
+1. Update `sqoop_job.sh` to point to your MySQL server.
 
-<pre>
-	./sqoop_job.sh 
-</pre>
-
+2. Execute the script: `./sqoop_job.sh`
 
 This will create new Entities of [type](https://github.com/shivajid/atlas/blob/master/docs/TypeSystem.md) Table and hive_table type called 
 
@@ -82,26 +77,20 @@ This will create new Entities of [type](https://github.com/shivajid/atlas/blob/m
 
 Next Validate
 
-a) Login Ambari Hive View
-	e.g. on HDP Sandbox
-	- http://sandbox.hortonworks.com:8080/#/main/views/HIVE/1.0.0/Hive
-	- Run the following queries. You should see the tables and the data imported into hive.
-	
-<pre>
+1. Login Ambari Hive View
+  - e.g. on HDP Sandbox: http://sandbox.hortonworks.com:8080/#/main/views/HIVE/1.0.0/Hive
+2. Run the following queries. You should see the tables and the data imported into hive.
+  ```
 show tables;
 select * from drivers;
 select * from timesheet;
-</pre> 
+  ```
 
-Once you have validated the tables in hive. You can check the for the table metadata in Atlas.
-
-
+Once you have validated the tables in Hive. You can check the for the table metadata in Atlas.
 
 ## Validation in Atlas
 
-Login to Atlas
-	
-     http://sandbox.hortonworks.com:21000/#!/search
+Login to Atlas: http://sandbox.hortonworks.com:21000/#!/search
 ![Atlas Home](https://github.com/shivajid/atlas/blob/master/tutorial/images/AtlasHome.png)
 
 Search 
