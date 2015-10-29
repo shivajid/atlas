@@ -5,10 +5,7 @@ The demo will instantiate tables of Entity type “Table”.
 If you are using atlas for the first time execute the script <strong>“${Atlas_Home}/bin/quick_start.py”</strong>. This will create the sample Table Type and Column Types in the Atlas Repository.
  If the sandbox does not contain the quick_start.py you may have to build atlas from source.
 
-Follow the steps in the following link to complete the build
-<pre>
-https://github.com/shivajid/atlas/blob/master/AtlasBuild.md
-</pre>
+
 
 
 ##Executing the Scripts
@@ -42,15 +39,12 @@ Login to the sandbox :-
 ### Getting the scripts
 
 
-* Dowload the [Atlas Client install Scripts tar file](https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0).
-
-
 Run the followin steps to install the atlasClient code
 
 <pre>
 	wget https://www.dropbox.com/s/s50nuf6i73uw4gt/atlasInstallScripts.tar.gz?dl=0 -O atlasInstallScripts.tar.gz
 	gzip -d atlasInstallScripts.tar.gz
-	tar -xvf atlasInstallScripts.tar.gz
+	tar -xvf atlasInstallScripts.tar
 	cd atlas_install_scripts
 	./install
 	cd atlasClient
