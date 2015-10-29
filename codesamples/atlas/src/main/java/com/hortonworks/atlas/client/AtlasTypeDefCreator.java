@@ -97,6 +97,9 @@ public class AtlasTypeDefCreator {
 				ImmutableList.<StructTypeDefinition> of(),
 				this.createTraitType(traitName),
 				ImmutableList.of(this.createDataSetTypeByName(ClassTypeName)));
+		
+		
+		
 
 		return TypesSerialization.toJson(tdef);
 	}
